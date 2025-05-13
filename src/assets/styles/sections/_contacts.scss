@@ -1,0 +1,148 @@
+@use "../helpers/functions";
+@use "../helpers/media";
+
+.contacts--section {
+  padding-block: 15px 70px;
+
+  @include media.sm-down {
+    border-radius: var(--b-radius-section) var(--b-radius-section) 0 0;
+  }
+
+  @include media.md-up {
+    padding-block: 60px;
+  }
+
+  @include media.lg-up {
+    padding-block: 70px;
+  }
+
+  @include media.xl-up {
+    padding-block: 95px 125px;
+  }
+}
+
+.contacts__grid {
+  display: grid;
+  grid-template-rows: repeat(2, auto);
+
+  @include media.md-up {
+    grid-template-columns: auto 360px;
+    grid-template-rows: unset;
+  }
+
+  @include media.lg-up {
+    grid-template-columns: auto 470px;
+  }
+
+  @include media.xl-up {
+    grid-template-columns: auto 580px;
+  }
+}
+
+.contacts__map {
+  position: relative;
+  overflow: hidden;
+  z-index: var(--z-middle-bottom);
+  width: 100%;
+  height: 288px;
+  border-radius: var(--b-radius-xl);
+  box-shadow: 0 12px 27px 0 rgba(0, 0, 0, 0.08), 0 12px 27px 0 rgba(0, 0, 0, 0.08);
+
+  @include media.md-up {
+    height: 100%;
+  }
+}
+
+.contacts__contact-block {
+  margin-inline: 15px;
+  padding-inline: 30px;
+  padding-block: 25px 40px;
+  border-radius: 0 0 var(--b-radius-lg) var(--b-radius-lg);
+  background: var(--c-grey-10);
+  overflow: hidden;
+
+  @include media.md-up {
+    padding: 35px 30px;
+    margin-inline: 0;
+    margin-block: 30px;
+    border-radius: 0 var(--b-radius) var(--b-radius) 0;
+    background-image: url("~images/contacts-section/contacts-pattern.webp");
+    background-repeat: no-repeat;
+    background-position: right center;
+    background-size: 30% auto;
+    min-width: 360px;
+    height: max-content;
+  }
+
+  @include media.lg-up {
+    padding: 45px 45px 25px 40px;
+  }
+
+  @include media.xl-up {
+    padding: 60px 50px 40px 50px;
+  }
+}
+
+.contacts__title {
+  color: var(--c-accent);
+  font-family: var(--f-headings);
+  font-size: functions.rem(22);
+  font-weight: 700;
+  line-height: 1.5;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+
+  @include media.md-up {
+    margin-bottom: 10px;
+  }
+
+  @include media.lg-up {
+    font-size: functions.rem(28);
+    margin-bottom: 15px;
+  }
+
+  @include media.xl-up {
+    font-size: functions.rem(36);
+    margin-bottom: 20px;
+  }
+}
+
+.contacts__description {
+  color: var(--c-grey-80);
+  font-size: functions.rem(14);
+  line-height: 1.8;
+  margin-bottom: 40px;
+
+  @include media.md-up {
+    font-size: functions.rem(12);
+    margin-bottom: 20px;
+  }
+
+  @include media.lg-up {
+    font-size: functions.rem(14);
+    margin-bottom: 25px;
+  }
+
+  @include media.xl-up {
+    font-size: functions.rem(18);
+    margin-bottom: 30px;
+  }
+}
+
+.contacts__socials {
+  justify-content: center;
+  margin-bottom: 40px;
+
+  @include media.md-up {
+    margin-bottom: 15px;
+    justify-content: flex-start;
+  }
+
+  @include media.lg-up {
+    margin-bottom: 25px;
+  }
+
+  @include media.xl-up {
+    margin-bottom: 30px;
+  }
+}

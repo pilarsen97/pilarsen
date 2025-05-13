@@ -1,0 +1,21 @@
+@use "../helpers/functions";
+@use "../helpers/media";
+
+.section {
+
+  &--white {
+    background: var(--c-grey-00);
+  }
+
+  &--rounded-top {
+    border-radius: var(--b-radius-section) var(--b-radius-section) 0 0;
+  }
+
+  &--rounded-top-sm {
+    border-radius: var(--b-radius-section) var(--b-radius-section) 0 0;
+
+    @include media.md-up {
+      border-radius: 0;
+    }
+  }
+}

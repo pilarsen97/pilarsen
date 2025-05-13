@@ -1,0 +1,109 @@
+@use "../helpers/functions";
+@use "../helpers/media";
+
+.btn {
+  --btn-border: 1px solid transparent;
+  --btn-bg-color: transparent;
+  --btn-color: var(--c-grey-100);
+
+  display: inline-block;
+  transition: all 0.25s ease-out;
+  padding: var(--btn-padding);
+  border-radius: var(--btn-b-radius);
+  font-size: var(--btn-f-size);
+  width: fit-content;
+  font-weight: 400;
+  border: var(--btn-border);
+  color: var(--btn-color);
+  background-color: var(--btn-bg-color);
+
+  &--sm {
+    padding: var(--btn-padding-sm);
+    font-size: var(--btn-f-size-sm);
+  }
+
+  &--md {
+    padding: var(--btn-padding-md);
+    font-size: var(--btn-f-size-md);
+  }
+
+  &--primary {
+    --btn-bg-color: var(--c-primary);
+    --btn-color: var(--c-secondary-dark);
+
+    &:hover {
+      --btn-bg-color: var(--c-primary-light);
+      --btn-color: var(--c-secondary-dark);
+    }
+  }
+
+  &--primary-light {
+    --btn-bg-color: var(--c-primary-light);
+    --btn-color: var(--c-secondary);
+
+    &:hover {
+      --btn-bg-color: var(--c-primary);
+      --btn-color: var(--c-secondary);
+    }
+  }
+
+  &--secondary {
+    --btn-bg-color: var(--c-secondary);
+    --btn-color: var(--c-grey-00);
+
+    &:hover {
+      --btn-bg-color: var(--c-secondary-mid-light);
+      --btn-color: var(--c-grey-00);
+    }
+  }
+
+  &--outline-primary {
+    --btn-color: var(--c-grey-100);
+    --btn-border: 1px solid var(--c-primary);
+
+    &:hover {
+      --btn-bg-color: var(--c-primary);
+    }
+  }
+
+  &--outline-secondary {
+    --btn-color: var(--c-grey-100);
+    --btn-border: 1px solid var(--c-secondary);
+
+    &:hover {
+      --btn-bg-color: var(--c-secondary);
+      --btn-color: var(--c-grey-00);
+    }
+  }
+
+  &--outline-secondary-light {
+    --btn-color: var(--c-secondary);
+    --btn-bg-color: var(--c-grey-10);
+    --btn-border: 1px solid var(--c-secondary-light);
+
+    &:hover {
+      --btn-color: var(--c-secondary-dark);
+      --btn-border: 1px solid var(--c-secondary);
+    }
+  }
+
+  &--icon {
+    display: flex;
+    flex-direction: row;
+    gap: 6px;
+
+    i::before {
+      margin: 0;
+    }
+  }
+
+  &--link {
+    //--btn-bg-color: var(--c-secondary);
+    //--btn-color: var(--c-grey-00);
+    //padding: 8px 20px;
+    //
+    //&:hover {
+    //  --btn-bg-color: var(--c-secondary-mid-light);
+    //}
+  }
+}
