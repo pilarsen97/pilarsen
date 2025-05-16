@@ -6,12 +6,12 @@
 
 :root {
   //fonts
-  --f-noto: 'Noto Sans', sans-serif;
-  --f-roboto-condensed: 'Roboto Condensed', sans-serif;
+  --f-unbounded: "Unbounded", sans-serif;
+  --f-wix: "Wix Madefor Display", sans-serif;
   --f-fontello: 'Fontello', sans-serif;
 
-  --f-base: var(--f-noto);
-  --f-headings: var(--f-roboto-condensed);
+  --f-base: var(--f-wix);
+  --f-headings: var(--f-unbounded);
   --f-icons: var(--f-fontello);
 
   //colors
