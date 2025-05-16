@@ -152,5 +152,35 @@
 
 
 body {
-  background: #000;
+  background: rgb(247, 247, 247);
+  padding: 0;
+  margin: 0;
+}
+
+button {
+  transition: .45s;
+  padding: 10px 30px;
+  font-weight: 700;
+  border-radius: var(--b-radius-xsm);
+}
+
+.button--primary {
+  background: var(--c-primary);
+  border: 1px solid transparent;
+
+  &:hover {
+    transform: scale(1.04);
+  }
+}
+
+.button--secondary {
+  background: none;
+  border: 1px solid #000;
+
+  &:hover {
+    background: rgb(71, 71, 71);
+    color: #fff;
+    border: none;
+    transform: scale(1.04);
+  }
 }
