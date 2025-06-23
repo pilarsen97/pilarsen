@@ -48,3 +48,146 @@
     display: none;
   }
 }
+
+// Flex utilities
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin flex-start {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+// Typography mixins
+@mixin text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@mixin heading-base {
+  font-family: var(--f-headings);
+  font-weight: 700;
+  margin: 0 0 1rem 0;
+  line-height: 1.2;
+}
+
+@mixin body-text {
+  font-family: var(--f-base);
+  font-weight: 400;
+  line-height: 1.6;
+}
+
+// Animation mixins
+@mixin smooth-hover($property: all, $duration: 0.3s) {
+  transition: #{$property} #{$duration} var(--animation-curve);
+}
+
+@mixin fade-in-up($delay: 0s) {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeInUp 0.6s var(--animation-fade-in-curve) #{$delay} forwards;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Layout mixins
+@mixin container($max-width: var(--w-container)) {
+  max-width: #{$max-width};
+  margin-inline: auto;
+  padding-inline: var(--pi-container);
+
+  @include media.md-up {
+    padding-inline: var(--pi-container--md);
+  }
+}
+
+@mixin section-spacing($top: 4rem, $bottom: 4rem) {
+  padding-top: #{$top};
+  padding-bottom: #{$bottom};
+
+  @include media.lg-up {
+    padding-top: calc(#{$top} * 1.5);
+    padding-bottom: calc(#{$bottom} * 1.5);
+  }
+}
+
+// Card and shadow mixins
+@mixin card-shadow($level: 1) {
+  @if $level == 1 {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  } @else if $level == 2 {
+    box-shadow: var(--product-card-shadow);
+  } @else if $level == 3 {
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  }
+}
+
+@mixin glass-effect {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+// Responsive aspect ratio
+@mixin aspect-ratio($width, $height) {
+  aspect-ratio: #{$width} / #{$height};
+  
+  @supports not (aspect-ratio: 1 / 1) {
+    position: relative;
+    
+    &::before {
+      content: '';
+      display: block;
+      padding-top: percentage($height / $width);
+    }
+    
+    > * {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+
+// Input focus states
+@mixin input-focus {
+  &:focus {
+    outline: none;
+    border-color: var(--c-primary);
+    box-shadow: 0 0 0 3px rgba(var(--c-primary-rgb), 0.1);
+  }
+}
+
+// Button reset
+@mixin button-reset {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+}

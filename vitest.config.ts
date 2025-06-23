@@ -1,6 +1,6 @@
 import path from 'node:path';
 import vue from '@vitejs/plugin-vue';
-import { defineConfig } from 'vite';
+import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
   plugins: [vue()],
@@ -14,24 +14,21 @@ export default defineConfig({
       '@/types': path.resolve(__dirname, 'src/types'),
     },
   },
-  build: {
-    target: 'es2020',
-    minify: 'esbuild',
-    cssCodeSplit: true,
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          vendor: ['vue'],
-          ui: ['./src/components/ui/index.ts'],
-        },
-      },
+  test: {
+    globals: true,
+    environment: 'happy-dom',
+    css: true,
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'json', 'html'],
+      exclude: [
+        'node_modules/',
+        'dist/',
+        'tests/',
+        '**/*.d.ts',
+        'vite.config.ts',
+        'vitest.config.ts',
+      ],
     },
-  },
-  server: {
-    port: 3000,
-    open: true,
-  },
-  preview: {
-    port: 3001,
   },
 });

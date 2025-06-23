@@ -1,39 +1,35 @@
 <script setup lang="ts">
+import { ref } from 'vue';
 
+const navigation = ref([
+  { name: 'Home', href: '#home' },
+  { name: 'About', href: '#about' },
+  { name: 'Contact', href: '#contact' },
+]);
 </script>
 
 <template>
-
-  <header class="header container">
-      <div class="header__top">
-        <nav class="header__menu">
-          <ol class="header__list">
-            <li class="header__item">
-              <a href="#" class="header__link">Программы</a>
-            </li>
-            <li class="header__item">
-              <a href="#" class="header__link">Форматы обучения</a>
-            </li>
-            <li class="header__item">
-              <a href="#" class="header__link">Эксперты</a>
-            </li>
-            <li class="header__item">
-              <a href="#" class="header__link">Контакты</a>
-            </li>
-          </ol>
-        </nav>
-        <button class="header__button button button--primary">Связаться с нами</button>
-        
-        <div class="burger-menu">
-          <img src="/burder-menu.png" alt="burber-menu">
+  <header class="header">
+    <div class="container">
+      <div class="header__content">
+        <div class="header__logo">
+          <h2 class="logo">
+            Vue Starter
+          </h2>
         </div>
+        <nav class="header__nav">
+          <ul class="nav-list">
+            <li v-for="item in navigation" :key="item.name" class="nav-list__item">
+              <a :href="item.href" class="nav-list__link">{{ item.name }}</a>
+            </li>
+          </ul>
+        </nav>
       </div>
-    <slot class="Hero"></slot>
+    </div>
   </header>
- 
 </template>
 
 <style scoped lang="scss">
-
+// Component styles are handled in separate SCSS files
+// This follows the project's SCSS architecture
 </style>
-
