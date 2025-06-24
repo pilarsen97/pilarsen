@@ -5,6 +5,7 @@
 @use "./helpers/functions";
 @use "./helpers/mixins";
 
+
 :root {
   //fonts
   --f-unbounded: "Unbounded", sans-serif;
@@ -154,6 +155,7 @@
   --animation-curve: cubic-bezier(1, 0, 0, 1);
   --animation-fade-in-curve: cubic-bezier(.19, 1, .22, 1);
   --animation-slide-curve: cubic-bezier(.76, .02, .29, .97);
+
 }
 
 
@@ -314,6 +316,7 @@ body {
     margin: 0 auto;
   }
 }
+
 
 // Dark theme support
 .dark-theme {
