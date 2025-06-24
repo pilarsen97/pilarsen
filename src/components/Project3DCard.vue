@@ -395,18 +395,19 @@ function handleMouseLeave() {
     &__company {
       font-size: functions.rem(12);
       margin-bottom: 0.4rem;
+      color: var(--c-grey-30) !important;
     }
 
     &__title {
-      font-size: functions.rem(20);
+      font-size: functions.rem(20) !important;
       margin-bottom: 0.75rem;
-      color: var(--c-grey-00); // Better contrast on mobile
+      color: var(--c-grey-00) !important; // Force white color on mobile
     }
 
     &__description {
       font-size: functions.rem(14);
       margin-bottom: 1rem;
-      color: var(--c-grey-10); // Better contrast on mobile
+      color: var(--c-grey-10) !important; // Better contrast on mobile
       opacity: 1;
     }
 
@@ -423,21 +424,22 @@ function handleMouseLeave() {
         rgba(255, 255, 255, 0.08) 100%
       );
       border: 1px solid rgba(255, 255, 255, 0.2);
-      color: var(--c-grey-10);
+      color: var(--c-grey-10) !important;
     }
 
     &__button {
-      padding: 0.65rem 1.25rem;
-      font-size: functions.rem(13);
+      padding: 0.65rem 1.25rem !important;
+      font-size: functions.rem(13) !important;
       background: linear-gradient(145deg,
-        rgba(255, 255, 255, 0.2) 0%,
-        rgba(255, 255, 255, 0.12) 100%
-      );
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      color: var(--c-grey-00);
+        rgba(255, 255, 255, 0.25) 0%,
+        rgba(255, 255, 255, 0.15) 100%
+      ) !important;
+      border: 1px solid rgba(255, 255, 255, 0.4) !important;
+      color: var(--c-grey-00) !important; // Force white color on mobile
 
       &:hover {
         transform: none; // Disable hover transform on mobile
+        color: var(--c-grey-00) !important;
       }
     }
   }
