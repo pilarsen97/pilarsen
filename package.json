@@ -1,11 +1,11 @@
 {
-  "name": "studio-aw-vue-starter",
+  "name": "arsen-portfolio",
   "type": "module",
   "version": "1.0.0",
   "private": true,
-  "description": "Vue 3 + TypeScript + Vite starter template for Studio AW digital projects",
-  "author": "Studio AW <web@studio-aw.ru>",
-  "homepage": "https://studio-aw.ru",
+  "description": "Portfolio website of Arsen - Web Developer",
+  "author": "Arsen",
+  "homepage": "https://pilarsen.github.io",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc -b && vite build",

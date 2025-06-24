@@ -297,23 +297,30 @@ body {
   }
 }
 
-// Demo section
-.demo {
-  padding: 4rem 0;
-  
-  h2 {
-    @include mixins.heading-base;
-    font-size: 2rem;
-    text-align: center;
-    margin-bottom: 3rem;
-  }
-  
-  &__grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    max-width: 600px;
-    margin: 0 auto;
+// Language and theme toggles
+.lang-toggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: var(--z-top);
+  display: flex;
+  gap: 10px;
+}
+
+.lang-btn,
+.theme-btn {
+  padding: 8px 12px;
+  background: var(--c-grey-00);
+  border: 1px solid var(--c-grey-30);
+  border-radius: var(--b-radius-sm);
+  cursor: pointer;
+  font-size: functions.rem(14);
+  font-weight: 500;
+  transition: var(--transition-base);
+
+  &:hover {
+    background: var(--c-grey-10);
+    border-color: var(--c-primary);
   }
 }
 
