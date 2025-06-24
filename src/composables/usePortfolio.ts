@@ -32,6 +32,14 @@ export interface WorkItem {
   tags: string[];
 }
 
+export interface TeamItem {
+  name: string;
+  description: LocalizedText;
+  logo: string;
+  since: string;
+  tags: string[];
+}
+
 export interface ServiceItem {
   name: string;
   tagline: LocalizedText;
@@ -214,6 +222,35 @@ export const worksData = {
   ] as WorkItem[],
 };
 
+export const teamsData = {
+  title: {
+    ru: 'Мои команды',
+    en: 'My Teams',
+  },
+  items: [
+    {
+      name: 'Digital студия A&W',
+      description: {
+        ru: 'Разработка сайтов и веб-сервисов, SEO оптимизация и продвижение, боты и автоматизация',
+        en: 'Website and web service development, SEO optimization and promotion, bots and automation',
+      },
+      logo: '🎨',
+      since: '2012',
+      tags: ['Web Development', 'SEO', 'Bots', 'Automation'],
+    },
+    {
+      name: 'KIBERone',
+      description: {
+        ru: 'Международный проект по IT образованию для детей',
+        en: 'International IT education project for children',
+      },
+      logo: '🎓',
+      since: '2019',
+      tags: ['Education', 'IT Training', 'Kids', 'International'],
+    },
+  ] as TeamItem[],
+};
+
 export const servicesData = {
   title: {
     ru: 'Мои услуги',
@@ -389,5 +426,6 @@ export function usePortfolio() {
     servicesData,
     projectsData,
     worksData,
+    teamsData,
   };
 }

@@ -128,3 +128,14 @@ The project uses a comprehensive design system defined in `app.scss` with CSS cu
 - Always use CSS custom properties instead of hardcoded values
 - Color variables: `var(--c-primary)`, `var(--c-secondary)`, etc.
 - Layout variables: `var(--w-container)`, `var(--b-radius-sm)`, etc.
+
+## Commit Message Guidelines
+
+- **Keep commit messages concise** (50 characters max for title)
+- **NO AI agent mentions** - never reference Claude, AI assistance, or generated content
+- **Use conventional format**: `type: brief description`
+- **Examples**:
+  - `feat: add teams section with positioned badges`
+  - `fix: resolve SCSS media import error`
+  - `style: update team card layout and spacing`
+  - `refactor: remove unused logo components`

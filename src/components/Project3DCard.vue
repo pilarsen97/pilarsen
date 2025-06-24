@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import type { Language, ProjectItem } from '@/composables/usePortfolio';
 import { ref } from 'vue';
-import type { ProjectItem, Language } from '@/composables/usePortfolio';
 
 interface Props {
   project: ProjectItem;
@@ -15,47 +15,50 @@ let animationId: number | null = null;
 let lastUpdate = 0;
 const throttleDelay = 16; // ~60fps
 
-const handleMouseMove = (e: MouseEvent) => {
-  if (!cardRef.value) return;
-  
+function handleMouseMove(e: MouseEvent) {
+  if (!cardRef.value)
+    return;
+
   const now = Date.now();
-  if (now - lastUpdate < throttleDelay) return;
-  
+  if (now - lastUpdate < throttleDelay)
+    return;
+
   if (animationId) {
     cancelAnimationFrame(animationId);
   }
-  
+
   animationId = requestAnimationFrame(() => {
     const card = cardRef.value;
-    if (!card) return;
-    
+    if (!card)
+      return;
+
     const rect = card.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
-    
+
     const centerX = rect.width / 2;
     const centerY = rect.height / 2;
-    
+
     // Reduced rotation sensitivity for better performance
     const rotateX = (y - centerY) / 10;
     const rotateY = (centerX - x) / 10;
-    
+
     // Simplified transform without heavy scale3d
     card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(10px)`;
-    
+
     // Update CSS variables less frequently
     card.style.setProperty('--mouse-x', `${(x / rect.width) * 100}%`);
     card.style.setProperty('--mouse-y', `${(y / rect.height) * 100}%`);
-    
+
     lastUpdate = now;
   });
-};
+}
 
-const handleMouseEnter = () => {
+function handleMouseEnter() {
   isHovered.value = true;
-};
+}
 
-const handleMouseLeave = () => {
+function handleMouseLeave() {
   isHovered.value = false;
   if (animationId) {
     cancelAnimationFrame(animationId);
@@ -65,7 +68,7 @@ const handleMouseLeave = () => {
     // Simplified default transform
     cardRef.value.style.transform = 'perspective(1000px) rotateX(2deg) rotateY(-2deg) translateZ(0px)';
   }
-};
+}
 </script>
 
 <template>
@@ -140,7 +143,6 @@ const handleMouseLeave = () => {
         </a>
       </div>
     </div>
-
   </div>
 </template>
 
@@ -149,7 +151,7 @@ const handleMouseLeave = () => {
 
 .project-3d-card {
   position: relative;
-  background: linear-gradient(135deg, 
+  background: linear-gradient(135deg,
     rgba(255, 255, 255, 0.1) 0%,
     rgba(255, 255, 255, 0.05) 100%
   );
@@ -157,7 +159,7 @@ const handleMouseLeave = () => {
   padding: 2rem;
   border: 1px solid rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(20px) saturate(180%);
-  box-shadow: 
+  box-shadow:
     0 8px 32px rgba(0, 0, 0, 0.12),
     inset 0 1px 0 rgba(255, 255, 255, 0.25);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -169,10 +171,10 @@ const handleMouseLeave = () => {
   display: flex;
   flex-direction: column;
   position: relative;
-  
+
   // Add subtle floating animation
   animation: card-float 8s ease-in-out infinite;
-  
+
   // Shine effect
   &::before {
     content: '';
@@ -194,10 +196,10 @@ const handleMouseLeave = () => {
     z-index: 1;
   }
   &:hover {
-    box-shadow: 
+    box-shadow:
       0 20px 40px rgba(0, 0, 0, 0.2),
       inset 0 1px 0 rgba(255, 255, 255, 0.3);
-    
+
     &::before {
       opacity: 1;
     }
@@ -233,7 +235,7 @@ const handleMouseLeave = () => {
     justify-content: center;
     width: 60px;
     height: 60px;
-    background: linear-gradient(145deg, 
+    background: linear-gradient(145deg,
       rgba(255, 255, 255, 0.15) 0%,
       rgba(255, 255, 255, 0.08) 100%
     );
@@ -282,7 +284,7 @@ const handleMouseLeave = () => {
   }
 
   &__tag {
-    background: linear-gradient(145deg, 
+    background: linear-gradient(145deg,
       rgba(255, 255, 255, 0.1) 0%,
       rgba(255, 255, 255, 0.05) 100%
     );
@@ -303,7 +305,7 @@ const handleMouseLeave = () => {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    background: linear-gradient(145deg, 
+    background: linear-gradient(145deg,
       rgba(255, 255, 255, 0.15) 0%,
       rgba(255, 255, 255, 0.08) 100%
     );
@@ -318,7 +320,7 @@ const handleMouseLeave = () => {
     transition: all 0.3s ease;
 
     &:hover {
-      background: linear-gradient(145deg, 
+      background: linear-gradient(145deg,
         rgba(255, 255, 255, 0.2) 0%,
         rgba(255, 255, 255, 0.12) 100%
       );

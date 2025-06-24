@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Language } from '@/composables/usePortfolio';
 import ProjectsSection from '@/components/sections/ProjectsSection.vue';
-import WorksSection from '@/components/sections/WorksSection.vue';
+import TeamsSection from '@/components/sections/TeamsSection.vue';
 import VortexBackground from '@/components/VortexBackground.vue';
 
 interface Props {
@@ -19,7 +19,12 @@ defineProps<Props>();
       <!-- Spacer between sections -->
       <div class="section-spacer" />
 
-      <WorksSection :current-lang="currentLang" />
+      <!--      <WorksSection :current-lang="currentLang" /> -->
+
+      <!-- Spacer between sections -->
+      <div class="section-spacer" />
+
+      <TeamsSection :current-lang="currentLang" />
     </div>
   </VortexBackground>
 </template>
