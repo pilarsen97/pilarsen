@@ -10,28 +10,10 @@ export default defineConfig({
       '@/components': path.resolve(__dirname, 'src/components'),
       '@/assets': path.resolve(__dirname, 'src/assets'),
       '@/styles': path.resolve(__dirname, 'src/assets/styles'),
-      '@/utils': path.resolve(__dirname, 'src/utils'),
-      '@/types': path.resolve(__dirname, 'src/types'),
-    },
-  },
-  build: {
-    target: 'es2020',
-    minify: 'esbuild',
-    cssCodeSplit: true,
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          vendor: ['vue'],
-          ui: ['./src/components/ui/index.ts'],
-        },
-      },
     },
   },
   server: {
     port: 3000,
     open: true,
-  },
-  preview: {
-    port: 3001,
   },
 });

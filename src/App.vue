@@ -1,56 +1,40 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
-import { seo } from '@/utils/seo';
+import { onMounted } from 'vue';
+import LanguageToggle from '@/components/LanguageToggle.vue';
+import HeroSection from '@/components/sections/HeroSection.vue';
+import ServicesSection from '@/components/sections/ServicesSection.vue';
+import ProjectsSection from '@/components/sections/ProjectsSection.vue';
+// import TechnologiesSection from '@/components/sections/TechnologiesSection.vue';
+import { usePortfolio } from '@/composables/usePortfolio';
 
-const currentLang = ref<'ru' | 'en'>('ru');
-const isDark = ref(false);
-
-function toggleLanguage() {
-  currentLang.value = currentLang.value === 'ru' ? 'en' : 'ru';
-}
-
-function toggleTheme() {
-  isDark.value = !isDark.value;
-}
+const {
+  currentLang,
+  isDark,
+  toggleLanguage,
+  pageTitle,
+} = usePortfolio();
 
 onMounted(() => {
-  seo.setAll({
-    title: 'Арсен - Веб-разработчик',
-    description: 'Портфолио веб-разработчика Арсена. Создание современных веб-сайтов и приложений.',
-    keywords: ['веб-разработчик', 'портфолио', 'арсен', 'сайты', 'разработка'],
-    url: window.location.href,
-    siteName: 'Арсен - Портфолио',
-  });
+  // Apply dark theme to document
+  document.documentElement.classList.toggle('dark', isDark.value);
+
+  // Set page title and meta
+  document.title = pageTitle.value;
 });
 </script>
 
 <template>
   <div class="app" :class="{ 'dark-theme': isDark }">
-    <!-- Language Toggle -->
-    <div class="lang-toggle">
-      <button @click="toggleLanguage" class="lang-btn">
-        {{ currentLang === 'ru' ? 'EN' : 'RU' }}
-      </button>
-      <button @click="toggleTheme" class="theme-btn">
-        {{ isDark ? '☀️' : '🌙' }}
-      </button>
-    </div>
+    <LanguageToggle
+      :current-lang="currentLang"
+      @toggle="toggleLanguage"
+    />
 
     <main class="main">
-      <!-- Portfolio content will be added here -->
-      <section class="hero">
-        <div class="container">
-          <h1 class="hero__title">
-            {{ currentLang === 'ru' ? 'Портфолио в разработке' : 'Portfolio Under Development' }}
-          </h1>
-          <p class="hero__description">
-            {{ currentLang === 'ru'
-              ? 'Скоро здесь будет мое портфолио'
-              : 'My portfolio will be here soon'
-            }}
-          </p>
-        </div>
-      </section>
+      <HeroSection :current-lang="currentLang" />
+      <ServicesSection :current-lang="currentLang" />
+      <!-- <TechnologiesSection :current-lang="currentLang" /> -->
+      <ProjectsSection :current-lang="currentLang" />
     </main>
   </div>
 </template>

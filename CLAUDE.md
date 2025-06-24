@@ -4,7 +4,18 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a Vue 3 + TypeScript + Vite starter template designed for rapid development of modern web applications. It includes a comprehensive SCSS design system, ESLint configuration, and follows Vue 3 best practices.
+This is Arsen's portfolio website built with Vue 3 + TypeScript + Vite. It showcases web development skills, projects, and experience since 2011. The project uses a comprehensive SCSS design system enhanced with Inspira UI components for modern animations and interactions.
+
+**🎯 Portfolio Content:**
+- Personal introduction: "Привет, я Арсен 👋"
+- Experience: Web services, bots, and IT education since 2011
+- Technologies: Vue.js, Nuxt 3, TypeScript, SCSS
+- Projects: A&W Studio, KIBERone
+
+**📚 UI Library Integration:**
+- **Inspira UI**: For animated components and modern interactions
+- See `INSPIRA-UI-DOCS.md` for detailed implementation guidelines
+- Copy-paste approach with @vueuse/motion animations
 
 ## Development Commands
 

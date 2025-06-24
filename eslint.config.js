@@ -9,4 +9,5 @@ export default antfu({
     'style/semi': ['error', 'always'],
     'style/quotes': ['error', 'single'],
   },
+  ignores: ['*.md', 'dist/', 'node_modules/'],
 });
