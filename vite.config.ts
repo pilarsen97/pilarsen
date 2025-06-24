@@ -12,6 +12,19 @@ export default defineConfig({
       '@/styles': path.resolve(__dirname, 'src/assets/styles'),
     },
   },
+  build: {
+    cssCodeSplit: true,
+    minify: 'terser',
+    chunkSizeWarningLimit: 1000,
+    sourcemap: false,
+  },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `@use "${path.resolve(__dirname, 'src/assets/styles/helpers')}" as *;`,
+      },
+    },
+  },
   server: {
     port: 3000,
     open: true,

@@ -30,9 +30,9 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          'vendor': ['vue', '@vueuse/core', '@vueuse/motion'],
-          'ui': ['tailwindcss'],
-          'animations': ['motion-v']
+          vendor: ['vue', '@vueuse/core', '@vueuse/motion'],
+          ui: ['tailwindcss'],
+          animations: ['motion-v']
         }
       }
     },
@@ -67,11 +67,12 @@ const VortexBackground = defineAsyncComponent(() => import('@/components/VortexB
 ```typescript
 // VortexBackground.vue - Add visibility detection
 const observer = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
+  entries.forEach((entry) => {
     isVisible.value = entry.isIntersecting;
     if (!entry.isIntersecting && animationId.value) {
       cancelAnimationFrame(animationId.value);
-    } else if (entry.isIntersecting) {
+    }
+    else if (entry.isIntersecting) {
       animate();
     }
   });
@@ -118,12 +119,12 @@ const particleCount = window.innerWidth < 768 ? 50 : 100; // Reduced from 200
   .hero__title {
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     filter: none;
-    
+
     &::before {
       display: none; // Remove complex pseudo-elements
     }
   }
-  
+
   .vortex-background__canvas {
     display: none; // Disable heavy animations
   }
@@ -200,7 +201,7 @@ export function useSEO(currentLang: Ref<'ru' | 'en'>) {
 
 ### **Core Web Vitals Targets:**
 - **LCP** (Largest Contentful Paint): < 2.5s
-- **FID** (First Input Delay): < 100ms  
+- **FID** (First Input Delay): < 100ms
 - **CLS** (Cumulative Layout Shift): < 0.1
 - **Lighthouse Performance Score**: > 90
 

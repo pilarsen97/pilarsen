@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
 
 interface Props {
   className?: string;
@@ -7,10 +7,12 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  particleCount: 200,
+  particleCount: window.innerWidth < 768 ? 50 : 100, // Reduced from 200 for performance
 });
 
 const canvasRef = ref<HTMLCanvasElement>();
+const isVisible = ref(true);
+const observer = ref<IntersectionObserver>();
 
 onMounted(() => {
   const canvas = canvasRef.value;
@@ -22,6 +24,24 @@ onMounted(() => {
     return;
 
   let animationId: number;
+
+  // Intersection Observer for performance optimization
+  observer.value = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      isVisible.value = entry.isIntersecting;
+      if (!entry.isIntersecting && animationId) {
+        cancelAnimationFrame(animationId);
+      }
+      else if (entry.isIntersecting) {
+        animate();
+      }
+    });
+  }, {
+    threshold: 0.1,
+    rootMargin: '100px', // Start animation when element is near viewport
+  });
+
+  observer.value.observe(canvas);
 
   const resizeCanvas = () => {
     canvas.width = canvas.offsetWidth;
@@ -66,74 +86,93 @@ onMounted(() => {
   }
 
   const animate = () => {
-    // Create more transparent trailing effect
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    // Only animate if visible for performance
+    if (!isVisible.value) {
+      return;
+    }
 
-    particles.forEach((particle, index) => {
-      particle.life++;
+    // Use requestIdleCallback for better performance when available
+    const performAnimation = () => {
+      // Create more transparent trailing effect
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      const prevX = particle.x;
-      const prevY = particle.y;
+      particles.forEach((particle, index) => {
+        particle.life++;
 
-      particle.x += particle.vx;
-      particle.y += particle.vy;
+        const prevX = particle.x;
+        const prevY = particle.y;
 
-      // Fade out over time with more transparency
-      const lifeFactor = 1 - (particle.life / particle.maxLife);
+        particle.x += particle.vx;
+        particle.y += particle.vy;
 
-      // Calculate distance-based fade near borders
-      const fadeDistance = 100; // Distance from border to start fading
-      const xFade = Math.min(
-        particle.x / fadeDistance,
-        (canvas.width - particle.x) / fadeDistance,
-      );
-      const yFade = Math.min(
-        particle.y / fadeDistance,
-        (canvas.height - particle.y) / fadeDistance,
-      );
-      const borderFade = Math.min(xFade, yFade, 1);
+        // Fade out over time with more transparency
+        const lifeFactor = 1 - (particle.life / particle.maxLife);
 
-      particle.alpha = lifeFactor * 0.4 * borderFade; // Apply border fade
+        // Calculate distance-based fade near borders
+        const fadeDistance = 100; // Distance from border to start fading
+        const xFade = Math.min(
+          particle.x / fadeDistance,
+          (canvas.width - particle.x) / fadeDistance,
+        );
+        const yFade = Math.min(
+          particle.y / fadeDistance,
+          (canvas.height - particle.y) / fadeDistance,
+        );
+        const borderFade = Math.min(xFade, yFade, 1);
 
-      if (particle.alpha > 0) {
+        particle.alpha = lifeFactor * 0.4 * borderFade; // Apply border fade
+
+        if (particle.alpha > 0) {
         // Draw streaking line
-        ctx.save();
+          ctx.save();
 
-        const gradient = ctx.createLinearGradient(
-          prevX,
-          prevY,
-          particle.x - particle.vx * particle.length,
-          particle.y - particle.vy * particle.length,
-        );
+          const gradient = ctx.createLinearGradient(
+            prevX,
+            prevY,
+            particle.x - particle.vx * particle.length,
+            particle.y - particle.vy * particle.length,
+          );
 
-        gradient.addColorStop(0, `hsla(${particle.hue}, 100%, 80%, ${particle.alpha})`);
-        gradient.addColorStop(1, `hsla(${particle.hue}, 100%, 80%, 0)`);
+          gradient.addColorStop(0, `hsla(${particle.hue}, 100%, 80%, ${particle.alpha})`);
+          gradient.addColorStop(1, `hsla(${particle.hue}, 100%, 80%, 0)`);
 
-        ctx.strokeStyle = gradient;
-        ctx.lineWidth = 1.5; // Thinner lines
-        ctx.lineCap = 'round';
+          ctx.strokeStyle = gradient;
+          ctx.lineWidth = 1.5; // Thinner lines
+          ctx.lineCap = 'round';
 
-        ctx.beginPath();
-        ctx.moveTo(particle.x, particle.y);
-        ctx.lineTo(
-          particle.x - particle.vx * particle.length,
-          particle.y - particle.vy * particle.length,
-        );
-        ctx.stroke();
+          ctx.beginPath();
+          ctx.moveTo(particle.x, particle.y);
+          ctx.lineTo(
+            particle.x - particle.vx * particle.length,
+            particle.y - particle.vy * particle.length,
+          );
+          ctx.stroke();
 
-        ctx.restore();
+          ctx.restore();
+        }
+
+        // Reset particle when it dies or goes off screen
+        if (particle.life >= particle.maxLife
+          || particle.x < -100 || particle.x > canvas.width + 100
+          || particle.y < -100 || particle.y > canvas.height + 100) {
+          particles[index] = createParticle();
+        }
+      });
+
+      // Continue animation only if still visible
+      if (isVisible.value) {
+        animationId = requestAnimationFrame(animate);
       }
+    };
 
-      // Reset particle when it dies or goes off screen
-      if (particle.life >= particle.maxLife
-        || particle.x < -100 || particle.x > canvas.width + 100
-        || particle.y < -100 || particle.y > canvas.height + 100) {
-        particles[index] = createParticle();
-      }
-    });
-
-    animationId = requestAnimationFrame(animate);
+    // Use requestIdleCallback when available for better performance
+    if ('requestIdleCallback' in window) {
+      (window as any).requestIdleCallback(performAnimation);
+    }
+    else {
+      performAnimation();
+    }
   };
 
   animate();
@@ -144,156 +183,58 @@ onMounted(() => {
       cancelAnimationFrame(animationId);
     }
     window.removeEventListener('resize', resizeCanvas);
+    if (observer.value) {
+      observer.value.disconnect();
+    }
   };
+});
+
+onUnmounted(() => {
+  if (observer.value) {
+    observer.value.disconnect();
+  }
 });
 </script>
 
 <template>
   <div class="vortex-background" :class="className">
-    <!-- Animated particle canvas -->
     <canvas
       ref="canvasRef"
       class="vortex-background__canvas"
     />
-
-    <!-- Aurora gradients -->
-    <div class="vortex-background__aurora vortex-background__aurora--1" />
-    <div class="vortex-background__aurora vortex-background__aurora--2" />
-    <div class="vortex-background__aurora vortex-background__aurora--3" />
-
-    <!-- Content slot -->
     <slot />
   </div>
 </template>
 
-<style lang="scss" scoped>
-@use '../assets/styles/helpers/functions';
-
+<style scoped>
 .vortex-background {
   position: relative;
+  width: 100%;
+  min-height: 100vh;
   overflow: hidden;
-  background: #000;
-
-  &__canvas {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
-  }
-
-  &__aurora {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(100px);
-    z-index: 1;
-    animation: aurora-float ease-in-out infinite;
-
-    &--1 {
-      width: 300px;
-      height: 300px;
-      background: radial-gradient(
-        circle,
-        rgba(138, 43, 226, 0.4) 0%,
-        rgba(75, 0, 130, 0.3) 50%,
-        transparent 100%
-      );
-      top: 20%;
-      left: 10%;
-      animation-duration: 8s;
-      animation-delay: 0s;
-    }
-
-    &--2 {
-      width: 400px;
-      height: 400px;
-      background: radial-gradient(
-        circle,
-        rgba(65, 105, 225, 0.4) 0%,
-        rgba(30, 144, 255, 0.3) 50%,
-        transparent 100%
-      );
-      top: 50%;
-      right: 15%;
-      animation-duration: 12s;
-      animation-delay: -4s;
-    }
-
-    &--3 {
-      width: 250px;
-      height: 250px;
-      background: radial-gradient(
-        circle,
-        rgba(147, 112, 219, 0.4) 0%,
-        rgba(186, 85, 211, 0.3) 50%,
-        transparent 100%
-      );
-      bottom: 20%;
-      left: 30%;
-      animation-duration: 10s;
-      animation-delay: -2s;
-    }
-  }
-
-  // Content should be above the aurora effect
-  > :not(.vortex-background__canvas):not(.vortex-background__aurora) {
-    position: relative;
-    z-index: 2;
-  }
 }
 
-@keyframes aurora-float {
-  0%, 100% {
-    transform: translate(0, 0) scale(1);
-    opacity: 0.6;
-  }
-  25% {
-    transform: translate(30px, -20px) scale(1.1);
-    opacity: 0.8;
-  }
-  50% {
-    transform: translate(-20px, 30px) scale(0.9);
-    opacity: 0.4;
-  }
-  75% {
-    transform: translate(20px, 10px) scale(1.05);
-    opacity: 0.7;
-  }
+.vortex-background__canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
 }
 
-// Responsive adjustments
+/* Disable heavy animations on mobile for better performance */
 @media (max-width: 768px) {
-  .vortex-background {
-    &__aurora {
-      &--1 {
-        width: 200px;
-        height: 200px;
-      }
-
-      &--2 {
-        width: 250px;
-        height: 250px;
-      }
-
-      &--3 {
-        width: 180px;
-        height: 180px;
-      }
-    }
+  .vortex-background__canvas {
+    opacity: 0.5; /* Reduce intensity on mobile */
   }
 }
 
-// Performance optimization
+/* Respect user's motion preferences */
 @media (prefers-reduced-motion: reduce) {
-  .vortex-background {
-    &__aurora {
-      animation: none;
-    }
-
-    &__canvas {
-      display: none;
-    }
+  .vortex-background__canvas {
+    display: none;
   }
 }
 </style>
