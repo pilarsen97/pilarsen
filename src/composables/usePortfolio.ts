@@ -112,10 +112,10 @@ export const projectsData = {
     {
       name: 'A&W Studio',
       description: {
-        ru: 'Digital-студия по разработке сайтов и ботов',
-        en: 'Digital studio for website and bot development',
+        ru: 'Разработка сайтов, веб-сервисов и оптимизация продвижением сайтов',
+        en: 'Website development, web services and SEO optimization',
       },
-      tags: ['Vue.js', 'Nuxt', 'Design', 'Development'],
+      tags: ['SEO', 'Web Development', 'Optimization'],
     },
     {
       name: 'KIBERone',
