@@ -354,18 +354,91 @@ function handleMouseLeave() {
   }
 }
 
-.project-3d-card {
-  @media (max-width: 768px) {
+// Mobile-specific improvements
+@media (max-width: 768px) {
+  .project-3d-card {
     height: auto;
     min-height: 350px;
     padding: 1.5rem;
+    background: linear-gradient(135deg,
+      rgba(255, 255, 255, 0.15) 0%,
+      rgba(255, 255, 255, 0.08) 100%
+    );
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    transform: none !important; // Disable 3D effects on mobile
+    animation: none; // Disable floating animation
+
+    // Stronger mobile background for better contrast
+    backdrop-filter: blur(15px) saturate(150%);
+    box-shadow:
+      0 12px 40px rgba(0, 0, 0, 0.25),
+      inset 0 1px 0 rgba(255, 255, 255, 0.35);
+
+    &::before {
+      display: none; // Disable shine effect on mobile
+    }
+
+    &__label {
+      top: 0.75rem;
+      left: 0.75rem;
+      padding: 0.25rem 0.6rem;
+      font-size: functions.rem(9);
+    }
+
+    &__logo {
+      width: 50px;
+      height: 50px;
+      border-radius: 12px;
+      margin-bottom: 0.75rem;
+    }
+
+    &__company {
+      font-size: functions.rem(12);
+      margin-bottom: 0.4rem;
+    }
 
     &__title {
       font-size: functions.rem(20);
+      margin-bottom: 0.75rem;
+      color: var(--c-grey-00); // Better contrast on mobile
     }
 
     &__description {
       font-size: functions.rem(14);
+      margin-bottom: 1rem;
+      color: var(--c-grey-10); // Better contrast on mobile
+      opacity: 1;
+    }
+
+    &__tags {
+      margin-bottom: 1rem;
+      gap: 0.4rem;
+    }
+
+    &__tag {
+      padding: 0.25rem 0.6rem;
+      font-size: functions.rem(11);
+      background: linear-gradient(145deg,
+        rgba(255, 255, 255, 0.15) 0%,
+        rgba(255, 255, 255, 0.08) 100%
+      );
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: var(--c-grey-10);
+    }
+
+    &__button {
+      padding: 0.65rem 1.25rem;
+      font-size: functions.rem(13);
+      background: linear-gradient(145deg,
+        rgba(255, 255, 255, 0.2) 0%,
+        rgba(255, 255, 255, 0.12) 100%
+      );
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: var(--c-grey-00);
+
+      &:hover {
+        transform: none; // Disable hover transform on mobile
+      }
     }
   }
 }

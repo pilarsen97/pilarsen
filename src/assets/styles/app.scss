@@ -161,7 +161,7 @@
 
 
 body {
-  background: var(--c-grey-10);
+  background: var(--c-grey-100);
   padding: 0;
   margin: 0;
   font-family: var(--f-base);
@@ -169,11 +169,28 @@ body {
   color: var(--c-grey-90);
 }
 
+// Global mobile improvements
+@media (max-width: 768px) {
+  body {
+    font-size: functions.rem(15);
+    line-height: 1.5;
+  }
+}
+
 // Container
 .container {
   max-width: var(--w-container);
   margin-inline: auto;
   padding-inline: var(--pi-container);
+  position: relative;
+  z-index: var(--z-middle);
+}
+
+// Mobile container improvements
+@media (max-width: 768px) {
+  .container {
+    padding-inline: var(--pi-container--md);
+  }
 }
 
 // Button components
@@ -523,6 +540,10 @@ body {
 .projects {
   padding: 6rem 0;
   position: relative;
+
+  @include media.lg-down {
+    padding: 4rem 0;
+  }
 }
 
 .projects, .works {
@@ -976,18 +997,71 @@ body {
 
     &__title {
       font-size: functions.rem(28);
-      padding-right: 5rem; // Adjust for smaller screens
+      padding-right: 5rem;
+    }
+
+    &__since {
+      top: 1.25rem;
+      right: 1.25rem;
+      padding: 0.35rem 0.8rem;
+      font-size: functions.rem(11);
+    }
+  }
+
+  @media (max-width: 768px) {
+    padding: 2rem;
+    background: linear-gradient(145deg, 
+      rgba(255, 255, 255, 0.15) 0%,
+      rgba(255, 255, 255, 0.08) 50%,
+      rgba(255, 255, 255, 0.12) 100%
+    );
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 
+      0 15px 50px rgba(0, 0, 0, 0.2),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3);
+
+    &__title {
+      font-size: functions.rem(24);
+      margin-bottom: 1.5rem;
+      padding-right: 4.5rem;
+      color: var(--c-grey-00);
+    }
+
+    &__since {
+      top: 1rem;
+      right: 1rem;
+      padding: 0.3rem 0.7rem;
+      font-size: functions.rem(10);
     }
 
     &__description {
       font-size: functions.rem(16);
+      margin-bottom: 1.5rem;
+      color: var(--c-grey-10);
+      opacity: 1;
     }
 
-    &__since {
-      top: 1.2rem;
-      right: 1.2rem;
-      padding: 0.3rem 0.8rem;
-      font-size: functions.rem(11);
+    &__tags {
+      gap: 0.5rem;
+    }
+
+    &__tag {
+      padding: 0.4rem 0.8rem;
+      font-size: functions.rem(12);
+      background: linear-gradient(145deg, 
+        rgba(255, 255, 255, 0.2) 0%,
+        rgba(255, 255, 255, 0.12) 100%
+      );
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: var(--c-grey-00);
+
+      &:hover {
+        transform: none; // Disable hover transform on mobile
+      }
+    }
+
+    &:hover {
+      transform: none; // Disable hover transform on mobile
     }
   }
 }

@@ -224,10 +224,19 @@ onUnmounted(() => {
   pointer-events: none;
 }
 
-/* Disable heavy animations on mobile for better performance */
+/* Better mobile performance and contrast */
 @media (max-width: 768px) {
+  .vortex-background {
+    background: linear-gradient(180deg, 
+      rgba(0, 0, 0, 0.9) 0%, 
+      rgba(15, 15, 15, 0.95) 50%, 
+      rgba(0, 0, 0, 0.9) 100%
+    );
+  }
+
   .vortex-background__canvas {
-    opacity: 0.5; /* Reduce intensity on mobile */
+    opacity: 0.3; /* Further reduce intensity on mobile */
+    filter: blur(1px); /* Add slight blur for performance */
   }
 }
 
@@ -235,6 +244,10 @@ onUnmounted(() => {
 @media (prefers-reduced-motion: reduce) {
   .vortex-background__canvas {
     display: none;
+  }
+  
+  .vortex-background {
+    background: var(--c-grey-95);
   }
 }
 </style>

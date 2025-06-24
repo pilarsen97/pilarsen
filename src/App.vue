@@ -59,7 +59,7 @@ onMounted(() => {
             <ProjectsSection :current-lang="currentLang" />
 
             <!-- Spacer between sections -->
-            <div class="section-spacer" />
+            <!--            <div class="section-spacer" /> -->
 
             <TeamsSection :current-lang="currentLang" />
           </div>
