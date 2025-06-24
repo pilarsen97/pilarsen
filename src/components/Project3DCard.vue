@@ -7,7 +7,12 @@ interface Props {
   currentLang: Language;
 }
 
+interface Emits {
+  showDetails: [project: ProjectItem];
+}
+
 defineProps<Props>();
+defineEmits<Emits>();
 
 const cardRef = ref<HTMLElement>();
 const isHovered = ref(false);

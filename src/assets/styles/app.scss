@@ -519,17 +519,9 @@ body {
   }
 }
 
-// Projects section with particle background
-.projects-section {
+// Projects section
+.projects {
   padding: 6rem 0;
-  background: var(--c-grey-90);
-  position: relative;
-}
-
-// Works section with simple background
-.works-section {
-  padding: 6rem 0;
-  background: var(--c-grey-100);
   position: relative;
 }
 
@@ -559,7 +551,6 @@ body {
     @media (max-width: 768px) {
       grid-template-columns: 1fr;
       gap: 1.5rem;
-      padding: 0 1rem;
     }
   }
 }
@@ -817,6 +808,7 @@ body {
 
 // Teams section styling
 .teams {
+  padding: 6rem 0;
   position: relative;
 
   &__title {

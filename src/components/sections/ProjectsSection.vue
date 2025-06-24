@@ -9,9 +9,9 @@ interface Props {
 
 defineProps<Props>();
 
-function handleShowDetails(project: ProjectItem) {
-  console.log('Show details for:', project.name);
+function handleShowDetails(_project: ProjectItem) {
   // TODO: Implement details modal or navigation
+  // For now, we could navigate to project details or show modal
 }
 </script>
 

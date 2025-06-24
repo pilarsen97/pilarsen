@@ -126,8 +126,8 @@ export const techData = {
 
 export const projectsData = {
   title: {
-    ru: 'Мои проекты',
-    en: 'My Projects',
+    ru: 'Проекты',
+    en: 'Projects',
   },
   items: [
     {
@@ -224,8 +224,8 @@ export const worksData = {
 
 export const teamsData = {
   title: {
-    ru: 'Мои команды',
-    en: 'My Teams',
+    ru: 'Команды',
+    en: 'Teams',
   },
   items: [
     {
@@ -253,8 +253,8 @@ export const teamsData = {
 
 export const servicesData = {
   title: {
-    ru: 'Мои услуги',
-    en: 'My Services',
+    ru: 'Услуги',
+    en: 'Services',
   },
   items: [
     {

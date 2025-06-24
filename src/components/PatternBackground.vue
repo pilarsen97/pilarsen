@@ -11,7 +11,7 @@ const patternRef = ref<HTMLElement>();
 
 onMounted(() => {
   if (patternRef.value) {
-    const pattern = patternRef.value;
+    const _pattern = patternRef.value;
     const patternSize = 60;
     const dotSize = 1;
 
