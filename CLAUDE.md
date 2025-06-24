@@ -4,18 +4,20 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is Arsen's portfolio website built with Vue 3 + TypeScript + Vite. It showcases web development skills, projects, and experience since 2011. The project uses a comprehensive SCSS design system enhanced with Inspira UI components for modern animations and interactions.
+This is Arsen's portfolio website built with Vue 3 + TypeScript + Vite. It showcases web development skills, projects, and experience since 2012. The project uses a comprehensive SCSS design system enhanced with Inspira UI components for modern animations and interactions.
 
 **🎯 Portfolio Content:**
 - Personal introduction: "Привет, я Арсен 👋"
-- Experience: Web services, bots, and IT education since 2011
-- Technologies: Vue.js, Nuxt 3, TypeScript, SCSS
+- Experience: Web services, bots, website promotion, and children's IT education since 2012
+- Technologies: WordPress/Laravel, Vue.js, Nuxt 3, TypeScript, SCSS
+- Services: Website development, SEO optimization, chatbot development, children's IT education
 - Projects: A&W Studio, KIBERone
 
 **📚 UI Library Integration:**
-- **Inspira UI**: For animated components and modern interactions
-- See `INSPIRA-UI-DOCS.md` for detailed implementation guidelines
-- Copy-paste approach with @vueuse/motion animations
+- **Inspira UI** (https://inspira-ui.com/): For animated components and modern interactions
+- Copy-paste approach from Inspira UI documentation
+- **@vueuse/motion**: For declarative animations
+- **Key Components**: LampEffect, FlipCard, PatternBackground
 
 ## Development Commands
 
@@ -35,21 +37,31 @@ This starter template provides a solid foundation for Vue 3 applications with:
 - **Linting**: ESLint with @antfu/eslint-config (enforces semicolons and single quotes)
 
 ### Project Structure
-- `src/App.vue` - Main application component
-- `src/components/` - Vue components (currently contains Header.vue)
+- `src/App.vue` - Main application component with section imports
+- `src/components/` - Vue components organized by type:
+  - `FlipCard.vue` - Interactive flip cards for services/tech
+  - `LampEffect.vue` - Hero section dramatic lighting effect
+  - `LanguageToggle.vue` - RU/EN language switcher
+  - `PatternBackground.vue` - Animated dot pattern background
+  - `sections/` - Main page sections (Hero, Services, Projects)
+  - `ui/` - Reusable UI components
+- `src/composables/` - Vue 3 composables:
+  - `usePortfolio.ts` - Central portfolio data management
 - `src/assets/styles/` - SCSS files organized by purpose:
-  - `app.scss` - Main stylesheet with CSS custom properties (design tokens)
+  - `app.scss` - Main stylesheet with CSS custom properties and glass effects
   - `components/` - Component-specific styles
   - `sections/` - Section-specific styles
   - `helpers/` - SCSS functions, mixins, variables
+- `docs/` - Feature planning and documentation
 
 ### Styling System
 The project uses a comprehensive design system defined in `app.scss` with CSS custom properties for:
 - Typography (Unbounded for headings, Wix Madefor Display for body)
-- Color palette (primary yellow, secondary grays, accent red)
+- Color palette (neutral grays, white accents for glass effects)
+- Glass design system (glassmorphism buttons, 3D text effects)
 - Spacing and border radius tokens
 - Z-index management
-- Animation curves
+- Animation curves and lamp effects
 
 ### Key Configuration
 - Vite config includes path alias: `@styles` → `src/assets/styles`
@@ -58,10 +70,14 @@ The project uses a comprehensive design system defined in `app.scss` with CSS cu
 - SCSS with modern module system (`@use` instead of `@import`)
 
 ### Component Architecture
-- **Layout Components**: Header with navigation, responsive design
-- **Interactive Examples**: Counter and theme toggle demonstrating Vue 3 reactivity
-- **Starter Content**: Hero section with call-to-action buttons
-- **Reusable Components**: Following consistent naming and structure patterns
+- **Layout Components**: Language toggle, responsive design patterns
+- **Interactive Components**: 
+  - `FlipCard.vue` - Hover-to-flip cards with "подробнее" indicator
+  - `LampEffect.vue` - Dramatic top-down lighting effect for hero
+  - `PatternBackground.vue` - Animated dot patterns with SVG generation
+- **Section Components**: Hero with lamp effect, Services with flip cards, Projects showcase
+- **Data Management**: Centralized portfolio data in `usePortfolio.ts` composable
+- **Styling**: Apple liquid glass design system with 3D text effects and glassmorphism
 
 ## Code Quality Standards
 
