@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { Language } from '@/composables/usePortfolio';
-import VortexBackground from '@/components/VortexBackground.vue';
+import type { Language, ProjectItem } from '@/composables/usePortfolio';
+import Project3DCard from '@/components/Project3DCard.vue';
 import { projectsData } from '@/composables/usePortfolio';
 
 interface Props {
@@ -8,37 +8,33 @@ interface Props {
 }
 
 defineProps<Props>();
+
+function handleShowDetails(project: ProjectItem) {
+  console.log('Show details for:', project.name);
+  // TODO: Implement details modal or navigation
+}
 </script>
 
 <template>
-  <VortexBackground id="projects" class="projects">
-    <div class="container">
-      <h2 class="projects__title">
-        {{ projectsData.title[currentLang] }}
-      </h2>
-      <div class="projects__grid">
-        <div
-          v-for="(project, index) in projectsData.items"
-          :key="project.name"
-          v-motion
-          class="project-card"
-          :initial="{ opacity: 0, y: 30 }"
-          :enter="{ opacity: 1, y: 0 }"
-          :delay="200 * index"
-        >
-          <h3 class="project-card__title">
-            {{ project.name }}
-          </h3>
-          <p class="project-card__description">
-            {{ project.description[currentLang] }}
-          </p>
-          <div class="project-card__tags">
-            <span v-for="tag in project.tags" :key="tag" class="project-card__tag">
-              {{ tag }}
-            </span>
-          </div>
-        </div>
+  <section class="projects">
+    <h2 class="projects__title">
+      {{ projectsData.title[currentLang] }}
+    </h2>
+    <div class="projects__grid">
+      <div
+        v-for="(project, index) in projectsData.items"
+        :key="project.name"
+        v-motion
+        :initial="{ opacity: 0, y: 30 }"
+        :enter="{ opacity: 1, y: 0 }"
+        :delay="200 * index"
+      >
+        <Project3DCard
+          :project="project"
+          :current-lang="currentLang"
+          @show-details="handleShowDetails"
+        />
       </div>
     </div>
-  </VortexBackground>
+  </section>
 </template>

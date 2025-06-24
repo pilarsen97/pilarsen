@@ -15,7 +15,20 @@ export interface TechItem {
 
 export interface ProjectItem {
   name: string;
+  company: string;
   description: LocalizedText;
+  logo?: string;
+  image?: string;
+  tags: string[];
+  isAWStudio?: boolean;
+  detailsLink?: string;
+}
+
+export interface WorkItem {
+  title: string;
+  description: LocalizedText;
+  image?: string;
+  link?: string;
   tags: string[];
 }
 
@@ -110,22 +123,95 @@ export const projectsData = {
   },
   items: [
     {
-      name: 'A&W Studio',
+      name: 'Корпоративный портал',
+      company: 'TechCorp Solutions',
       description: {
-        ru: 'Разработка сайтов, веб-сервисов и оптимизация продвижением сайтов',
-        en: 'Website development, web services and SEO optimization',
+        ru: 'Полнофункциональный корпоративный портал с системой управления проектами и интеграцией с CRM',
+        en: 'Full-featured corporate portal with project management system and CRM integration',
       },
-      tags: ['SEO', 'Web Development', 'Optimization'],
+      logo: '🏢',
+      tags: ['Vue.js', 'Node.js', 'CRM Integration', 'Dashboard'],
+      isAWStudio: true,
+      detailsLink: '#',
     },
     {
-      name: 'KIBERone',
+      name: 'Интернет-магазин',
+      company: 'Fashion Store',
       description: {
-        ru: 'Обучение детей программированию и IT',
-        en: 'Teaching children programming and IT',
+        ru: 'Современный интернет-магазин одежды с корзиной, системой платежей и админ-панелью',
+        en: 'Modern clothing e-commerce with cart, payment system and admin panel',
       },
-      tags: ['Education', 'Programming', 'Kids', 'IT'],
+      logo: '👗',
+      tags: ['E-commerce', 'Payment Gateway', 'Nuxt.js', 'Admin Panel'],
+      isAWStudio: true,
+      detailsLink: '#',
+    },
+    {
+      name: 'Образовательная платформа',
+      company: 'KIBERone',
+      description: {
+        ru: 'Интерактивная платформа для обучения детей программированию с играми и заданиями',
+        en: 'Interactive platform for teaching children programming with games and assignments',
+      },
+      logo: '🎓',
+      tags: ['Education', 'Vue.js', 'Gamification', 'Interactive'],
+      isAWStudio: false,
+      detailsLink: '#',
+    },
+    {
+      name: 'SEO Dashboard',
+      company: 'Digital Agency',
+      description: {
+        ru: 'Аналитическая панель для отслеживания SEO-метрик и позиций сайтов в поисковых системах',
+        en: 'Analytics dashboard for tracking SEO metrics and website positions in search engines',
+      },
+      logo: '📊',
+      tags: ['Analytics', 'SEO', 'Dashboard', 'Data Visualization'],
+      isAWStudio: true,
+      detailsLink: '#',
     },
   ] as ProjectItem[],
+};
+
+export const worksData = {
+  title: {
+    ru: 'Мои работы',
+    en: 'My Works',
+  },
+  items: [
+    {
+      title: 'Корпоративный сайт для IT-компании',
+      description: {
+        ru: 'Разработка современного корпоративного сайта с адаптивным дизайном и системой управления контентом',
+        en: 'Development of a modern corporate website with responsive design and content management system',
+      },
+      tags: ['Vue.js', 'CMS', 'Responsive', 'Corporate'],
+    },
+    {
+      title: 'Интернет-магазин одежды',
+      description: {
+        ru: 'Создание полнофункционального интернет-магазина с корзиной, системой платежей и админ-панелью',
+        en: 'Creating a full-featured online clothing store with cart, payment system and admin panel',
+      },
+      tags: ['E-commerce', 'Payment', 'Admin Panel', 'Nuxt'],
+    },
+    {
+      title: 'Лендинг для стартапа',
+      description: {
+        ru: 'Яркий и конверсионный лендинг для технологического стартапа с анимациями и формами обратной связи',
+        en: 'Bright and conversion landing page for tech startup with animations and contact forms',
+      },
+      tags: ['Landing', 'Animations', 'Conversion', 'Startup'],
+    },
+    {
+      title: 'SEO-оптимизация для ресторана',
+      description: {
+        ru: 'Комплексная SEO-оптимизация сайта ресторана: увеличение органического трафика на 300%',
+        en: 'Comprehensive SEO optimization of restaurant website: 300% increase in organic traffic',
+      },
+      tags: ['SEO', 'Analytics', 'Local SEO', 'Traffic Growth'],
+    },
+  ] as WorkItem[],
 };
 
 export const servicesData = {
@@ -302,5 +388,6 @@ export function usePortfolio() {
     techData,
     servicesData,
     projectsData,
+    worksData,
   };
 }

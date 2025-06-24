@@ -2,7 +2,7 @@
 import { onMounted } from 'vue';
 import LanguageToggle from '@/components/LanguageToggle.vue';
 import HeroSection from '@/components/sections/HeroSection.vue';
-import ProjectsSection from '@/components/sections/ProjectsSection.vue';
+import ProjectsWorksSection from '@/components/sections/ProjectsWorksSection.vue';
 import ServicesSection from '@/components/sections/ServicesSection.vue';
 // import TechnologiesSection from '@/components/sections/TechnologiesSection.vue';
 import { usePortfolio } from '@/composables/usePortfolio';
@@ -34,7 +34,7 @@ onMounted(() => {
       <HeroSection :current-lang="currentLang" />
       <ServicesSection :current-lang="currentLang" />
       <!-- <TechnologiesSection :current-lang="currentLang" /> -->
-      <ProjectsSection :current-lang="currentLang" />
+      <ProjectsWorksSection :current-lang="currentLang" />
     </main>
   </div>
 </template>
