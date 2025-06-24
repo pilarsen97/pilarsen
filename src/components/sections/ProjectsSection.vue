@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Language } from '@/composables/usePortfolio';
+import VortexBackground from '@/components/VortexBackground.vue';
 import { projectsData } from '@/composables/usePortfolio';
 
 interface Props {
@@ -10,7 +11,7 @@ defineProps<Props>();
 </script>
 
 <template>
-  <section id="projects" class="projects">
+  <VortexBackground id="projects" class="projects">
     <div class="container">
       <h2 class="projects__title">
         {{ projectsData.title[currentLang] }}
@@ -39,5 +40,5 @@ defineProps<Props>();
         </div>
       </div>
     </div>
-  </section>
+  </VortexBackground>
 </template>

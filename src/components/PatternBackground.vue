@@ -47,7 +47,6 @@ onMounted(() => {
     rect.setAttribute('fill', 'url(#dot-pattern)');
 
     svg.appendChild(defs);
-    pattern.appendChild(svg);
   }
 });
 </script>
