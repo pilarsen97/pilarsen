@@ -183,36 +183,132 @@ body {
   padding: var(--btn-padding);
   font-size: var(--btn-f-size);
   font-weight: 600;
-  border-radius: var(--btn-b-radius);
+  border-radius: 16px;
   border: none;
   cursor: pointer;
-  transition: all 0.3s var(--animation-curve);
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  will-change: transform, box-shadow, background;
 
   &:hover {
     transform: translateY(-2px);
   }
+  
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
+  }
 }
 
 .button--primary {
-  background: var(--c-primary);
-  color: var(--c-grey-00);
-  box-shadow: 0 4px 15px rgba(254, 0, 0, 0.3);
+  background: linear-gradient(145deg, 
+    rgba(255, 255, 255, 0.15) 0%,
+    rgba(255, 255, 255, 0.05) 50%,
+    rgba(255, 255, 255, 0.1) 100%
+  );
+  color: var(--c-grey-10);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(20px) saturate(180%);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.1);
+  position: relative;
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+      transparent 0%, 
+      rgba(255, 255, 255, 0.2) 50%, 
+      transparent 100%
+    );
+    transition: left 0.6s ease;
+  }
 
   &:hover {
-    background: var(--c-primary-dark);
-    box-shadow: 0 6px 20px rgba(254, 0, 0, 0.4);
+    background: linear-gradient(145deg, 
+      rgba(255, 255, 255, 0.25) 0%,
+      rgba(255, 255, 255, 0.15) 50%,
+      rgba(255, 255, 255, 0.2) 100%
+    );
+    box-shadow: 
+      0 12px 40px rgba(0, 0, 0, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.4),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px) scale(1.02);
+    
+    &::before {
+      left: 100%;
+    }
+  }
+  
+  &:active {
+    transform: translateY(0) scale(0.98);
+    transition: transform 0.1s ease;
   }
 }
 
 .button--secondary {
-  background: transparent;
+  background: linear-gradient(145deg, 
+    rgba(255, 255, 255, 0.08) 0%,
+    rgba(255, 255, 255, 0.02) 50%,
+    rgba(255, 255, 255, 0.06) 100%
+  );
   color: var(--c-grey-10);
-  border: 2px solid var(--c-grey-10);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(20px) saturate(180%);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.05);
+  position: relative;
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, 
+      transparent 0%, 
+      rgba(255, 255, 255, 0.1) 50%, 
+      transparent 100%
+    );
+    transition: left 0.6s ease;
+  }
 
   &:hover {
-    background: var(--c-grey-10);
-    color: var(--c-grey-90);
+    background: linear-gradient(145deg, 
+      rgba(255, 255, 255, 0.15) 0%,
+      rgba(255, 255, 255, 0.08) 50%,
+      rgba(255, 255, 255, 0.12) 100%
+    );
+    border-color: rgba(255, 255, 255, 0.25);
+    box-shadow: 
+      0 12px 40px rgba(0, 0, 0, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 0.25),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px) scale(1.02);
+    
+    &::before {
+      left: 100%;
+    }
+  }
+  
+  &:active {
+    transform: translateY(0) scale(0.98);
+    transition: transform 0.1s ease;
   }
 }
 
@@ -231,10 +327,13 @@ body {
 
 // Hero section
 .hero {
-  padding: 6rem 0;
+  padding: 8rem 0 6rem 0;
   text-align: center;
   position: relative;
   overflow: hidden;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
 
   &__content {
     position: relative;
@@ -243,16 +342,75 @@ body {
 
   &__title {
     font-family: var(--f-headings);
-    font-size: 4rem;
-    font-weight: 700;
+    font-size: 5rem;
+    font-weight: 800;
     margin-bottom: 1.5rem;
-    color: var(--c-grey-10);
-    background: linear-gradient(135deg, var(--c-grey-10) 0%, var(--c-primary-light) 100%);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    position: relative;
+    z-index: 3;
+    transform-style: preserve-3d;
+    
+    // 3D Glass text effect
+    color: transparent;
+    background: linear-gradient(145deg, 
+      rgba(255, 255, 255, 0.9) 0%,
+      rgba(255, 255, 255, 0.7) 20%,
+      rgba(255, 255, 255, 0.3) 40%,
+      rgba(255, 255, 255, 0.5) 60%,
+      rgba(255, 255, 255, 0.8) 80%,
+      rgba(255, 255, 255, 0.95) 100%
+    );
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    
+    // Glass depth and refraction
+    text-shadow: 
+      0 1px 0 rgba(255, 255, 255, 0.4),
+      0 2px 0 rgba(255, 255, 255, 0.3),
+      0 3px 0 rgba(255, 255, 255, 0.2),
+      0 4px 0 rgba(255, 255, 255, 0.1),
+      0 5px 10px rgba(0, 0, 0, 0.1),
+      0 10px 20px rgba(0, 0, 0, 0.15),
+      0 20px 40px rgba(0, 0, 0, 0.2);
+    
+    // Glass highlights
+    &::before {
+      content: attr(data-text);
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: -1;
+      background: linear-gradient(145deg, 
+        rgba(255, 255, 255, 0.1) 0%,
+        rgba(255, 255, 255, 0.05) 50%,
+        rgba(255, 255, 255, 0.15) 100%
+      );
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: blur(1px);
+    }
+    
+    
+    // Overall glass filter
+    filter: 
+      drop-shadow(0 0 20px rgba(255, 255, 255, 0.3))
+      drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1))
+      contrast(1.1)
+      brightness(1.1);
+
+    @media (max-width: 1024px) {
+      font-size: 4rem;
+    }
 
     @media (max-width: 768px) {
+      font-size: 3rem;
+      letter-spacing: -0.01em;
+    }
+
+    @media (max-width: 480px) {
       font-size: 2.5rem;
     }
   }
@@ -515,6 +673,41 @@ body {
     background: var(--c-grey-80);
     border-color: var(--c-primary);
     transform: translateY(-1px);
+  }
+}
+
+// Hero title animations
+@keyframes title-shimmer {
+  0%, 100% {
+    left: -100%;
+  }
+  50% {
+    left: 100%;
+  }
+}
+
+@keyframes glass-shimmer {
+  0%, 100% {
+    background: linear-gradient(145deg, 
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(255, 255, 255, 0.05) 50%,
+      rgba(255, 255, 255, 0.1) 100%
+    );
+    box-shadow: 
+      0 8px 32px rgba(0, 0, 0, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.1);
+  }
+  50% {
+    background: linear-gradient(145deg, 
+      rgba(255, 255, 255, 0.15) 0%,
+      rgba(255, 255, 255, 0.08) 50%,
+      rgba(255, 255, 255, 0.15) 100%
+    );
+    box-shadow: 
+      0 12px 40px rgba(0, 0, 0, 0.15),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.15);
   }
 }
 

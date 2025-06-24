@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { projectsData } from '@/composables/usePortfolio';
 import type { Language } from '@/composables/usePortfolio';
+import { projectsData } from '@/composables/usePortfolio';
 
 interface Props {
   currentLang: Language;

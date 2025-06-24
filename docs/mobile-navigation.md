@@ -49,7 +49,7 @@ Responsive mobile navigation with hamburger menu, smooth animations, and intuiti
 // Hamburger to X transformation
 .hamburger-line {
   transition: transform 0.3s ease, opacity 0.3s ease;
-  
+
   &.open {
     &:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
     &:nth-child(2) { opacity: 0; }

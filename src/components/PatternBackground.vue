@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 
 interface Props {
   className?: string;
@@ -14,47 +14,46 @@ onMounted(() => {
     const pattern = patternRef.value;
     const patternSize = 60;
     const dotSize = 1;
-    
+
     // Create SVG pattern
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     svg.setAttribute('width', '100%');
     svg.setAttribute('height', '100%');
     svg.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
-    
+
     const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
     const patternElement = document.createElementNS('http://www.w3.org/2000/svg', 'pattern');
-    
+
     patternElement.setAttribute('id', 'dot-pattern');
     patternElement.setAttribute('x', '0');
     patternElement.setAttribute('y', '0');
     patternElement.setAttribute('width', patternSize.toString());
     patternElement.setAttribute('height', patternSize.toString());
     patternElement.setAttribute('patternUnits', 'userSpaceOnUse');
-    
+
     const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
     circle.setAttribute('cx', (patternSize / 2).toString());
     circle.setAttribute('cy', (patternSize / 2).toString());
     circle.setAttribute('r', dotSize.toString());
     circle.setAttribute('fill', 'currentColor');
     circle.setAttribute('opacity', '0.3');
-    
+
     patternElement.appendChild(circle);
     defs.appendChild(patternElement);
-    
+
     const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
     rect.setAttribute('width', '100%');
     rect.setAttribute('height', '100%');
     rect.setAttribute('fill', 'url(#dot-pattern)');
-    
+
     svg.appendChild(defs);
-    svg.appendChild(rect);
     pattern.appendChild(svg);
   }
 });
 </script>
 
 <template>
-  <div 
+  <div
     ref="patternRef"
     class="pattern-background"
     :class="className"
@@ -68,7 +67,7 @@ onMounted(() => {
   position: relative;
   overflow: hidden;
   color: var(--c-grey-40);
-  
+
   &::before {
     content: '';
     position: absolute;
@@ -83,12 +82,12 @@ onMounted(() => {
     mask: radial-gradient(ellipse 100% 60% at center, black 50%, transparent 100%);
     -webkit-mask: radial-gradient(ellipse 100% 60% at center, black 50%, transparent 100%);
   }
-  
+
   // Animated dots variation
   &--animated::before {
     animation: pattern-drift 8s ease-in-out infinite;
   }
-  
+
   // Content should be above pattern
   > * {
     position: relative;

@@ -5,6 +5,7 @@ This document tracks all planned features and sections for Arsen's portfolio web
 ## 🎯 Current Status
 - [x] Project Architecture Setup
 - [x] Hero Section
+- [x] Hero Lamp Effect (Inspira UI style)
 - [x] Language Toggle (RU/EN)
 - [x] Projects Section
 - [x] Flip Cards with Tech Stack (commented out)

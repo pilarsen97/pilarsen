@@ -1,8 +1,8 @@
 <script setup lang="ts">
+import type { Language } from '@/composables/usePortfolio';
 import FlipCard from '@/components/FlipCard.vue';
 import PatternBackground from '@/components/PatternBackground.vue';
 import { techData } from '@/composables/usePortfolio';
-import type { Language } from '@/composables/usePortfolio';
 
 interface Props {
   currentLang: Language;

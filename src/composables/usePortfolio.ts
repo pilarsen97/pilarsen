@@ -34,8 +34,8 @@ export const heroData = {
     en: 'Hi, I\'m Arsen 👋',
   },
   description: {
-    ru: 'Разрабатываю веб-сервисы, боты и обучаю IT с 2011 года',
-    en: 'I develop web services, bots and teach IT since 2011',
+    ru: 'Разрабатываю веб-сервисы, ботов, продвигаю сайты и обучаю детей. В IT с 2012',
+    en: 'I develop web services, bots, promote websites and teach children. In IT since 2012',
   },
   viewWork: {
     ru: 'Посмотреть работы',
@@ -149,8 +149,8 @@ export const servicesData = {
         <path d="M8 16l4 4 8-8" stroke="currentColor" stroke-width="2" fill="none"/>
       </svg>`,
       description: {
-        ru: 'Создаю быстрые и красивые веб-сайты на Vue.js и Nuxt 3. От лендингов до сложных веб-приложений.',
-        en: 'I create fast and beautiful websites with Vue.js and Nuxt 3. From landing pages to complex web applications.',
+        ru: 'Создаю быстрые и красивые веб-сайты на WordPress/Laravel, Vue.js и Nuxt 3. От лендингов до сложных веб-приложений.',
+        en: 'I create fast and beautiful websites with WordPress/Laravel, Vue.js and Nuxt 3. From landing pages to complex web applications.',
       },
       features: [
         {
