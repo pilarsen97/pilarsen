@@ -131,14 +131,14 @@ export const projectsData = {
   },
   items: [
     {
-      name: 'Корпоративный портал',
-      company: 'TechCorp Solutions',
+      name: 'Доставка еды',
+      company: 'Рустерс',
       description: {
-        ru: 'Полнофункциональный корпоративный портал с системой управления проектами и интеграцией с CRM',
-        en: 'Full-featured corporate portal with project management system and CRM integration',
+        ru: 'Платформа для сети пиццерий с интернет-магазином и внутренней CRM системой, отчетами и интеграцией с 1C.',
+        en: '#',
       },
-      logo: '🏢',
-      tags: ['Vue.js', 'Node.js', 'CRM Integration', 'Dashboard'],
+      logo: '🍕',
+      tags: ['Vue.js', 'Nuxt', 'Laravel', 'CRM'],
       isAWStudio: true,
       detailsLink: '#',
     },

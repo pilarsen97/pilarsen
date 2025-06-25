@@ -157,7 +157,7 @@ function handleMouseLeave() {
   transform: perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px);
   cursor: pointer;
   overflow: hidden;
-  height: 420px;
+  height: 100%;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -251,6 +251,7 @@ function handleMouseLeave() {
     flex-direction: column;
     transform: translateZ(10px); // Add depth to content
     transition: transform 0.3s ease;
+    min-height: 0; // Allow flex shrinking
   }
 
   &__logo {
@@ -300,6 +301,7 @@ function handleMouseLeave() {
     margin-bottom: 1.5rem;
     opacity: 0.9;
     flex: 1;
+    min-height: 0; // Allow flex shrinking
   }
 
   &__tags {
@@ -307,6 +309,7 @@ function handleMouseLeave() {
     flex-wrap: wrap;
     gap: 0.5rem;
     margin-bottom: 1.5rem;
+    flex-shrink: 0; // Prevent tags from shrinking
   }
 
   &__tag {
@@ -325,18 +328,19 @@ function handleMouseLeave() {
 
   &__footer {
     margin-top: auto;
+    flex-shrink: 0; // Prevent footer from shrinking
   }
 
   &__button {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.75rem;
     background: linear-gradient(145deg,
       rgba(255, 255, 255, 0.15) 0%,
       rgba(255, 255, 255, 0.08) 100%
     );
     color: var(--c-grey-10);
-    padding: 0.75rem 1.5rem;
+    padding: 0.75rem 1.25rem;
     border-radius: 12px;
     text-decoration: none;
     font-weight: 600;
@@ -345,6 +349,8 @@ function handleMouseLeave() {
     backdrop-filter: blur(10px);
     transform: translateZ(20px); // Add depth to button
     transition: all 0.3s ease;
+    white-space: nowrap;
+    min-width: fit-content;
 
     &:hover {
       background: linear-gradient(145deg,
@@ -465,14 +471,17 @@ function handleMouseLeave() {
     }
 
     &__button {
-      padding: 0.65rem 1.25rem !important;
-      font-size: functions.rem(13) !important;
+      padding: 0.65rem 1rem !important;
+      font-size: functions.rem(12) !important;
       background: linear-gradient(145deg,
         rgba(255, 255, 255, 0.25) 0%,
         rgba(255, 255, 255, 0.15) 100%
       ) !important;
       border: 1px solid rgba(255, 255, 255, 0.4) !important;
       color: var(--c-grey-00) !important; // Force white color on mobile
+      gap: 0.5rem !important;
+      white-space: nowrap !important;
+      min-width: fit-content !important;
 
       &:hover {
         transform: none; // Disable hover transform on mobile
