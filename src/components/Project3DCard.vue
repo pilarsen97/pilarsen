@@ -389,7 +389,6 @@ function handleMouseLeave() {
 @media (max-width: 768px) {
   .project-3d-card {
     height: auto;
-    min-height: 350px;
     padding: 1.5rem;
     background: linear-gradient(135deg,
       rgba(255, 255, 255, 0.15) 0%,
