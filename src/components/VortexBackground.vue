@@ -42,8 +42,8 @@ onMounted(() => {
     const angle = Math.random() * Math.PI * 2;
     const speed = Math.random() * 0.5 + 0.3; // Even slower speed
     return {
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
+      x: Math.random() * (canvas?.width || 800),
+      y: Math.random() * (canvas?.height || 600),
       vx: Math.cos(angle) * speed,
       vy: Math.sin(angle) * speed,
       length: Math.random() * 12 + 6,
@@ -57,12 +57,15 @@ onMounted(() => {
   // Animation function declaration (hoisted)
   function animate() {
     // Only animate if visible for performance
-    if (!isVisible.value) {
+    if (!isVisible.value || !ctx || !canvas) {
       return;
     }
 
     // Use requestIdleCallback for better performance when available
     const performAnimation = () => {
+      if (!ctx || !canvas)
+        return;
+
       // Create more transparent trailing effect
       ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -76,12 +79,12 @@ onMounted(() => {
 
         // Wrap around edges for continuous flow
         if (particle.x < 0)
-          particle.x = canvas.width;
-        if (particle.x > canvas.width)
+          particle.x = canvas?.width || 800;
+        if (particle.x > (canvas?.width || 800))
           particle.x = 0;
         if (particle.y < 0)
-          particle.y = canvas.height;
-        if (particle.y > canvas.height)
+          particle.y = canvas?.height || 600;
+        if (particle.y > (canvas?.height || 600))
           particle.y = 0;
 
         // Calculate fade based on life
@@ -114,8 +117,8 @@ onMounted(() => {
     };
 
     // Use requestIdleCallback when available for better performance
-    if (window.requestIdleCallback) {
-      requestIdleCallback(performAnimation);
+    if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
+      (window as any).requestIdleCallback(performAnimation);
     }
     else {
       performAnimation();

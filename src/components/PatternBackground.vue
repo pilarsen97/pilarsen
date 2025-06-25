@@ -11,8 +11,8 @@ const patternRef = ref<HTMLElement>();
 
 onMounted(() => {
   if (patternRef.value) {
-    // Container element for SVG generation
-    const _containerElement = patternRef.value;
+    // Container element for SVG generation (currently disabled)
+    // const containerElement = patternRef.value;
     const patternSize = 60;
     const dotSize = 1;
 
