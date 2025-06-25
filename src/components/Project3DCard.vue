@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { Language, ProjectItem } from '@/composables/usePortfolio';
-import { ref } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
 
 interface Props {
   project: ProjectItem;
@@ -44,6 +44,34 @@ function handleMouseMove(e: MouseEvent) {
   card.style.setProperty('--mouse-y', `${(y / rect.height) * 100}%`);
 }
 
+function applyMobileViewportEffect() {
+  if (!cardRef.value || window.innerWidth > 768)
+    return;
+
+  const card = cardRef.value;
+  const rect = card.getBoundingClientRect();
+
+  // Get viewport center (where user is looking)
+  const viewportCenterX = window.innerWidth / 2;
+  const viewportCenterY = window.innerHeight / 2;
+
+  // Get card center
+  const cardCenterX = rect.left + rect.width / 2;
+  const cardCenterY = rect.top + rect.height / 2;
+
+  // Calculate direction from card to viewport center (where user is)
+  const deltaX = viewportCenterX - cardCenterX;
+  const deltaY = viewportCenterY - cardCenterY;
+
+  // Apply rotation to make card "look at" the user (viewport center)
+  const rotateY = deltaX / 60; // Positive if user is to the right
+  const rotateX = deltaY / 80; // Positive if user is below
+
+  const transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(5px)`;
+  card.style.transform = transform;
+  card.style.setProperty('transform', transform, 'important');
+}
+
 function handleMouseEnter() {
   isHovered.value = true;
 }
@@ -52,11 +80,41 @@ function handleMouseLeave() {
   isHovered.value = false;
   if (cardRef.value) {
     cardRef.value.style.transition = 'transform 0.3s ease-out';
-    cardRef.value.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
+
+    // Check if mobile and apply viewport effect, otherwise reset
+    if (window.innerWidth <= 768) {
+      setTimeout(() => applyMobileViewportEffect(), 300);
+    }
+    else {
+      cardRef.value.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
+    }
+
     cardRef.value.style.setProperty('--mouse-x', '50%');
     cardRef.value.style.setProperty('--mouse-y', '50%');
   }
 }
+
+let scrollTimeout: number;
+
+function handleMobileScroll() {
+  if (window.innerWidth <= 768) {
+    clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(() => applyMobileViewportEffect(), 50);
+  }
+}
+
+onMounted(() => {
+  // Apply mobile viewport effect on mount for mobile devices
+  if (window.innerWidth <= 768) {
+    setTimeout(() => applyMobileViewportEffect(), 100);
+    window.addEventListener('scroll', handleMobileScroll, { passive: true });
+  }
+});
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleMobileScroll);
+  clearTimeout(scrollTimeout);
+});
 </script>
 
 <template>
@@ -395,9 +453,10 @@ function handleMouseLeave() {
       rgba(255, 255, 255, 0.08) 100%
     );
     border: 1px solid rgba(255, 255, 255, 0.3);
-    transform: none !important; // Disable 3D effects on mobile
+    // Enable subtle viewport-based 3D effects on mobile
+    transition: transform 0.3s ease-out;
     animation: none; // Disable floating animation
-    will-change: auto; // Disable GPU acceleration optimizations
+    will-change: transform; // Enable GPU acceleration for viewport effects
 
     // Stronger mobile background for better contrast
     backdrop-filter: blur(15px) saturate(150%);
@@ -410,7 +469,7 @@ function handleMouseLeave() {
       display: none; // Disable shine and depth effects on mobile
     }
 
-    // Disable 3D transforms for child elements
+    // Keep child elements stable on mobile
     &__content,
     &__logo,
     &__button {
