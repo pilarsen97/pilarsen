@@ -235,7 +235,7 @@ export const teamsData = {
         en: 'Website and web service development, SEO optimization and promotion, bots and automation',
       },
       logo: '🎨',
-      since: '2012',
+      since: '2012 - 2025',
       tags: ['Web Development', 'SEO', 'Bots', 'Automation'],
     },
     {
@@ -245,7 +245,7 @@ export const teamsData = {
         en: 'International IT education project for children',
       },
       logo: '🎓',
-      since: '2019',
+      since: '2019 - 2025',
       tags: ['Education', 'IT Training', 'Kids', 'International'],
     },
   ] as TeamItem[],

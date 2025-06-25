@@ -213,17 +213,17 @@ function handleMouseLeave() {
   &__label {
     position: absolute;
     top: 1rem;
-    left: 1rem;
-    background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+    right: 1rem;
+    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
     color: white;
-    padding: 0.3rem 0.8rem;
-    border-radius: 12px;
-    font-size: functions.rem(10);
-    font-weight: 700;
+    padding: 0.4rem 1rem;
+    border-radius: 16px;
+    font-size: functions.rem(12);
+    font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    box-shadow: 0 6px 20px rgba(79, 70, 229, 0.3);
     z-index: 3;
-    box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);
   }
 
   &__content {
@@ -380,9 +380,9 @@ function handleMouseLeave() {
 
     &__label {
       top: 0.75rem;
-      left: 0.75rem;
-      padding: 0.25rem 0.6rem;
-      font-size: functions.rem(9);
+      right: 0.75rem;
+      padding: 0.35rem 0.8rem;
+      font-size: functions.rem(11);
     }
 
     &__logo {

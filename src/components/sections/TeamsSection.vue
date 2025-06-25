@@ -26,7 +26,7 @@ defineProps<Props>();
       >
         <!-- Since Badge - Top Right -->
         <div class="team-card__since">
-          {{ currentLang === 'ru' ? 'с' : 'since' }} {{ team.since }}
+          {{ team.since }}
         </div>
 
         <!-- Team Name -->

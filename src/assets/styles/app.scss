@@ -927,7 +927,6 @@ body {
     margin-top: 1rem;
     position: relative;
     z-index: 2;
-    padding-right: 6rem; // Add space to avoid overlap with badge
   }
 
   &__since {
@@ -997,7 +996,6 @@ body {
 
     &__title {
       font-size: functions.rem(28);
-      padding-right: 5rem;
     }
 
     &__since {
@@ -1023,7 +1021,6 @@ body {
     &__title {
       font-size: functions.rem(24);
       margin-bottom: 1.5rem;
-      padding-right: 4.5rem;
       color: var(--c-grey-00);
     }
 
