@@ -132,10 +132,16 @@ The project uses a comprehensive design system defined in `app.scss` with CSS cu
 ## Commit Message Guidelines
 
 - **Keep commit messages concise** (50 characters max for title)
-- **NO AI agent mentions** - never reference Claude, AI assistance, or generated content
+- **NO AI agent mentions** - never reference Claude, AI assistance, or generated content in commits
 - **Use conventional format**: `type: brief description`
 - **Examples**:
   - `feat: add teams section with positioned badges`
   - `fix: resolve SCSS media import error`
   - `style: update team card layout and spacing`
   - `refactor: remove unused logo components`
+
+## Code Quality Rules
+
+- **Pre-commit hook**: Run `bun lintfix` before every commit to ensure code quality
+- **ESLint compliance**: All code must pass linting checks before committing
+- **Clean commits**: No unused variables, proper function declarations, organized imports

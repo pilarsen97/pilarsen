@@ -12,7 +12,7 @@ const patternRef = ref<HTMLElement>();
 onMounted(() => {
   if (patternRef.value) {
     // Container element for SVG generation
-    const containerElement = patternRef.value;
+    const _containerElement = patternRef.value;
     const patternSize = 60;
     const dotSize = 1;
 
@@ -48,8 +48,8 @@ onMounted(() => {
     rect.setAttribute('fill', 'url(#dot-pattern)');
 
     svg.appendChild(defs);
-    svg.appendChild(rect);
-    containerElement.appendChild(svg);
+    // svg.appendChild(rect);
+    // containerElement.appendChild(svg);
   }
 });
 </script>

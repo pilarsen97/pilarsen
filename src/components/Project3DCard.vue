@@ -16,9 +16,6 @@ defineEmits<Emits>();
 
 const cardRef = ref<HTMLElement>();
 const isHovered = ref(false);
-let animationId: number | null = null;
-let lastUpdate = 0;
-const throttleDelay = 16; // ~60fps
 
 function handleMouseMove(e: MouseEvent) {
   if (!cardRef.value)
@@ -38,7 +35,7 @@ function handleMouseMove(e: MouseEvent) {
 
   // Disable transition for smooth tracking
   card.style.transition = 'none';
-  
+
   // Apply simple transform
   card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(20px)`;
 
@@ -55,7 +52,7 @@ function handleMouseLeave() {
   isHovered.value = false;
   if (cardRef.value) {
     cardRef.value.style.transition = 'transform 0.3s ease-out';
-    cardRef.value.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)`;
+    cardRef.value.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)';
     cardRef.value.style.setProperty('--mouse-x', '50%');
     cardRef.value.style.setProperty('--mouse-y', '50%');
   }

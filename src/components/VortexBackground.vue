@@ -25,32 +25,6 @@ onMounted(() => {
 
   let animationId: number;
 
-  // Intersection Observer for performance optimization
-  observer.value = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      isVisible.value = entry.isIntersecting;
-      if (!entry.isIntersecting && animationId) {
-        cancelAnimationFrame(animationId);
-      }
-      else if (entry.isIntersecting) {
-        animate();
-      }
-    });
-  }, {
-    threshold: 0.1,
-    rootMargin: '100px', // Start animation when element is near viewport
-  });
-
-  observer.value.observe(canvas);
-
-  const resizeCanvas = () => {
-    canvas.width = canvas.offsetWidth;
-    canvas.height = canvas.offsetHeight;
-  };
-
-  resizeCanvas();
-  window.addEventListener('resize', resizeCanvas);
-
   // Vortex particles - streaking lines like in Inspira UI
   const particles: Array<{
     x: number;
@@ -80,12 +54,8 @@ onMounted(() => {
     };
   };
 
-  // Initialize particles
-  for (let i = 0; i < props.particleCount; i++) {
-    particles.push(createParticle());
-  }
-
-  const animate = () => {
+  // Animation function declaration (hoisted)
+  function animate() {
     // Only animate if visible for performance
     if (!isVisible.value) {
       return;
@@ -97,83 +67,91 @@ onMounted(() => {
       ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
+      // Update and draw particles
       particles.forEach((particle, index) => {
-        particle.life++;
-
-        const prevX = particle.x;
-        const prevY = particle.y;
-
+        // Update position with smooth motion
         particle.x += particle.vx;
         particle.y += particle.vy;
+        particle.life++;
 
-        // Fade out over time with more transparency
-        const lifeFactor = 1 - (particle.life / particle.maxLife);
+        // Wrap around edges for continuous flow
+        if (particle.x < 0)
+          particle.x = canvas.width;
+        if (particle.x > canvas.width)
+          particle.x = 0;
+        if (particle.y < 0)
+          particle.y = canvas.height;
+        if (particle.y > canvas.height)
+          particle.y = 0;
 
-        // Calculate distance-based fade near borders
-        const fadeDistance = 100; // Distance from border to start fading
-        const xFade = Math.min(
-          particle.x / fadeDistance,
-          (canvas.width - particle.x) / fadeDistance,
+        // Calculate fade based on life
+        const lifeFade = 1 - (particle.life / particle.maxLife);
+        const currentAlpha = particle.alpha * lifeFade;
+
+        // Draw streaking particle
+        ctx.save();
+        ctx.globalAlpha = currentAlpha;
+        ctx.strokeStyle = `hsla(${particle.hue}, 70%, 60%, ${currentAlpha})`;
+        ctx.lineWidth = 1;
+        ctx.lineCap = 'round';
+
+        ctx.beginPath();
+        ctx.moveTo(particle.x, particle.y);
+        ctx.lineTo(
+          particle.x - particle.vx * particle.length,
+          particle.y - particle.vy * particle.length,
         );
-        const yFade = Math.min(
-          particle.y / fadeDistance,
-          (canvas.height - particle.y) / fadeDistance,
-        );
-        const borderFade = Math.min(xFade, yFade, 1);
+        ctx.stroke();
+        ctx.restore();
 
-        particle.alpha = lifeFactor * 0.4 * borderFade; // Apply border fade
-
-        if (particle.alpha > 0) {
-        // Draw streaking line
-          ctx.save();
-
-          const gradient = ctx.createLinearGradient(
-            prevX,
-            prevY,
-            particle.x - particle.vx * particle.length,
-            particle.y - particle.vy * particle.length,
-          );
-
-          gradient.addColorStop(0, `hsla(${particle.hue}, 100%, 80%, ${particle.alpha})`);
-          gradient.addColorStop(1, `hsla(${particle.hue}, 100%, 80%, 0)`);
-
-          ctx.strokeStyle = gradient;
-          ctx.lineWidth = 1.5; // Thinner lines
-          ctx.lineCap = 'round';
-
-          ctx.beginPath();
-          ctx.moveTo(particle.x, particle.y);
-          ctx.lineTo(
-            particle.x - particle.vx * particle.length,
-            particle.y - particle.vy * particle.length,
-          );
-          ctx.stroke();
-
-          ctx.restore();
-        }
-
-        // Reset particle when it dies or goes off screen
-        if (particle.life >= particle.maxLife
-          || particle.x < -100 || particle.x > canvas.width + 100
-          || particle.y < -100 || particle.y > canvas.height + 100) {
+        // Reset particle when it dies
+        if (particle.life >= particle.maxLife) {
           particles[index] = createParticle();
         }
       });
 
-      // Continue animation only if still visible
-      if (isVisible.value) {
-        animationId = requestAnimationFrame(animate);
-      }
+      animationId = requestAnimationFrame(animate);
     };
 
     // Use requestIdleCallback when available for better performance
-    if ('requestIdleCallback' in window) {
-      (window as any).requestIdleCallback(performAnimation);
+    if (window.requestIdleCallback) {
+      requestIdleCallback(performAnimation);
     }
     else {
       performAnimation();
     }
+  }
+
+  // Intersection Observer for performance optimization
+  observer.value = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      isVisible.value = entry.isIntersecting;
+      if (!entry.isIntersecting && animationId) {
+        cancelAnimationFrame(animationId);
+      }
+      else if (entry.isIntersecting) {
+        animate();
+      }
+    });
+  }, {
+    threshold: 0.1,
+    rootMargin: '100px', // Start animation when element is near viewport
+  });
+
+  observer.value.observe(canvas);
+
+  const resizeCanvas = () => {
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
   };
+
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+
+  // Initialize particles
+  for (let i = 0; i < props.particleCount; i++) {
+    particles.push(createParticle());
+  }
 
   animate();
 
@@ -227,9 +205,9 @@ onUnmounted(() => {
 /* Better mobile performance and contrast */
 @media (max-width: 768px) {
   .vortex-background {
-    background: linear-gradient(180deg, 
-      rgba(0, 0, 0, 0.9) 0%, 
-      rgba(15, 15, 15, 0.95) 50%, 
+    background: linear-gradient(180deg,
+      rgba(0, 0, 0, 0.9) 0%,
+      rgba(15, 15, 15, 0.95) 50%,
       rgba(0, 0, 0, 0.9) 100%
     );
   }
@@ -245,7 +223,7 @@ onUnmounted(() => {
   .vortex-background__canvas {
     display: none;
   }
-  
+
   .vortex-background {
     background: var(--c-grey-95);
   }
