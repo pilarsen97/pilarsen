@@ -56,7 +56,7 @@ function getAnimate() {
       :while-in-view="getAnimate()"
       :transition="{
         duration: props.duration,
-        easing: 'easeOut',
+        ease: 'easeOut',
         delay: props.delay * index,
       }"
     >
