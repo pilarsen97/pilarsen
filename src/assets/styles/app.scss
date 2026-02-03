@@ -365,59 +365,7 @@ body {
     margin-bottom: 1.5rem;
     line-height: 1.1;
     letter-spacing: -0.02em;
-    position: relative;
-    z-index: 3;
-    transform-style: preserve-3d;
-    
-    // 3D Glass text effect
-    color: transparent;
-    background: linear-gradient(145deg, 
-      rgba(255, 255, 255, 0.9) 0%,
-      rgba(255, 255, 255, 0.7) 20%,
-      rgba(255, 255, 255, 0.3) 40%,
-      rgba(255, 255, 255, 0.5) 60%,
-      rgba(255, 255, 255, 0.8) 80%,
-      rgba(255, 255, 255, 0.95) 100%
-    );
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    
-    // Glass depth and refraction
-    text-shadow: 
-      0 1px 0 rgba(255, 255, 255, 0.4),
-      0 2px 0 rgba(255, 255, 255, 0.3),
-      0 3px 0 rgba(255, 255, 255, 0.2),
-      0 4px 0 rgba(255, 255, 255, 0.1),
-      0 5px 10px rgba(0, 0, 0, 0.1),
-      0 10px 20px rgba(0, 0, 0, 0.15),
-      0 20px 40px rgba(0, 0, 0, 0.2);
-    
-    // Glass highlights
-    &::before {
-      content: attr(data-text);
-      position: absolute;
-      top: 0;
-      left: 0;
-      z-index: -1;
-      background: linear-gradient(145deg, 
-        rgba(255, 255, 255, 0.1) 0%,
-        rgba(255, 255, 255, 0.05) 50%,
-        rgba(255, 255, 255, 0.15) 100%
-      );
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      filter: blur(1px);
-    }
-    
-    
-    // Overall glass filter
-    filter: 
-      drop-shadow(0 0 20px rgba(255, 255, 255, 0.3))
-      drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1))
-      contrast(1.1)
-      brightness(1.1);
+    color: var(--c-grey-10);
 
     @media (max-width: 1024px) {
       font-size: 4rem;

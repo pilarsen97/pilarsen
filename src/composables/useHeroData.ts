@@ -7,11 +7,16 @@ import type { LocalizedText } from '@/types/portfolio';
 import { computed } from 'vue';
 import { useLanguage } from './useLanguage';
 
+interface SocialLink {
+  name: string;
+  url: string;
+  icon?: string;
+  customIcon?: boolean;
+}
+
 interface HeroData {
   greeting: LocalizedText;
   description: LocalizedText;
-  viewWork: LocalizedText;
-  contact: LocalizedText;
 }
 
 const data: HeroData = {
@@ -23,15 +28,15 @@ const data: HeroData = {
     ru: 'Разрабатываю веб-сервисы, ботов, продвигаю сайты и обучаю детей. В IT с 2012',
     en: 'I develop web services, bots, promote websites and teach children. In IT since 2012',
   },
-  viewWork: {
-    ru: 'Посмотреть работы',
-    en: 'View My Work',
-  },
-  contact: {
-    ru: 'Связаться',
-    en: 'Contact Me',
-  },
 };
+
+const socialLinks: SocialLink[] = [
+  { name: 'Telegram', url: 'https://t.me/pilarsen', icon: 'simple-icons:telegram' },
+  { name: 'VK', url: 'https://vk.com/pilarsen', icon: 'simple-icons:vk' },
+  { name: 'MAX', url: 'https://max.ru/pilarsen', customIcon: true },
+  { name: 'Instagram', url: 'https://instagram.com/pilarsen', icon: 'simple-icons:instagram' },
+  { name: 'Phone', url: 'tel:+79000000000', icon: 'lucide:phone' },
+];
 
 export function useHeroData() {
   const { localize, currentLang } = useLanguage();
@@ -40,8 +45,9 @@ export function useHeroData() {
     // Localized computed properties (auto-update on language change)
     greeting: computed(() => localize(data.greeting)),
     description: computed(() => localize(data.description)),
-    viewWorkText: computed(() => localize(data.viewWork)),
-    contactText: computed(() => localize(data.contact)),
+
+    // Social links
+    socialLinks,
 
     // Current language (for conditional rendering if needed)
     currentLang,
