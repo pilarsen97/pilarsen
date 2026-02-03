@@ -6,78 +6,94 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is Arsen's portfolio website built with Vue 3 + TypeScript + Vite. It showcases web development skills, projects, and experience since 2012. The project uses a comprehensive SCSS design system enhanced with Inspira UI components for modern animations and interactions.
 
-**🎯 Portfolio Content:**
-- Personal introduction: "Привет, я Арсен 👋"
+**Portfolio Content:**
+- Personal introduction: "Привет, я Арсен" (bilingual RU/EN)
 - Experience: Web services, bots, website promotion, and children's IT education since 2012
-- Technologies: WordPress/Laravel, Vue.js, Nuxt 3, TypeScript, SCSS
 - Services: Website development, SEO optimization, chatbot development, children's IT education
 - Projects: A&W Studio, KIBERone
 
-**📚 UI Library Integration:**
-- **Inspira UI** (https://inspira-ui.com/): For animated components and modern interactions
-- Copy-paste approach from Inspira UI documentation
-- **@vueuse/motion**: For declarative animations
-- **Key Components**: LampEffect, FlipCard, PatternBackground
+**UI Library Integration:**
+- **Inspira UI** (https://inspira-ui.com/): Copy-paste components for animations
+- **@vueuse/motion**: Declarative animations
+- **motion-v**: Motion primitives
 
 ## Development Commands
 
-- `bun run dev` - Start development server with Vite
-- `bun run build` - Build for production (runs TypeScript check + Vite build)
-- `bun run preview` - Preview production build locally
-- `bun run lintfix` - Run ESLint with auto-fix
+```bash
+bun run dev          # Start dev server (port 3000, auto-opens browser)
+bun run build        # TypeScript check + Vite production build
+bun run preview      # Preview production build
+bun run lintfix      # ESLint with auto-fix
+
+# Testing (Vitest)
+bun run test         # Run tests in watch mode
+bun run test:ui      # Run tests with UI
+bun run test:coverage # Run tests with coverage report
+```
 
 ## Project Architecture
 
-This starter template provides a solid foundation for Vue 3 applications with:
-
 ### Tech Stack
-- **Frontend**: Vue 3 with Composition API and `<script setup>` syntax
-- **Build Tool**: Vite with TypeScript support
-- **Styling**: SCSS with a comprehensive design system
-- **Linting**: ESLint with @antfu/eslint-config (enforces semicolons and single quotes)
+- **Vue 3** with Composition API and `<script setup>` syntax
+- **Vue Router** for page navigation (Home `/`, Me `/me`)
+- **Vite** with TypeScript, SCSS, and Tailwind CSS v4
+- **ESLint** with @antfu/eslint-config (enforces semicolons and single quotes)
+- **Vitest** for unit testing with happy-dom environment
 
-### Project Structure
-- `src/App.vue` - Main application component with section imports
-- `src/components/` - Vue components organized by type:
-  - `FlipCard.vue` - Interactive flip cards for services/tech
-  - `LampEffect.vue` - Hero section dramatic lighting effect
-  - `LanguageToggle.vue` - RU/EN language switcher
-  - `PatternBackground.vue` - Animated dot pattern background
-  - `sections/` - Main page sections (Hero, Services, Projects)
-  - `ui/` - Reusable UI components
-- `src/composables/` - Vue 3 composables:
-  - `usePortfolio.ts` - Central portfolio data management
-- `src/assets/styles/` - SCSS files organized by purpose:
-  - `app.scss` - Main stylesheet with CSS custom properties and glass effects
-  - `components/` - Component-specific styles
-  - `sections/` - Section-specific styles
-  - `helpers/` - SCSS functions, mixins, variables
-- `docs/` - Feature planning and documentation
+### Key Architecture Patterns
 
-### Styling System
-The project uses a comprehensive design system defined in `app.scss` with CSS custom properties for:
-- Typography (Unbounded for headings, Wix Madefor Display for body)
-- Color palette (neutral grays, white accents for glass effects)
-- Glass design system (glassmorphism buttons, 3D text effects)
-- Spacing and border radius tokens
-- Z-index management
-- Animation curves and lamp effects
+**Routing**: `src/router/index.ts` defines routes, views in `src/views/`
 
-### Key Configuration
-- Vite config includes path alias: `@styles` → `src/assets/styles`
-- ESLint enforces semicolons and single quotes
-- TypeScript strict mode enabled
-- SCSS with modern module system (`@use` instead of `@import`)
+**Data Management**: Modular composables architecture in `src/composables/`
+- **Core**: `useLanguage.ts` - Singleton language state management with `localize()` helper
+- **Section composables**: Each section has its own data composable:
+  - `useHeroData.ts` - Hero section text and CTAs
+  - `useTechData.ts` - Technologies stack
+  - `useServicesData.ts` - Services with flip cards
+  - `useProjectsData.ts` - Portfolio projects
+  - `useWorksData.ts` - Work examples
+  - `useTeamsData.ts` - Teams/organizations
+  - `useContactData.ts` - Contact information
+- **Types**: All interfaces in `src/types/portfolio.ts`
+- **Icons**: Using `@iconify/vue` - icons loaded from CDN (lucide, simple-icons, heroicons)
 
-### Component Architecture
-- **Layout Components**: Language toggle, responsive design patterns
-- **Interactive Components**: 
-  - `FlipCard.vue` - Hover-to-flip cards with "подробнее" indicator
-  - `LampEffect.vue` - Dramatic top-down lighting effect for hero
-  - `PatternBackground.vue` - Animated dot patterns with SVG generation
-- **Section Components**: Hero with lamp effect, Services with flip cards, Projects showcase
-- **Data Management**: Centralized portfolio data in `usePortfolio.ts` composable
-- **Styling**: Apple liquid glass design system with 3D text effects and glassmorphism
+**Composable Usage Pattern**:
+```ts
+// Import specific composable
+import { useHeroData } from '@/composables';
+
+// Get auto-localized computed properties
+const { greeting, description } = useHeroData();
+
+// Use in template (auto-updates on language change)
+<h1>{{ greeting }}</h1>
+```
+
+**SCSS Global Injection**: Vite automatically injects helpers into all SCSS files:
+```ts
+// vite.config.ts - helpers available globally without @use
+css: {
+  preprocessorOptions: {
+    scss: {
+      additionalData: `@use "src/assets/styles/helpers" as *;`
+    }
+  }
+}
+```
+
+### Path Aliases
+```ts
+'@'           → 'src/'
+'@/components' → 'src/components/'
+'@/assets'    → 'src/assets/'
+'@/styles'    → 'src/assets/styles/'
+```
+
+### SCSS Helpers System (`src/assets/styles/helpers/`)
+- **functions**: `rem($pixels)` - px to rem conversion, `hexToRGB($hex)`
+- **media**: Breakpoint mixins (`xs-down`, `sm-up`, `md-only`, `lg-up`, etc.)
+- **vars**: Breakpoints ($xs: 375px, $sm: 576px, $md: 720px, $lg: 992px, $xl: 1360px, $xxl: 1920px)
+- **mixins**: Reusable style patterns
 
 ## Code Quality Standards
 
