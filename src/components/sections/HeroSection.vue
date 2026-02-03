@@ -1,28 +1,31 @@
 <script setup lang="ts">
-import type { Language } from '@/composables/usePortfolio';
-import LampEffect from '@/components/LampEffect.vue';
-import { heroData } from '@/composables/usePortfolio';
+import { SingularityBackground } from '@/components/ui/bg-singularity';
+import { useHeroData } from '@/composables';
 
-interface Props {
-  currentLang: Language;
-}
-
-defineProps<Props>();
+const { greeting, description, viewWorkText, contactText } = useHeroData();
 </script>
 
 <template>
-  <LampEffect class="hero">
+  <section class="hero">
+    <SingularityBackground
+      :speed="0.8"
+      :brightness="0.9"
+      :saturation="1.2"
+      :mouse-sensitivity="0.3"
+      :damping="0.95"
+    />
+
     <div class="container">
       <div class="hero__content">
         <h1
           v-motion
           class="hero__title"
-          :data-text="heroData.greeting[currentLang]"
+          :data-text="greeting"
           :initial="{ opacity: 0, y: 50 }"
           :enter="{ opacity: 1, y: 0 }"
           :delay="200"
         >
-          {{ heroData.greeting[currentLang] }}
+          {{ greeting }}
         </h1>
         <p
           v-motion
@@ -31,7 +34,7 @@ defineProps<Props>();
           :enter="{ opacity: 1, y: 0 }"
           :delay="400"
         >
-          {{ heroData.description[currentLang] }}
+          {{ description }}
         </p>
         <div
           v-motion
@@ -41,13 +44,23 @@ defineProps<Props>();
           :delay="600"
         >
           <a href="#projects" class="button button--primary">
-            {{ heroData.viewWork[currentLang] }}
+            {{ viewWorkText }}
           </a>
           <a href="#contact" class="button button--secondary">
-            {{ heroData.contact[currentLang] }}
+            {{ contactText }}
           </a>
         </div>
       </div>
     </div>
-  </LampEffect>
+  </section>
 </template>
+
+<style lang="scss" scoped>
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+}
+</style>

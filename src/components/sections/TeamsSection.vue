@@ -1,22 +1,17 @@
 <script setup lang="ts">
-import type { Language } from '@/composables/usePortfolio';
-import { teamsData } from '@/composables/usePortfolio';
+import { useTeamsData } from '@/composables';
 
-interface Props {
-  currentLang: Language;
-}
-
-defineProps<Props>();
+const { title, items } = useTeamsData();
 </script>
 
 <template>
   <section class="teams">
     <h2 class="teams__title">
-      {{ teamsData.title[currentLang] }}
+      {{ title }}
     </h2>
     <div class="teams__grid">
       <div
-        v-for="(team, index) in teamsData.items"
+        v-for="(team, index) in items"
         :key="team.name"
         v-motion
         class="team-card"
@@ -36,7 +31,7 @@ defineProps<Props>();
 
         <!-- Description -->
         <p class="team-card__description">
-          {{ team.description[currentLang] }}
+          {{ team.description }}
         </p>
 
         <!-- Tags -->

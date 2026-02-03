@@ -1,13 +1,10 @@
 <script setup lang="ts">
-import type { Language, ProjectItem } from '@/composables/usePortfolio';
+import type { ProjectItem } from '@/types/portfolio';
 import Project3DCard from '@/components/Project3DCard.vue';
-import { projectsData } from '@/composables/usePortfolio';
+import { useLanguage, useProjectsData } from '@/composables';
 
-interface Props {
-  currentLang: Language;
-}
-
-defineProps<Props>();
+const { title, raw } = useProjectsData();
+const { currentLang } = useLanguage();
 
 function handleShowDetails(_project: ProjectItem) {
   // TODO: Implement details modal or navigation
@@ -18,11 +15,11 @@ function handleShowDetails(_project: ProjectItem) {
 <template>
   <section class="projects">
     <h2 class="projects__title">
-      {{ projectsData.title[currentLang] }}
+      {{ title }}
     </h2>
     <div class="projects__grid">
       <div
-        v-for="(project, index) in projectsData.items"
+        v-for="(project, index) in raw"
         :key="project.name"
         v-motion
         :initial="{ opacity: 0, y: 30 }"
