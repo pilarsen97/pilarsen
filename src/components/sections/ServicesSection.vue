@@ -1,25 +1,20 @@
 <script setup lang="ts">
-import type { Language } from '@/composables/usePortfolio';
 import FlipCard from '@/components/FlipCard.vue';
 import PatternBackground from '@/components/PatternBackground.vue';
-import { servicesData } from '@/composables/usePortfolio';
+import { useServicesData } from '@/composables';
 
-interface Props {
-  currentLang: Language;
-}
-
-defineProps<Props>();
+const { title, items, currentLang } = useServicesData();
 </script>
 
 <template>
   <PatternBackground class="services pattern-background--animated">
     <div class="container">
       <h2 class="services__title">
-        {{ servicesData.title[currentLang] }}
+        {{ title }}
       </h2>
       <div class="services__grid">
         <FlipCard
-          v-for="(service, index) in servicesData.items"
+          v-for="(service, index) in items"
           :key="service.name"
           v-motion
           :initial="{ opacity: 0, scale: 0.8 }"
@@ -27,9 +22,12 @@ defineProps<Props>();
           :delay="100 * index"
           :front-icon="service.icon"
           :front-title="service.name"
-          :front-subtitle="service.tagline[currentLang]"
+          :front-subtitle="service.tagline"
           :back-title="service.name"
-          :back-description="service.description[currentLang]"
+          :back-subtitle="service.tagline"
+          :back-description="service.description"
+          :features="service.features"
+          :lang="currentLang"
         />
       </div>
     </div>
