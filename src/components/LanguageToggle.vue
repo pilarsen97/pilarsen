@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Language } from '@/composables/usePortfolio';
+import type { Language } from '@/types/portfolio';
 
 interface Props {
   currentLang: Language;

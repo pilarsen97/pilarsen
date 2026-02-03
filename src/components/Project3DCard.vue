@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Language, ProjectItem } from '@/composables/usePortfolio';
+import type { Language, ProjectItem } from '@/types/portfolio';
 import { onMounted, onUnmounted, ref } from 'vue';
 
 interface Props {
