@@ -55,27 +55,25 @@ const footerText = computed(() =>
         </p>
       </div>
 
-      <div class="technologies__content">
-        <!-- Icon Cloud -->
-        <div class="technologies__cloud">
-          <IconCloud
-            :images="imageUrls"
-            :size="400"
-          />
-        </div>
+      <!-- Icon Cloud (centered) -->
+      <div class="technologies__cloud">
+        <IconCloud
+          :images="imageUrls"
+          :size="320"
+        />
+      </div>
 
-        <!-- Tech List -->
-        <div class="technologies__list">
-          <div
-            v-for="tech in items"
-            :key="tech.name"
-            class="technologies__item"
-          >
-            <div class="technologies__item-header">
-              <Icon :icon="tech.icon" class="technologies__item-icon" />
-              <span class="technologies__item-name">{{ tech.name }}</span>
-            </div>
-            <span class="technologies__item-desc">{{ tech.description }}</span>
+      <!-- Tech Grid with hover descriptions -->
+      <div class="technologies__grid">
+        <div
+          v-for="tech in items"
+          :key="tech.name"
+          class="tech-card"
+        >
+          <Icon :icon="tech.icon" class="tech-card__icon" />
+          <span class="tech-card__name">{{ tech.name }}</span>
+          <div class="tech-card__tooltip">
+            {{ tech.description }}
           </div>
         </div>
       </div>
@@ -89,70 +87,27 @@ const footerText = computed(() =>
 
 <style lang="scss" scoped>
 .technologies {
-  &__content {
-    display: grid;
-    grid-template-columns: 400px 1fr;
-    gap: 3rem;
-    align-items: center;
-    margin-top: 2rem;
-
-    @media (max-width: 992px) {
-      grid-template-columns: 1fr;
-      justify-items: center;
-    }
-  }
-
   &__cloud {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: 1rem auto 2rem;
   }
 
-  &__list {
-    display: flex;
-    flex-direction: column;
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 0.75rem;
-  }
+    max-width: 800px;
+    margin: 0 auto;
 
-  &__item {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-    padding: 0.75rem 1rem;
-    background: rgba(255, 255, 255, 0.03);
-    border-radius: var(--b-radius-sm);
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    transition: all 0.2s ease;
-
-    &:hover {
-      background: rgba(255, 255, 255, 0.06);
-      border-color: rgba(255, 255, 255, 0.1);
+    @media (max-width: 768px) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
     }
-  }
 
-  &__item-header {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  &__item-icon {
-    width: 1.25rem;
-    height: 1.25rem;
-    color: var(--c-grey-30);
-    flex-shrink: 0;
-  }
-
-  &__item-name {
-    font-weight: 600;
-    color: var(--c-grey-10);
-    font-size: 1rem;
-  }
-
-  &__item-desc {
-    font-size: 0.875rem;
-    color: var(--c-grey-40);
-    line-height: 1.4;
+    @media (max-width: 480px) {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
   }
 
   &__footer {
@@ -161,6 +116,75 @@ const footerText = computed(() =>
     font-size: 0.9rem;
     color: var(--c-grey-50);
     font-style: italic;
+  }
+}
+
+.tech-card {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 0.875rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: var(--b-radius-sm);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  cursor: default;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(99, 102, 241, 0.3);
+    transform: translateY(-2px);
+
+    .tech-card__tooltip {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(-50%) scale(1);
+    }
+  }
+
+  &__icon {
+    width: 1.125rem;
+    height: 1.125rem;
+    color: var(--c-grey-30);
+    flex-shrink: 0;
+    transition: color 0.2s ease;
+
+    .tech-card:hover & {
+      color: var(--c-primary, #6366f1);
+    }
+  }
+
+  &__name {
+    font-weight: 500;
+    color: var(--c-grey-10);
+    font-size: 0.875rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__tooltip {
+    position: fixed;
+    top: 50%;
+    left: 1rem;
+    right: 1rem;
+    transform: translateY(-50%) scale(0.95);
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 1rem 1.25rem;
+    background: rgba(30, 30, 40, 0.98);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: var(--b-radius-sm);
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: var(--c-grey-10);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease;
+    z-index: 100;
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.5);
+    pointer-events: none;
   }
 }
 </style>
