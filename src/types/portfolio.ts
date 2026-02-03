@@ -38,6 +38,7 @@ export interface ProjectItem {
 export interface WorkItem {
   title: string;
   description: LocalizedText;
+  icon?: string;
   image?: string;
   link?: string;
   tags: string[];
@@ -111,6 +112,7 @@ export interface LocalizedProject {
 export interface LocalizedWork {
   title: string;
   description: string;
+  icon?: string;
   image?: string;
   link?: string;
   tags: string[];

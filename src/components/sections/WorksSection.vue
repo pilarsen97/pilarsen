@@ -35,6 +35,9 @@ const secondRow = computed(() => items.value.slice(Math.ceil(items.value.length 
           rel="noopener noreferrer"
         >
           <div v-if="work.isAWStudio" class="work-card__badge">A&W</div>
+          <div class="work-card__icon">
+            <Icon :icon="work.icon || 'lucide:globe'" />
+          </div>
           <div class="work-card__content">
             <h3 class="work-card__title">
               {{ work.title }}
@@ -62,6 +65,9 @@ const secondRow = computed(() => items.value.slice(Math.ceil(items.value.length 
           rel="noopener noreferrer"
         >
           <div v-if="work.isAWStudio" class="work-card__badge">A&W</div>
+          <div class="work-card__icon">
+            <Icon :icon="work.icon || 'lucide:globe'" />
+          </div>
           <div class="work-card__content">
             <h3 class="work-card__title">
               {{ work.title }}
@@ -238,6 +244,29 @@ const secondRow = computed(() => items.value.slice(Math.ceil(items.value.length 
     letter-spacing: 0.3px;
     box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
     z-index: 2;
+  }
+
+  &__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: functions.rem(36);
+    height: functions.rem(36);
+    margin-bottom: functions.rem(12);
+    background: rgba(99, 102, 241, 0.1);
+    border-radius: functions.rem(10);
+    color: var(--c-primary, #6366f1);
+    transition: all 0.3s ease;
+
+    svg {
+      width: functions.rem(20);
+      height: functions.rem(20);
+    }
+
+    .work-card:hover & {
+      background: rgba(99, 102, 241, 0.2);
+      transform: scale(1.05);
+    }
   }
 }
 </style>
