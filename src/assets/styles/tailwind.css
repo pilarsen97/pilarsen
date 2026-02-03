@@ -1,0 +1,8 @@
+@import "tailwindcss";
+
+@theme {
+  --color-background: #222;
+  --color-foreground: #f7f7f7;
+  --font-sans: "Wix Madefor Display", system-ui, sans-serif;
+  --font-heading: "Unbounded", sans-serif;
+}

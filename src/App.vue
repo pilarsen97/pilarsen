@@ -1,23 +1,13 @@
 <script setup lang="ts">
-import { defineAsyncComponent, onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 import LanguageToggle from '@/components/LanguageToggle.vue';
-import HeroSection from '@/components/sections/HeroSection.vue';
-// import TechnologiesSection from '@/components/sections/TechnologiesSection.vue';
-import { usePortfolio } from '@/composables/usePortfolio';
-import { useSEO } from '@/composables/useSEO';
+import { useContactData, useLanguage, useSEO } from '@/composables';
 
-// Lazy load non-critical sections for better performance
-const ProjectsSection = defineAsyncComponent(() => import('@/components/sections/ProjectsSection.vue'));
-const ServicesSection = defineAsyncComponent(() => import('@/components/sections/ServicesSection.vue'));
-const TeamsSection = defineAsyncComponent(() => import('@/components/sections/TeamsSection.vue'));
-const VortexBackground = defineAsyncComponent(() => import('@/components/VortexBackground.vue'));
+const { currentLang, toggleLanguage } = useLanguage();
+const { pageTitle } = useContactData();
 
-const {
-  currentLang,
-  isDark,
-  toggleLanguage,
-  pageTitle,
-} = usePortfolio();
+// Dark theme state (always dark for this portfolio)
+const isDark = ref(true);
 
 // Initialize SEO optimization
 useSEO(currentLang);
@@ -39,38 +29,7 @@ onMounted(() => {
     />
 
     <main class="main">
-      <HeroSection :current-lang="currentLang" />
-
-      <Suspense>
-        <ServicesSection :current-lang="currentLang" />
-        <template #fallback>
-          <div class="loading-section">
-            <div class="loading-spinner" />
-          </div>
-        </template>
-      </Suspense>
-
-      <!-- <TechnologiesSection :current-lang="currentLang" /> -->
-
-      <Suspense>
-        <VortexBackground class="app-background">
-          <!-- Projects and Teams sections -->
-          <div class="container">
-            <ProjectsSection :current-lang="currentLang" />
-
-            <!-- Spacer between sections -->
-            <!--            <div class="section-spacer" /> -->
-
-            <TeamsSection :current-lang="currentLang" />
-          </div>
-        </VortexBackground>
-        <template #fallback>
-          <div class="loading-section">
-            <div class="loading-spinner" />
-            <p>Loading interactive content...</p>
-          </div>
-        </template>
-      </Suspense>
+      <router-view />
     </main>
   </div>
 </template>
