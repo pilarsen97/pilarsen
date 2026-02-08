@@ -82,11 +82,6 @@ const { greeting, description, socialLinks } = useHeroData();
   height: functions.rem(328);
   z-index: 1;
 
-  //@include media.md-up {
-  //  width: functions.rem(200);
-  //  height: functions.rem(200);
-  //}
-  //
   @include media.lg-up {
     width: functions.rem(384);
     height: functions.rem(384);
