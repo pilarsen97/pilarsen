@@ -87,10 +87,10 @@ const { greeting, description, socialLinks } = useHeroData();
   //  height: functions.rem(200);
   //}
   //
-  //@include media.lg-up {
-  //  width: functions.rem(240);
-  //  height: functions.rem(240);
-  //}
+  @include media.lg-up {
+    width: functions.rem(384);
+    height: functions.rem(384);
+  }
 }
 
 .hero__avatar {
