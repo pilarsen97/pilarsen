@@ -33,9 +33,9 @@ const data: HeroData = {
 const socialLinks: SocialLink[] = [
   { name: 'Telegram', url: 'https://t.me/pilarsen', icon: 'simple-icons:telegram' },
   { name: 'VK', url: 'https://vk.com/pilarsen', icon: 'simple-icons:vk' },
-  { name: 'MAX', url: 'https://max.ru/pilarsen', customIcon: true },
+  { name: 'MAX', url: 'https://max.ru/u/f9LHodD0cOIgi8ReTXs_hh9sgGfawFv3oHHducwb7iueyhUrqyoDpTdWWDo', customIcon: true },
   { name: 'Instagram', url: 'https://instagram.com/pilarsen', icon: 'simple-icons:instagram' },
-  { name: 'Phone', url: 'tel:+79000000000', icon: 'lucide:phone' },
+  { name: 'Phone', url: 'tel:+79093929129', icon: 'lucide:phone' },
 ];
 
 export function useHeroData() {
