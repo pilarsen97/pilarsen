@@ -276,6 +276,18 @@ export function useWorksData() {
       : 'Over 110 completed projects',
   );
 
+  const viewAllText = computed(() =>
+    currentLang.value === 'ru' ? 'Смотреть все' : 'View all',
+  );
+
+  const pageTitle = computed(() =>
+    currentLang.value === 'ru' ? 'Все работы' : 'All Works',
+  );
+
+  const backText = computed(() =>
+    currentLang.value === 'ru' ? 'На главную' : 'Back to Home',
+  );
+
   const items = computed<LocalizedWork[]>(() =>
     data.map(work => ({
       title: work.title,
@@ -291,6 +303,9 @@ export function useWorksData() {
   return {
     title,
     subtitle,
+    viewAllText,
+    pageTitle,
+    backText,
     items,
     currentLang,
     raw: data,

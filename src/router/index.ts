@@ -13,11 +13,19 @@ const routes = [
     name: 'Me',
     component: Me,
   },
+  {
+    path: '/works',
+    name: 'Works',
+    component: () => import('@/views/Works.vue'),
+  },
 ];
 
 const router = createRouter({
   history: createWebHistory(),
   routes,
+  scrollBehavior() {
+    return { top: 0 };
+  },
 });
 
 export default router;

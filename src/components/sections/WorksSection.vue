@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { Icon } from '@iconify/vue';
 import { computed } from 'vue';
+import AppButton from '@/components/ui/AppButton.vue';
 import { Marquee } from '@/components/ui/marquee';
 import { useWorksData } from '@/composables';
 
-const { title, subtitle, items } = useWorksData();
+const { title, subtitle, viewAllText, items } = useWorksData();
 
 // Split items into two rows for the marquee
 const firstRow = computed(() => items.value.slice(0, Math.ceil(items.value.length / 2)));
@@ -85,6 +86,12 @@ const secondRow = computed(() => items.value.slice(Math.ceil(items.value.length 
         </a>
       </Marquee>
     </div>
+
+    <div class="works__footer">
+      <AppButton variant="outline-primary" to="/works">
+        {{ viewAllText }}
+      </AppButton>
+    </div>
   </section>
 </template>
 
@@ -135,6 +142,16 @@ const secondRow = computed(() => items.value.slice(Math.ceil(items.value.length 
     display: flex;
     flex-direction: column;
     gap: functions.rem(16);
+  }
+
+  &__footer {
+    display: flex;
+    justify-content: center;
+    margin-top: functions.rem(40);
+
+    @include media.md-down {
+      margin-top: functions.rem(28);
+    }
   }
 }
 
