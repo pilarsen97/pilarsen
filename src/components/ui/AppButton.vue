@@ -78,104 +78,220 @@ function handleClick(event: Event) {
 
 <style lang="scss" scoped>
 @use '@/assets/styles/helpers/functions';
-@use '@/assets/styles/helpers/mixins';
+@use '@/assets/styles/helpers/media';
 
 .app-button {
-  @include mixins.button-reset;
-  @include mixins.smooth-hover;
-
-  --btn-padding: var(--btn-padding);
-  --btn-font-size: var(--btn-f-size);
-  --btn-border-radius: var(--btn-b-radius);
-  --btn-bg: transparent;
-  --btn-color: var(--c-grey-90);
-  --btn-border: 1px solid transparent;
-
   position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  padding: var(--btn-padding);
-  font-size: var(--btn-font-size);
-  font-weight: 500;
-  border-radius: var(--btn-border-radius);
-  border: var(--btn-border);
-  background: var(--btn-bg);
-  color: var(--btn-color);
+  gap: functions.rem(8);
+  padding: 12px 24px;
+  font: inherit;
+  font-size: functions.rem(16);
+  font-weight: 600;
+  line-height: 1.2;
+  border-radius: 16px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--c-grey-10);
   text-decoration: none;
   cursor: pointer;
   white-space: nowrap;
+  outline: none;
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  user-select: none;
+  -webkit-user-select: none;
 
-  &:hover:not(&--disabled):not(&--loading) {
-    transform: translateY(-1px);
+  @include media.md-down {
+    padding: 10px 20px;
+    font-size: functions.rem(15);
   }
 
+  &:hover:not(&--disabled):not(&--loading) {
+    transform: translateY(-2px);
+  }
+
+  &:active:not(&--disabled):not(&--loading) {
+    transform: translateY(0) scale(0.98);
+    transition: transform 0.1s ease;
+  }
+
+  &:focus-visible {
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.15);
+  }
+
+  // --- Variants ---
+
   &--primary {
-    --btn-bg: var(--c-primary);
-    --btn-color: var(--c-grey-00);
+    background: linear-gradient(145deg,
+      rgba(255, 255, 255, 0.15) 0%,
+      rgba(255, 255, 255, 0.05) 50%,
+      rgba(255, 255, 255, 0.1) 100%
+    );
+    border-color: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(20px) saturate(180%);
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.12),
+      inset 0 1px 0 rgba(255, 255, 255, 0.3),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      left: -100%;
+      background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.2) 50%, transparent 100%);
+      transition: left 0.6s ease;
+      pointer-events: none;
+    }
 
     &:hover {
-      --btn-bg: var(--c-primary-dark);
+      background: linear-gradient(145deg,
+        rgba(255, 255, 255, 0.25) 0%,
+        rgba(255, 255, 255, 0.15) 50%,
+        rgba(255, 255, 255, 0.2) 100%
+      );
+      box-shadow:
+        0 12px 40px rgba(0, 0, 0, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.2);
+
+      &::before {
+        left: 100%;
+      }
     }
   }
 
   &--secondary {
-    --btn-bg: var(--c-secondary);
-    --btn-color: var(--c-grey-00);
+    background: linear-gradient(145deg,
+      rgba(255, 255, 255, 0.08) 0%,
+      rgba(255, 255, 255, 0.02) 50%,
+      rgba(255, 255, 255, 0.06) 100%
+    );
+    border-color: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(20px) saturate(180%);
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.08),
+      inset 0 1px 0 rgba(255, 255, 255, 0.15),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.05);
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      left: -100%;
+      background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.1) 50%, transparent 100%);
+      transition: left 0.6s ease;
+      pointer-events: none;
+    }
 
     &:hover {
-      --btn-bg: var(--c-secondary-dark);
+      background: linear-gradient(145deg,
+        rgba(255, 255, 255, 0.15) 0%,
+        rgba(255, 255, 255, 0.08) 50%,
+        rgba(255, 255, 255, 0.12) 100%
+      );
+      border-color: rgba(255, 255, 255, 0.25);
+      box-shadow:
+        0 12px 40px rgba(0, 0, 0, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.25),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.1);
+
+      &::before {
+        left: 100%;
+      }
     }
   }
 
   &--outline-primary {
-    --btn-border: 1px solid var(--c-primary);
-    --btn-color: var(--c-primary);
+    background: linear-gradient(145deg,
+      rgba(255, 255, 255, 0.08) 0%,
+      rgba(255, 255, 255, 0.02) 50%,
+      rgba(255, 255, 255, 0.06) 100%
+    );
+    border-color: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(20px) saturate(180%);
+    box-shadow:
+      0 8px 32px rgba(0, 0, 0, 0.08),
+      inset 0 1px 0 rgba(255, 255, 255, 0.15),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.05);
+    overflow: hidden;
+
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      left: -100%;
+      background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.1) 50%, transparent 100%);
+      transition: left 0.6s ease;
+      pointer-events: none;
+    }
 
     &:hover {
-      --btn-bg: var(--c-primary);
-      --btn-color: var(--c-grey-00);
+      background: linear-gradient(145deg,
+        rgba(255, 255, 255, 0.15) 0%,
+        rgba(255, 255, 255, 0.08) 50%,
+        rgba(255, 255, 255, 0.12) 100%
+      );
+      border-color: rgba(255, 255, 255, 0.3);
+      box-shadow:
+        0 12px 40px rgba(0, 0, 0, 0.12),
+        inset 0 1px 0 rgba(255, 255, 255, 0.25),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.1);
+
+      &::before {
+        left: 100%;
+      }
     }
   }
 
   &--outline-secondary {
-    --btn-border: 1px solid var(--c-secondary);
-    --btn-color: var(--c-secondary);
+    background: rgba(255, 255, 255, 0.03);
+    border-color: rgba(255, 255, 255, 0.15);
+    color: var(--c-grey-30);
 
     &:hover {
-      --btn-bg: var(--c-secondary);
-      --btn-color: var(--c-grey-00);
+      color: var(--c-grey-10);
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(255, 255, 255, 0.25);
     }
   }
 
   &--ghost {
-    --btn-color: var(--c-grey-70);
+    color: var(--c-grey-30);
 
     &:hover {
-      --btn-bg: var(--c-grey-20);
-      --btn-color: var(--c-grey-90);
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--c-grey-00);
     }
   }
 
   &--link {
-    --btn-color: var(--c-primary);
+    color: var(--c-grey-30);
     padding: 0;
+    border-radius: 0;
 
     &:hover {
-      --btn-color: var(--c-primary-dark);
+      color: var(--c-grey-00);
     }
   }
 
+  // --- Sizes ---
+
   &--sm {
-    --btn-padding: var(--btn-padding-sm);
-    --btn-font-size: var(--btn-f-size-sm);
+    padding: 8px 16px;
+    font-size: functions.rem(14);
   }
 
   &--lg {
-    --btn-padding: 16px 32px;
-    --btn-font-size: functions.rem(18);
+    padding: 16px 32px;
+    font-size: functions.rem(18);
   }
+
+  // --- States ---
 
   &--full-width {
     width: 100%;
@@ -197,15 +313,23 @@ function handleClick(event: Event) {
     }
   }
 
+  // --- Children ---
+
+  &__text {
+    display: inline-flex;
+    align-items: center;
+    gap: functions.rem(6);
+  }
+
   &__icon {
     flex-shrink: 0;
 
     &--left {
-      margin-right: -0.25rem;
+      margin-right: functions.rem(-4);
     }
 
     &--right {
-      margin-left: -0.25rem;
+      margin-left: functions.rem(-4);
     }
   }
 
