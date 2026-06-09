@@ -5,7 +5,8 @@ import HeroSection from '@/components/sections/HeroSection.vue';
 // Lazy load non-critical sections for better performance
 const AdvantagesSection = defineAsyncComponent(() => import('@/components/sections/AdvantagesSection.vue'));
 const ProjectsSection = defineAsyncComponent(() => import('@/components/sections/ProjectsSection.vue'));
-const ServicesSection = defineAsyncComponent(() => import('@/components/sections/ServicesSection.vue'));
+const StatementSection = defineAsyncComponent(() => import('@/components/sections/StatementSection.vue'));
+const ServicesSection = defineAsyncComponent(() => import('@/components/sections/WhatCanIDoSection.vue'));
 const TeamsSection = defineAsyncComponent(() => import('@/components/sections/TeamsSection.vue'));
 const TechnologiesSection = defineAsyncComponent(() => import('@/components/sections/TechnologiesSection.vue'));
 const VortexBackground = defineAsyncComponent(() => import('@/components/VortexBackground.vue'));
@@ -15,6 +16,15 @@ const WorksSection = defineAsyncComponent(() => import('@/components/sections/Wo
 <template>
   <div>
     <HeroSection />
+
+    <Suspense>
+      <StatementSection />
+      <template #fallback>
+        <div class="loading-section">
+          <div class="loading-spinner" />
+        </div>
+      </template>
+    </Suspense>
 
     <Suspense>
       <ServicesSection />
@@ -55,8 +65,8 @@ const WorksSection = defineAsyncComponent(() => import('@/components/sections/Wo
     <Suspense>
       <VortexBackground class="app-background">
         <!-- Projects and Teams sections -->
+        <ProjectsSection />
         <div class="container">
-          <ProjectsSection />
           <TeamsSection />
         </div>
       </VortexBackground>
@@ -88,7 +98,7 @@ const WorksSection = defineAsyncComponent(() => import('@/components/sections/Wo
 .loading-spinner {
   width: 40px;
   height: 40px;
-  border: 3px solid rgba(255, 255, 255, 0.1);
+  border: 3px solid rgba(var(--c-white-rgb), 0.1);
   border-top: 3px solid var(--c-grey-20);
   border-radius: 50%;
   animation: spin 1s linear infinite;

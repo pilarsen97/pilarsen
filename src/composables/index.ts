@@ -4,8 +4,9 @@
  */
 
 export { useAdvantagesData } from './useAdvantagesData';
-export { useContactData } from './useContactData';
+export { useCapitalCalculator } from './useCapitalCalculator';
 
+export { useContactData } from './useContactData';
 // Data composables (section-specific)
 export { useHeroData } from './useHeroData';
 // Core language management
@@ -13,8 +14,10 @@ export { useLanguage } from './useLanguage';
 export { useProjectsData } from './useProjectsData';
 // SEO
 export { useSEO } from './useSEO';
-export { useServicesData } from './useServicesData';
+export { useStatementData } from './useStatementData';
 export { useTeamsData } from './useTeamsData';
 export { useTechData } from './useTechData';
 
+export { useWhatCanIDoData } from './useWhatCanIDoData';
+export { useWikiData } from './useWikiData';
 export { useWorksData } from './useWorksData';

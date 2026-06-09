@@ -18,6 +18,26 @@ const routes = [
     name: 'Works',
     component: () => import('@/views/Works.vue'),
   },
+  {
+    path: '/services',
+    name: 'Services',
+    component: () => import('@/views/Services.vue'),
+  },
+  {
+    path: '/services/capital-calc',
+    name: 'CapitalCalc',
+    component: () => import('@/views/CapitalCalc.vue'),
+  },
+  {
+    path: '/wiki',
+    name: 'Wiki',
+    component: () => import('@/views/Wiki.vue'),
+  },
+  {
+    path: '/wiki/:category/:slug',
+    name: 'WikiArticle',
+    component: () => import('@/views/WikiArticle.vue'),
+  },
 ];
 
 const router = createRouter({
