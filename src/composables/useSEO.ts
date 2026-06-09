@@ -1,5 +1,5 @@
 import type { Ref } from 'vue';
-import { computed, watch } from 'vue';
+import { computed, onMounted, watch } from 'vue';
 
 interface SEOData {
   title: string;
@@ -97,11 +97,10 @@ export function useSEO(currentLang: Ref<'ru' | 'en'>) {
     document.documentElement.lang = currentLang.value;
   }
 
-  // Watch for language changes and update SEO
+  // Watch for language changes and update SEO (post-mount only — touches `document`)
   watch(currentLang, (lang) => {
-    const data = seoData.value[lang];
-    updateSEO(data);
-  }, { immediate: true });
+    updateSEO(seoData.value[lang]);
+  });
 
   // Add structured data for better search results
   function addStructuredData() {
@@ -143,8 +142,11 @@ export function useSEO(currentLang: Ref<'ru' | 'en'>) {
     document.head.appendChild(script);
   }
 
-  // Add structured data on mount
-  addStructuredData();
+  // Defer all DOM writes until the component is mounted (SSR-safe / HMR-safe).
+  onMounted(() => {
+    updateSEO(seoData.value[currentLang.value]);
+    addStructuredData();
+  });
 
   return {
     seoData,
