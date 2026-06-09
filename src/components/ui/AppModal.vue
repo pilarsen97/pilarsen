@@ -97,7 +97,7 @@ watch(() => props.modelValue, (isOpen) => {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(var(--c-black-rgb), 0.5);
   z-index: var(--z-top);
   @include mixins.flex-center;
   padding: 1rem;

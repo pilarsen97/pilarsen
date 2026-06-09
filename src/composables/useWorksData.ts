@@ -267,13 +267,13 @@ export function useWorksData() {
   const { localize, currentLang } = useLanguage();
 
   const title = computed(() =>
-    currentLang.value === 'ru' ? 'Работы' : 'Works',
+    currentLang.value === 'ru' ? 'Клиентские сайты' : 'Client websites',
   );
 
   const subtitle = computed(() =>
     currentLang.value === 'ru'
-      ? 'Более 110 реализованных проектов'
-      : 'Over 110 completed projects',
+      ? '110+ сайтов, сделанных в студии A&W с 2012 года'
+      : '110+ websites built at A&W studio since 2012',
   );
 
   const viewAllText = computed(() =>

@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { Icon } from '@iconify/vue';
+import AppButton from '@/components/ui/AppButton.vue';
 import { SingularityBackground } from '@/components/ui/bg-singularity';
 import { BlurReveal } from '@/components/ui/blur-reveal';
 import { useHeroData } from '@/composables';
 
-const { greeting, description, socialLinks } = useHeroData();
+const { greeting, description, ctaPrimary, ctaSecondary, socialLinks } = useHeroData();
 </script>
 
 <template>
@@ -38,6 +39,26 @@ const { greeting, description, socialLinks } = useHeroData();
         <p class="hero__description">
           {{ description }}
         </p>
+        <div class="hero__actions">
+          <AppButton
+            variant="primary"
+            :href="ctaPrimary.url"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {{ ctaPrimary.label }}
+            <Icon icon="lucide:arrow-right" />
+          </AppButton>
+          <AppButton
+            variant="outline-secondary"
+            :href="ctaSecondary.url"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Icon icon="lucide:download" />
+            {{ ctaSecondary.label }}
+          </AppButton>
+        </div>
         <div class="hero__socials">
           <a
             v-for="link in socialLinks"
@@ -135,12 +156,20 @@ const { greeting, description, socialLinks } = useHeroData();
 .hero__description {
   font-size: functions.rem(14);
   opacity: 0.8;
-  max-width: functions.rem(450);
+  max-width: functions.rem(440);
   margin-bottom: functions.rem(20);
 
   @include media.md-up {
     font-size: functions.rem(16);
   }
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: functions.rem(12);
+  justify-content: center;
+  margin-bottom: functions.rem(20);
 }
 
 .hero__socials {
@@ -158,17 +187,17 @@ const { greeting, description, socialLinks } = useHeroData();
   border-radius: 50%;
   background: linear-gradient(
     145deg,
-    rgba(255, 255, 255, 0.15) 0%,
-    rgba(255, 255, 255, 0.05) 50%,
-    rgba(255, 255, 255, 0.1) 100%
+    rgba(var(--c-white-rgb), 0.15) 0%,
+    rgba(var(--c-white-rgb), 0.05) 50%,
+    rgba(var(--c-white-rgb), 0.1) 100%
   );
   color: var(--c-grey-10);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(var(--c-white-rgb), 0.2);
   backdrop-filter: blur(20px) saturate(180%);
   box-shadow:
-    0 8px 32px rgba(0, 0, 0, 0.12),
-    inset 0 1px 0 rgba(255, 255, 255, 0.3),
-    inset 0 -1px 0 rgba(255, 255, 255, 0.1);
+    0 8px 32px rgba(var(--c-black-rgb), 0.12),
+    inset 0 1px 0 rgba(var(--c-white-rgb), 0.3),
+    inset 0 -1px 0 rgba(var(--c-white-rgb), 0.1);
   transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   cursor: pointer;
   text-decoration: none;
@@ -186,7 +215,7 @@ const { greeting, description, socialLinks } = useHeroData();
     background: linear-gradient(
       90deg,
       transparent 0%,
-      rgba(255, 255, 255, 0.2) 50%,
+      rgba(var(--c-white-rgb), 0.2) 50%,
       transparent 100%
     );
     transition: left 0.6s ease;
@@ -195,9 +224,9 @@ const { greeting, description, socialLinks } = useHeroData();
   &:hover {
     transform: translateY(-2px);
     box-shadow:
-      0 12px 40px rgba(0, 0, 0, 0.2),
-      inset 0 1px 0 rgba(255, 255, 255, 0.4),
-      inset 0 -1px 0 rgba(255, 255, 255, 0.15);
+      0 12px 40px rgba(var(--c-black-rgb), 0.2),
+      inset 0 1px 0 rgba(var(--c-white-rgb), 0.4),
+      inset 0 -1px 0 rgba(var(--c-white-rgb), 0.15);
 
     &::before {
       left: 100%;
@@ -206,7 +235,7 @@ const { greeting, description, socialLinks } = useHeroData();
 
   &:focus {
     outline: none;
-    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 0 3px rgba(var(--c-white-rgb), 0.1);
   }
 }
 

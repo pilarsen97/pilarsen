@@ -67,6 +67,7 @@ onMounted(() => {
         return;
 
       // Create more transparent trailing effect
+      // Canvas 2D context cannot resolve CSS custom properties; keep literal rgba.
       ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -118,7 +119,7 @@ onMounted(() => {
 
     // Use requestIdleCallback when available for better performance
     if (typeof window !== 'undefined' && 'requestIdleCallback' in window) {
-      (window as any).requestIdleCallback(performAnimation);
+      window.requestIdleCallback(performAnimation);
     }
     else {
       performAnimation();
@@ -209,9 +210,9 @@ onUnmounted(() => {
 @media (max-width: 768px) {
   .vortex-background {
     background: linear-gradient(180deg,
-      rgba(0, 0, 0, 0.9) 0%,
-      rgba(15, 15, 15, 0.95) 50%,
-      rgba(0, 0, 0, 0.9) 100%
+      rgba(var(--c-black-rgb), 0.9) 0%,
+      rgba(var(--c-black-rgb), 0.95) 50%,
+      rgba(var(--c-black-rgb), 0.9) 100%
     );
   }
 

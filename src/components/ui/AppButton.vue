@@ -118,23 +118,23 @@ function handleClick(event: Event) {
   }
 
   &:focus-visible {
-    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 0 3px rgba(var(--c-white-rgb), 0.15);
   }
 
   // --- Variants ---
 
   &--primary {
     background: linear-gradient(145deg,
-      rgba(255, 255, 255, 0.15) 0%,
-      rgba(255, 255, 255, 0.05) 50%,
-      rgba(255, 255, 255, 0.1) 100%
+      rgba(var(--c-white-rgb), 0.15) 0%,
+      rgba(var(--c-white-rgb), 0.05) 50%,
+      rgba(var(--c-white-rgb), 0.1) 100%
     );
-    border-color: rgba(255, 255, 255, 0.2);
+    border-color: rgba(var(--c-white-rgb), 0.2);
     backdrop-filter: blur(20px) saturate(180%);
     box-shadow:
-      0 8px 32px rgba(0, 0, 0, 0.12),
-      inset 0 1px 0 rgba(255, 255, 255, 0.3),
-      inset 0 -1px 0 rgba(255, 255, 255, 0.1);
+      0 8px 32px rgba(var(--c-black-rgb), 0.12),
+      inset 0 1px 0 rgba(var(--c-white-rgb), 0.3),
+      inset 0 -1px 0 rgba(var(--c-white-rgb), 0.1);
     overflow: hidden;
 
     &::before {
@@ -142,21 +142,21 @@ function handleClick(event: Event) {
       position: absolute;
       inset: 0;
       left: -100%;
-      background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.2) 50%, transparent 100%);
+      background: linear-gradient(90deg, transparent 0%, rgba(var(--c-white-rgb), 0.2) 50%, transparent 100%);
       transition: left 0.6s ease;
       pointer-events: none;
     }
 
     &:hover {
       background: linear-gradient(145deg,
-        rgba(255, 255, 255, 0.25) 0%,
-        rgba(255, 255, 255, 0.15) 50%,
-        rgba(255, 255, 255, 0.2) 100%
+        rgba(var(--c-white-rgb), 0.25) 0%,
+        rgba(var(--c-white-rgb), 0.15) 50%,
+        rgba(var(--c-white-rgb), 0.2) 100%
       );
       box-shadow:
-        0 12px 40px rgba(0, 0, 0, 0.15),
-        inset 0 1px 0 rgba(255, 255, 255, 0.4),
-        inset 0 -1px 0 rgba(255, 255, 255, 0.2);
+        0 12px 40px rgba(var(--c-black-rgb), 0.15),
+        inset 0 1px 0 rgba(var(--c-white-rgb), 0.4),
+        inset 0 -1px 0 rgba(var(--c-white-rgb), 0.2);
 
       &::before {
         left: 100%;
@@ -166,16 +166,16 @@ function handleClick(event: Event) {
 
   &--secondary {
     background: linear-gradient(145deg,
-      rgba(255, 255, 255, 0.08) 0%,
-      rgba(255, 255, 255, 0.02) 50%,
-      rgba(255, 255, 255, 0.06) 100%
+      rgba(var(--c-white-rgb), 0.08) 0%,
+      rgba(var(--c-white-rgb), 0.02) 50%,
+      rgba(var(--c-white-rgb), 0.06) 100%
     );
-    border-color: rgba(255, 255, 255, 0.15);
+    border-color: rgba(var(--c-white-rgb), 0.15);
     backdrop-filter: blur(20px) saturate(180%);
     box-shadow:
-      0 8px 32px rgba(0, 0, 0, 0.08),
-      inset 0 1px 0 rgba(255, 255, 255, 0.15),
-      inset 0 -1px 0 rgba(255, 255, 255, 0.05);
+      0 8px 32px rgba(var(--c-black-rgb), 0.08),
+      inset 0 1px 0 rgba(var(--c-white-rgb), 0.15),
+      inset 0 -1px 0 rgba(var(--c-white-rgb), 0.05);
     overflow: hidden;
 
     &::before {
@@ -183,22 +183,22 @@ function handleClick(event: Event) {
       position: absolute;
       inset: 0;
       left: -100%;
-      background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.1) 50%, transparent 100%);
+      background: linear-gradient(90deg, transparent 0%, rgba(var(--c-white-rgb), 0.1) 50%, transparent 100%);
       transition: left 0.6s ease;
       pointer-events: none;
     }
 
     &:hover {
       background: linear-gradient(145deg,
-        rgba(255, 255, 255, 0.15) 0%,
-        rgba(255, 255, 255, 0.08) 50%,
-        rgba(255, 255, 255, 0.12) 100%
+        rgba(var(--c-white-rgb), 0.15) 0%,
+        rgba(var(--c-white-rgb), 0.08) 50%,
+        rgba(var(--c-white-rgb), 0.12) 100%
       );
-      border-color: rgba(255, 255, 255, 0.25);
+      border-color: rgba(var(--c-white-rgb), 0.25);
       box-shadow:
-        0 12px 40px rgba(0, 0, 0, 0.12),
-        inset 0 1px 0 rgba(255, 255, 255, 0.25),
-        inset 0 -1px 0 rgba(255, 255, 255, 0.1);
+        0 12px 40px rgba(var(--c-black-rgb), 0.12),
+        inset 0 1px 0 rgba(var(--c-white-rgb), 0.25),
+        inset 0 -1px 0 rgba(var(--c-white-rgb), 0.1);
 
       &::before {
         left: 100%;
@@ -208,16 +208,16 @@ function handleClick(event: Event) {
 
   &--outline-primary {
     background: linear-gradient(145deg,
-      rgba(255, 255, 255, 0.08) 0%,
-      rgba(255, 255, 255, 0.02) 50%,
-      rgba(255, 255, 255, 0.06) 100%
+      rgba(var(--c-white-rgb), 0.08) 0%,
+      rgba(var(--c-white-rgb), 0.02) 50%,
+      rgba(var(--c-white-rgb), 0.06) 100%
     );
-    border-color: rgba(255, 255, 255, 0.2);
+    border-color: rgba(var(--c-white-rgb), 0.2);
     backdrop-filter: blur(20px) saturate(180%);
     box-shadow:
-      0 8px 32px rgba(0, 0, 0, 0.08),
-      inset 0 1px 0 rgba(255, 255, 255, 0.15),
-      inset 0 -1px 0 rgba(255, 255, 255, 0.05);
+      0 8px 32px rgba(var(--c-black-rgb), 0.08),
+      inset 0 1px 0 rgba(var(--c-white-rgb), 0.15),
+      inset 0 -1px 0 rgba(var(--c-white-rgb), 0.05);
     overflow: hidden;
 
     &::before {
@@ -225,22 +225,22 @@ function handleClick(event: Event) {
       position: absolute;
       inset: 0;
       left: -100%;
-      background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.1) 50%, transparent 100%);
+      background: linear-gradient(90deg, transparent 0%, rgba(var(--c-white-rgb), 0.1) 50%, transparent 100%);
       transition: left 0.6s ease;
       pointer-events: none;
     }
 
     &:hover {
       background: linear-gradient(145deg,
-        rgba(255, 255, 255, 0.15) 0%,
-        rgba(255, 255, 255, 0.08) 50%,
-        rgba(255, 255, 255, 0.12) 100%
+        rgba(var(--c-white-rgb), 0.15) 0%,
+        rgba(var(--c-white-rgb), 0.08) 50%,
+        rgba(var(--c-white-rgb), 0.12) 100%
       );
-      border-color: rgba(255, 255, 255, 0.3);
+      border-color: rgba(var(--c-white-rgb), 0.3);
       box-shadow:
-        0 12px 40px rgba(0, 0, 0, 0.12),
-        inset 0 1px 0 rgba(255, 255, 255, 0.25),
-        inset 0 -1px 0 rgba(255, 255, 255, 0.1);
+        0 12px 40px rgba(var(--c-black-rgb), 0.12),
+        inset 0 1px 0 rgba(var(--c-white-rgb), 0.25),
+        inset 0 -1px 0 rgba(var(--c-white-rgb), 0.1);
 
       &::before {
         left: 100%;
@@ -249,14 +249,14 @@ function handleClick(event: Event) {
   }
 
   &--outline-secondary {
-    background: rgba(255, 255, 255, 0.03);
-    border-color: rgba(255, 255, 255, 0.15);
+    background: rgba(var(--c-white-rgb), 0.03);
+    border-color: rgba(var(--c-white-rgb), 0.15);
     color: var(--c-grey-30);
 
     &:hover {
       color: var(--c-grey-10);
-      background: rgba(255, 255, 255, 0.08);
-      border-color: rgba(255, 255, 255, 0.25);
+      background: rgba(var(--c-white-rgb), 0.08);
+      border-color: rgba(var(--c-white-rgb), 0.25);
     }
   }
 
@@ -264,7 +264,7 @@ function handleClick(event: Event) {
     color: var(--c-grey-30);
 
     &:hover {
-      background: rgba(255, 255, 255, 0.08);
+      background: rgba(var(--c-white-rgb), 0.08);
       color: var(--c-grey-00);
     }
   }

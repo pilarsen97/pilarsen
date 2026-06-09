@@ -17,71 +17,70 @@
     font-size: functions.rem(24);
     gap: 20px;
   }
-}
 
-.social-buttons__item-block {
-  display: flex;
-  flex-direction: row;
-  font-size: inherit;
-}
-
-.social-buttons__item {
-  text-decoration: none;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: #A7A7A7;
-  font-size: inherit;
-  transition: all .15s ease-in;
-
-  &:hover {
-    color: #646464;
-  }
-
-  &--dark {
-    &:hover {
-      color: #ffffff;
-    }
-  }
-}
-
-.social-buttons__icon {
-  font-size: inherit;
-
-  &::before {
+  &__item-block {
+    display: flex;
+    flex-direction: row;
     font-size: inherit;
+  }
+
+  &__item {
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--c-grey-40);
+    font-size: inherit;
+    transition: all 0.15s ease-in;
+
+    &:hover {
+      color: var(--c-grey-70);
+    }
+
+    &--dark {
+      &:hover {
+        color: var(--c-grey-00);
+      }
+    }
+
+    &--telegram {
+      i::before {
+        font-size: 0.83em;
+        left: -3px;
+        top: -2px;
+
+        @include media.md-up {
+          left: -2px;
+          top: -1px;
+        }
+      }
+    }
+  }
+
+  &__icon {
+    font-size: inherit;
+
+    &::before {
+      font-size: inherit;
+      position: relative;
+      margin-right: 3px;
+      margin-left: 0;
+
+      @include media.md-up {
+        top: -1px;
+      }
+    }
+  }
+
+  &__asterisk {
+    color: var(--c-grey-60);
+    font-size: functions.rem(16);
     position: relative;
-    margin-right: 3px;
-    margin-left: 0;
+    width: 0;
+    top: -10px;
 
     @include media.md-up {
-      top: -1px;
+      top: -6px;
     }
-  }
-}
-
-.social-buttons__item--telegram {
-
-  i::before {
-    font-size: 0.83em;
-    left: -3px;
-    top: -2px;
-
-    @include media.md-up {
-      left: -2px;
-      top: -1px;
-    }
-  }
-}
-
-.social-buttons__asterisk {
-  color: var(--c-grey-60);
-  font-size: 16px;
-  position: relative;
-  width: 0;
-  top: -10px;
-
-  @include media.md-up {
-    top: -6px;
   }
 }

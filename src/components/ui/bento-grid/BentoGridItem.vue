@@ -53,19 +53,19 @@ const props = withDefaults(defineProps<Props>(), {
   justify-content: space-between;
   padding: functions.rem(24);
   border-radius: functions.rem(20);
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(var(--c-white-rgb), 0.03);
+  border: 1px solid rgba(var(--c-white-rgb), 0.08);
   overflow: hidden;
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   min-height: functions.rem(180);
 
   &:hover {
-    background: rgba(255, 255, 255, 0.06);
-    border-color: rgba(255, 255, 255, 0.15);
+    background: rgba(var(--c-white-rgb), 0.06);
+    border-color: rgba(var(--c-white-rgb), 0.15);
     transform: translateY(-4px);
     box-shadow:
-      0 20px 40px rgba(0, 0, 0, 0.3),
-      0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+      0 20px 40px rgba(var(--c-black-rgb), 0.3),
+      0 0 0 1px rgba(var(--c-white-rgb), 0.1) inset;
   }
 
   &--col-2 {
@@ -104,14 +104,14 @@ const props = withDefaults(defineProps<Props>(), {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, var(--c-primary, #6366f1) 0%, var(--c-secondary, #8b5cf6) 100%);
+    background: linear-gradient(135deg, var(--c-primary) 0%, var(--c-violet-500) 100%);
     border-radius: functions.rem(14);
     color: white;
     transition: all 0.3s ease;
 
     .bento-item:hover & {
       transform: scale(1.1);
-      box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4);
+      box-shadow: 0 8px 24px rgba(var(--c-indigo-rgb), 0.4);
     }
 
     svg,
@@ -129,7 +129,7 @@ const props = withDefaults(defineProps<Props>(), {
   &__title {
     font-size: functions.rem(18);
     font-weight: 600;
-    color: var(--c-grey-00, #fff);
+    color: var(--c-grey-00);
     margin-bottom: functions.rem(6);
     display: flex;
     align-items: center;
@@ -139,7 +139,7 @@ const props = withDefaults(defineProps<Props>(), {
   &__description {
     font-size: functions.rem(14);
     line-height: 1.5;
-    color: var(--c-grey-40, #9ca3af);
+    color: var(--c-grey-40);
   }
 
   &__highlight {
@@ -147,7 +147,7 @@ const props = withDefaults(defineProps<Props>(), {
     top: functions.rem(16);
     right: functions.rem(16);
     padding: functions.rem(4) functions.rem(12);
-    background: linear-gradient(135deg, var(--c-primary, #6366f1) 0%, var(--c-secondary, #8b5cf6) 100%);
+    background: linear-gradient(135deg, var(--c-primary) 0%, var(--c-violet-500) 100%);
     border-radius: functions.rem(8);
     font-size: functions.rem(14);
     font-weight: 700;
@@ -172,8 +172,8 @@ const props = withDefaults(defineProps<Props>(), {
     inset: 0;
     background: linear-gradient(
       135deg,
-      rgba(99, 102, 241, 0.05) 0%,
-      rgba(139, 92, 246, 0.05) 100%
+      rgba(var(--c-indigo-rgb), 0.05) 0%,
+      rgba(var(--c-violet-rgb), 0.05) 100%
     );
     opacity: 0;
     transition: opacity 0.3s ease;

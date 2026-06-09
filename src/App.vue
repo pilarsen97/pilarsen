@@ -56,7 +56,7 @@ onMounted(() => {
 .loading-spinner {
   width: 40px;
   height: 40px;
-  border: 3px solid rgba(255, 255, 255, 0.1);
+  border: 3px solid rgba(var(--c-white-rgb), 0.1);
   border-top: 3px solid var(--c-grey-20);
   border-radius: 50%;
   animation: spin 1s linear infinite;

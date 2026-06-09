@@ -48,7 +48,8 @@ onMounted(() => {
   });
 
   if (!success) {
-    console.error('Failed to compile shader');
+    if (import.meta.env.DEV)
+      console.error('Failed to compile shader');
     return;
   }
 

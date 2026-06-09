@@ -122,9 +122,9 @@ const flipText = computed(() => props.lang === 'ru' ? 'подробнее' : 'de
     justify-content: center;
     align-items: center;
     box-shadow:
-      0 4px 20px rgba(0, 0, 0, 0.15),
-      0 0 0 1px rgba(255, 255, 255, 0.05) inset;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+      0 4px 20px rgba(var(--c-black-rgb), 0.15),
+      0 0 0 1px rgba(var(--c-white-rgb), 0.05) inset;
+    border: 1px solid rgba(var(--c-white-rgb), 0.08);
     transition: box-shadow 0.3s ease;
   }
 
@@ -143,7 +143,7 @@ const flipText = computed(() => props.lang === 'ru' ? 'подробнее' : 'de
     background: linear-gradient(145deg, var(--c-grey-80) 0%, var(--c-grey-90) 100%);
     color: var(--c-grey-10);
     transform: rotateY(180deg);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(var(--c-white-rgb), 0.1);
     justify-content: flex-start;
     align-items: flex-start;
     text-align: left;
@@ -170,7 +170,7 @@ const flipText = computed(() => props.lang === 'ru' ? 'подробнее' : 'de
     svg {
       width: 28px;
       height: 28px;
-      color: white;
+      color: var(--c-grey-00);
     }
   }
 

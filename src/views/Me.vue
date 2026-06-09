@@ -160,9 +160,9 @@ END:VCARD`;
   &__container {
     max-width: 28rem;
     width: 100%;
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(var(--c-white-rgb), 0.05);
     backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(var(--c-white-rgb), 0.1);
     border-radius: var(--b-radius-lg);
     padding: 3rem 2rem;
     text-align: center;
@@ -312,7 +312,7 @@ END:VCARD`;
   }
 
   &__navigation {
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: 1px solid rgba(var(--c-white-rgb), 0.1);
     padding-top: 2rem;
   }
 
@@ -321,11 +321,11 @@ END:VCARD`;
     padding: 1rem 1.5rem;
     font-size: functions.rem(16);
     font-weight: 500;
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(var(--c-white-rgb), 0.05);
     color: var(--c-grey-20);
 
     &:hover {
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(var(--c-white-rgb), 0.1);
     }
   }
 }

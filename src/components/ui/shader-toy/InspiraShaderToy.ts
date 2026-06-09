@@ -279,7 +279,8 @@ export class InspiraShaderToy {
       return true;
     }
     catch (error) {
-      console.error('Failed to compile shader:', error);
+      if (import.meta.env.DEV)
+        console.error('Failed to compile shader:', error);
       return false;
     }
   }

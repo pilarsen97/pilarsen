@@ -20,7 +20,7 @@ const data: TechItem[] = [
     name: 'Vue.js',
     icon: 'simple-icons:vuedotjs',
     description: {
-      ru: 'Прогрессивный JavaScript-фреймворк для интерактивных интерфейсов. Используем для SPA, админ-панелей и сложных форм.',
+      ru: 'Прогрессивный JavaScript-фреймворк для интерактивных интерфейсов. Использую для SPA, админ-панелей и сложных форм.',
       en: 'Progressive JavaScript framework for interactive interfaces. Used for SPAs, admin panels and complex forms.',
     },
   },
@@ -113,6 +113,18 @@ export function useTechData() {
     currentLang.value === 'ru' ? 'С чем работаю' : 'What I Work With',
   );
 
+  const eyebrow = computed(() =>
+    currentLang.value === 'ru' ? 'Технологии' : 'Technologies',
+  );
+
+  const titleLead = computed(() =>
+    currentLang.value === 'ru' ? 'С чем' : 'What I',
+  );
+
+  const titleAccent = computed(() =>
+    currentLang.value === 'ru' ? 'работаю' : 'work with',
+  );
+
   const subtitle = computed(() =>
     currentLang.value === 'ru'
       ? 'Проверенные и гибкие инструменты'
@@ -121,8 +133,8 @@ export function useTechData() {
 
   const description = computed(() =>
     currentLang.value === 'ru'
-      ? 'Мы не полагаемся на множество сторонних плагинов. Вместо этого используем собственные наработки, что делает сайты быстрее и безопаснее. Благодаря модульной архитектуре, функционал можно дополнять без полной переделки проекта.'
-      : 'We don\'t rely on many third-party plugins. Instead, we use our own solutions, making sites faster and more secure. Thanks to modular architecture, functionality can be extended without complete project rebuild.',
+      ? 'Не полагаюсь на десятки сторонних плагинов — пишу собственные решения. Сайты выходят в 2–3 раза быстрее и безопаснее, а модульная архитектура даёт расширять функционал без полной переделки.'
+      : 'I don\'t rely on dozens of third-party plugins — I write my own solutions. Sites come out 2–3× faster and more secure, and a modular architecture lets me extend features without a full rebuild.',
   );
 
   const items = computed<LocalizedTech[]>(() =>
@@ -135,6 +147,9 @@ export function useTechData() {
 
   return {
     title,
+    eyebrow,
+    titleLead,
+    titleAccent,
     subtitle,
     description,
     items,

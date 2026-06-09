@@ -61,21 +61,6 @@ const { pageTitle, subtitle, backText, items } = useWorksData();
   </div>
 </template>
 
-<style lang="scss">
-@use '@/assets/styles/components/work-card';
-
-.work-card--full {
-  width: 100%;
-
-  .work-card__description {
-    display: block;
-    -webkit-line-clamp: unset;
-    -webkit-box-orient: unset;
-    overflow: visible;
-  }
-}
-</style>
-
 <style lang="scss" scoped>
 @use '@/assets/styles/helpers/functions';
 @use '@/assets/styles/helpers/media';

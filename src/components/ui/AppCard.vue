@@ -111,7 +111,7 @@ const cardClasses = computed(() => [
 
     &:hover {
       transform: translateY(-4px);
-      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 20px 40px rgba(var(--c-black-rgb), 0.15);
     }
   }
 

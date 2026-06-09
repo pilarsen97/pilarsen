@@ -35,7 +35,7 @@ defineProps<Props>();
     height: 0;
     border-left: 250px solid transparent;
     border-right: 250px solid transparent;
-    border-top: 300px solid rgba(255, 255, 255, 0.12);
+    border-top: 300px solid rgba(var(--c-white-rgb), 0.12);
     filter: blur(25px);
     z-index: 1;
 
@@ -48,7 +48,7 @@ defineProps<Props>();
       height: 0;
       border-left: 150px solid transparent;
       border-right: 150px solid transparent;
-      border-top: 200px solid rgba(255, 255, 255, 0.08);
+      border-top: 200px solid rgba(var(--c-white-rgb), 0.08);
       filter: blur(40px);
     }
   }
@@ -62,9 +62,9 @@ defineProps<Props>();
     height: 500px;
     background: radial-gradient(
       ellipse 40vw 250px at center top,
-      rgba(255, 255, 255, 0.35) 0%,
-      rgba(255, 255, 255, 0.15) 40%,
-      rgba(255, 255, 255, 0.05) 60%,
+      rgba(var(--c-white-rgb), 0.35) 0%,
+      rgba(var(--c-white-rgb), 0.15) 40%,
+      rgba(var(--c-white-rgb), 0.05) 60%,
       transparent 80%
     );
     filter: blur(50px);
@@ -75,9 +75,9 @@ defineProps<Props>();
       width: 600px;
       background: radial-gradient(
         ellipse 300px 250px at center top,
-        rgba(255, 255, 255, 0.35) 0%,
-        rgba(255, 255, 255, 0.15) 40%,
-        rgba(255, 255, 255, 0.05) 60%,
+        rgba(var(--c-white-rgb), 0.35) 0%,
+        rgba(var(--c-white-rgb), 0.15) 40%,
+        rgba(var(--c-white-rgb), 0.05) 60%,
         transparent 80%
       );
     }
@@ -112,19 +112,19 @@ defineProps<Props>();
 // Dark theme adjustments
 .dark-theme .lamp-effect {
   &__beam {
-    border-top-color: rgba(255, 255, 255, 0.12);
+    border-top-color: rgba(var(--c-white-rgb), 0.12);
 
     &::before {
-      border-top-color: rgba(255, 255, 255, 0.08);
+      border-top-color: rgba(var(--c-white-rgb), 0.08);
     }
   }
 
   &__glow {
     background: radial-gradient(
       ellipse 400px 250px at center top,
-      rgba(255, 255, 255, 0.25) 0%,
-      rgba(255, 255, 255, 0.12) 30%,
-      rgba(255, 255, 255, 0.06) 50%,
+      rgba(var(--c-white-rgb), 0.25) 0%,
+      rgba(var(--c-white-rgb), 0.12) 30%,
+      rgba(var(--c-white-rgb), 0.06) 50%,
       transparent 70%
     );
   }

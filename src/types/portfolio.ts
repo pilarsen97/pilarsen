@@ -24,10 +24,14 @@ export interface TechItem {
   description: LocalizedText;
 }
 
+export type ProjectCategory = 'website' | 'telegram' | 'webapp' | 'service' | 'infra';
+
 export interface ProjectItem {
   name: string;
   company: string;
   description: LocalizedText;
+  category: ProjectCategory;
+  categoryLabel: LocalizedText;
   logo?: string;
   image?: string;
   tags: string[];
@@ -102,6 +106,8 @@ export interface LocalizedProject {
   name: string;
   company: string;
   description: string;
+  category: ProjectCategory;
+  categoryLabel: string;
   logo?: string;
   image?: string;
   tags: string[];

@@ -16,66 +16,67 @@ interface AdvantageData {
 const data: AdvantageData[] = [
   {
     title: {
-      ru: 'Модульный подход',
-      en: 'Modular Approach',
+      ru: 'Полный цикл',
+      en: 'Full cycle',
     },
     description: {
-      ru: 'Дополняем и расширяем функционал без переделки сайта. Меняем дизайн, сохраняя контент',
-      en: 'Expand functionality without rebuilding. Change design while keeping content',
+      ru: 'Веду продукт от идеи и ресёрча до запуска и поддержки — без подрядчиков-посредников',
+      en: 'I own the product from idea and research to launch and support — no middlemen',
     },
-    highlight: '30-60%',
+    highlight: '0→1',
   },
   {
     title: {
-      ru: 'Высокая скорость',
-      en: 'High Speed',
+      ru: '13 лет в разработке',
+      en: '13 years building',
     },
     description: {
-      ru: 'Минимум плагинов — пишем функционал сами. Сайты работают в 2-3 раза быстрее',
-      en: 'Minimal plugins — we write functionality ourselves. Sites run 2-3x faster',
+      ru: 'Коммерческие проекты с 2012 года — вижу решения, которые работают вдолгую',
+      en: 'Commercial projects since 2012 — I see solutions that hold up long-term',
+    },
+    highlight: '2012',
+  },
+  {
+    title: {
+      ru: '110+ проектов',
+      en: '110+ projects',
+    },
+    description: {
+      ru: 'Сайты, боты, e-commerce и сервисы для бизнеса разного масштаба',
+      en: 'Websites, bots, e-commerce and services for businesses of every size',
+    },
+    highlight: '110+',
+  },
+  {
+    title: {
+      ru: 'Инженерный подход',
+      en: 'Engineering approach',
+    },
+    description: {
+      ru: 'Проектирую архитектуру под задачу, а не собираю из плагинов — быстрее и надёжнее',
+      en: 'I design architecture for the task instead of stacking plugins — faster and more reliable',
     },
     highlight: '2-3x',
   },
   {
     title: {
-      ru: 'Экономия на редизайне',
-      en: 'Redesign Savings',
+      ru: 'Команда под масштаб',
+      en: 'A team for scale',
     },
     description: {
-      ru: 'Обновляем внешний вид сайта через 3-6 лет, сохраняя наполнение. Экономия 30-60%',
-      en: 'Refresh site appearance after 3-6 years, keeping content. Save 30-60%',
+      ru: 'Большие проекты веду с собственной командой разработчиков',
+      en: 'I run large projects with my own dev team',
     },
   },
   {
     title: {
-      ru: 'Удобная админ-панель',
-      en: 'Easy Admin Panel',
+      ru: 'За результат, а не за часы',
+      en: 'Outcome over hours',
     },
     description: {
-      ru: 'Добавляйте и редактируйте контент самостоятельно, без навыков программирования',
-      en: 'Add and edit content yourself, no programming skills required',
+      ru: 'Думаю про бизнес-задачу: ищу решение, проверяю гипотезы и довожу до результата',
+      en: 'I focus on the business problem: find the solution, test hypotheses, deliver the result',
     },
-  },
-  {
-    title: {
-      ru: 'Техподдержка',
-      en: 'Technical Support',
-    },
-    description: {
-      ru: 'Сопровождаем проект на всех этапах: от разработки до запуска и дальнейшей поддержки',
-      en: 'We support the project at all stages: from development to launch and beyond',
-    },
-  },
-  {
-    title: {
-      ru: '110+ проектов',
-      en: '110+ Projects',
-    },
-    description: {
-      ru: 'Опыт с 2012 года. Реализовано более 110 проектов разной сложности',
-      en: 'Experience since 2012. Over 110 projects of varying complexity completed',
-    },
-    highlight: '110+',
   },
 ];
 
@@ -89,7 +90,25 @@ export function useAdvantagesData() {
   const { localize, currentLang } = useLanguage();
 
   const title = computed(() =>
-    currentLang.value === 'ru' ? 'Почему мы' : 'Why Us',
+    currentLang.value === 'ru' ? 'Почему я' : 'Why Me',
+  );
+
+  const eyebrow = computed(() =>
+    currentLang.value === 'ru' ? 'Преимущества' : 'Advantages',
+  );
+
+  const titleLead = computed(() =>
+    currentLang.value === 'ru' ? 'Почему' : 'Why',
+  );
+
+  const titleAccent = computed(() =>
+    currentLang.value === 'ru' ? 'я' : 'me',
+  );
+
+  const description = computed(() =>
+    currentLang.value === 'ru'
+      ? 'Опыт с 2012 года и подход, в котором я отвечаю за весь путь продукта — от идеи до результата.'
+      : 'Experience since 2012 and an approach where I own the whole product journey — from idea to outcome.',
   );
 
   const items = computed<LocalizedAdvantageItem[]>(() =>
@@ -102,6 +121,10 @@ export function useAdvantagesData() {
 
   return {
     title,
+    eyebrow,
+    titleLead,
+    titleAccent,
+    description,
     items,
     currentLang,
     raw: data,
