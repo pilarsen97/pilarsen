@@ -241,9 +241,13 @@ export function useCapitalCalculator() {
     ];
   });
 
-  /** Horizontal goal line, only meaningful against the real-prices series. */
+  /**
+   * Horizontal goal line (target capital in today's prices). Shown in both
+   * views — it lines up with the real-prices curve, which is plotted in either
+   * mode, so the goal stays visible regardless of the nominal/real toggle.
+   */
   const goalLine = computed<number | null>(() => {
-    if (!goalResult.value.active || view.value !== 'real')
+    if (!goalResult.value.active)
       return null;
     const v = goalResult.value.requiredCapital;
     return Number.isFinite(v) ? v : null;

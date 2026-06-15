@@ -20,8 +20,13 @@
   --cap-ink-3: oklch(62% 0.010 40);
   --cap-rule: oklch(89% 0.008 40);
   --cap-rule-strong: oklch(80% 0.013 40);
-  --cap-red: #fe0000;
-  --cap-red-deep: oklch(52% 0.205 29);
+  // Accent borrowed from the home-page violet ramp (see :root --c-violet-*).
+  // Violet is the neutral brand accent (structure, markers, controls);
+  // up/down carry directional value semantics (gain vs loss).
+  --cap-red: var(--c-violet-600);
+  --cap-up: oklch(54% 0.15 152); // gain / positive / sustainable — green
+  --cap-down: oklch(52% 0.16 30); // loss / negative / depletion — red
+  --cap-red-deep: var(--cap-down); // back-compat alias
   --cap-slate: oklch(52% 0.05 248);
 
   --cap-display: 'Clash Display', sans-serif;

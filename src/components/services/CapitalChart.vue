@@ -14,6 +14,8 @@ interface Props {
   markerLabel?: string;
   /** Value to mark with a horizontal goal line */
   goalValue?: number | null;
+  /** 1-based year the goal is reached — drawn as a second vertical line */
+  goalYear?: number | null;
   goalLabel?: string;
   /** Optional scenario corridor (upper/lower bound per year) */
   band?: { upper: number[]; lower: number[] } | null;
@@ -121,6 +123,13 @@ const goalY = computed(() => {
   return y(props.goalValue);
 });
 
+const goalMarkerX = computed(() => {
+  if (props.goalYear == null)
+    return null;
+  const i = props.labels.indexOf(props.goalYear);
+  return i >= 0 ? x(i) : null;
+});
+
 const hoverIndex = ref<number | null>(null);
 
 function onMove(event: MouseEvent): void {
@@ -221,7 +230,7 @@ const tooltip = computed(() => {
         />
       </g>
 
-      <!-- goal line -->
+      <!-- goal: horizontal level line + vertical year marker (a quiet crosshair) -->
       <g v-if="goalY != null" class="cap-chart__goal">
         <line
           :x1="PADDING.left"
@@ -229,12 +238,23 @@ const tooltip = computed(() => {
           :x2="(width || 720) - PADDING.right"
           :y2="goalY"
         />
-        <text :x="(width || 720) - PADDING.right" :y="goalY - 6" text-anchor="end">
+        <text v-if="goalMarkerX == null" :x="(width || 720) - PADDING.right" :y="goalY - 6" text-anchor="end">
+          {{ goalLabel }}
+        </text>
+      </g>
+      <g v-if="goalMarkerX != null" class="cap-chart__goal">
+        <line
+          :x1="goalMarkerX"
+          :y1="PADDING.top"
+          :x2="goalMarkerX"
+          :y2="PADDING.top + innerHeight"
+        />
+        <text :x="goalMarkerX - 5" :y="PADDING.top + 10" text-anchor="end">
           {{ goalLabel }}
         </text>
       </g>
 
-      <!-- FIRE marker -->
+      <!-- FIRE / financial-independence marker -->
       <g v-if="markerX != null" class="cap-chart__marker">
         <line
           :x1="markerX"
@@ -363,13 +383,13 @@ const tooltip = computed(() => {
 
   &__marker {
     line {
-      stroke: var(--cap-red);
+      stroke: var(--cap-up);
       stroke-width: 1;
       stroke-dasharray: 3 2;
     }
 
     text {
-      fill: var(--cap-red);
+      fill: var(--cap-up);
       font-family: var(--cap-mono);
       font-size: functions.rem(9.5);
       letter-spacing: 0.1em;

@@ -3,6 +3,7 @@ import type { OneTimeExpense } from '@/types/services';
 import { computed } from 'vue';
 import { useCapitalCalculator } from '@/composables/useCapitalCalculator';
 import CapitalChart from './CapitalChart.vue';
+import InfoHint from './InfoHint.vue';
 import MoneyInput from './MoneyInput.vue';
 
 const {
@@ -109,6 +110,29 @@ const t = computed(() => isRu.value
         pd: 'ПД / мес',
         pdToday: 'ПД / мес, тек.',
       },
+      hints: {
+        extra: 'Сколько дополнительно к разнице «доходы − расходы» вы откладываете каждый месяц. Растёт вместе с инфляцией.',
+        incomeGrowth: 'На сколько процентов в год увеличиваются ваши доходы (рост зарплаты, индексация). Применяется каждый год.',
+        rate: 'Среднегодовая доходность ваших инвестиций. По ней начисляется доход на капитал.',
+        inflation: 'Среднегодовой рост цен. На неё растут расходы и по ней капитал пересчитывается в текущие цены.',
+        tax: 'Налог на инвестиционный доход. Уменьшает фактическую ставку: чистая доходность = ставка × (1 − налог).',
+        view: 'Номинал — суммы в деньгах будущего. Тек. цены — те же суммы в покупательной способности сегодняшнего дня (с поправкой на инфляцию).',
+        passive: 'Доход, который капитал приносит сам по ставке инвестиций, без вашего труда: капитал × ставка ÷ 12.',
+        freedom: 'Год, когда пассивный доход с капитала впервые покрывает ваши текущие расходы. Считается от расходов и не зависит от блока «Цель». «> N» — за срок расчёта не достигается.',
+        goal: 'Ваша личная цель. «Доход / мес» — желаемый пассивный доход; «Капитал» — желаемая сумма. Показываем год её достижения или прогресс в %.',
+        drawRate: 'Какую долю капитала снимать в год на жизнь после срока расчёта. 4% — классический «безопасный» ориентир.',
+      },
+      colHints: {
+        delta: 'Доходы − расходы + доп. взнос за месяц. Эту сумму вы откладываете. Может быть отрицательной, если расходы превысили доходы.',
+        saved: 'Сумма взносов за весь год (взнос/мес × 12), без учёта процентов на капитал.',
+        intPrev: 'Доход, начисленный за год на капитал, накопленный к началу года, по ставке инвестиций.',
+        intCur: 'Доход на взносы текущего года. Считается по половине ставки — деньги поступают в течение года, а не сразу.',
+        oneTime: 'Разовые поступления (+) и траты (−) из блока «Разовые операции», пересчитанные в цены этого года.',
+        capital: 'Накопленный капитал на конец года в номинальных деньгах (деньгах будущего).',
+        capitalToday: 'Тот же капитал, приведённый к покупательной способности сегодня с учётом инфляции.',
+        pd: 'Пассивный доход в месяц с этого капитала по ставке инвестиций, в номинальных деньгах.',
+        pdToday: 'Тот же пассивный доход, но в сегодняшних ценах — с ним и сравнивается «Фин. свобода».',
+      },
     }
   : {
       paramsTitle: 'Parameters',
@@ -182,6 +206,29 @@ const t = computed(() => isRu.value
         pd: 'PI / mo',
         pdToday: 'PI / mo, today',
       },
+      hints: {
+        extra: 'How much you set aside each month on top of the income − expenses gap. Grows with inflation.',
+        incomeGrowth: 'Annual percentage your income grows by (raises, indexation). Applied every year.',
+        rate: 'Average annual return on your investments. Interest on capital is earned at this rate.',
+        inflation: 'Average annual rise in prices. Expenses grow by it, and capital is converted to today\'s prices using it.',
+        tax: 'Tax on investment income. Lowers the effective rate: net return = rate × (1 − tax).',
+        view: 'Nominal — amounts in future money. Today — the same amounts in today\'s purchasing power (inflation-adjusted).',
+        passive: 'Income the capital earns on its own at the investment rate, with no work: capital × rate ÷ 12.',
+        freedom: 'The year passive income from capital first covers your current expenses. Based on expenses, independent of the Goal block. "> N" means it isn\'t reached within the horizon.',
+        goal: 'Your personal target. "Income / mo" — desired passive income; "Capital" — a target sum. We show the year it\'s reached or progress in %.',
+        drawRate: 'Share of capital to withdraw each year for living costs after the horizon. 4% is the classic "safe" benchmark.',
+      },
+      colHints: {
+        delta: 'Income − expenses + extra contribution for the month. The amount you set aside. Can be negative if expenses exceed income.',
+        saved: 'Total contributions over the year (monthly contribution × 12), excluding interest on capital.',
+        intPrev: 'Interest earned over the year on the capital accumulated by the start of the year, at the investment rate.',
+        intCur: 'Interest on this year\'s contributions. Counted at half the rate — the money arrives over the year, not upfront.',
+        oneTime: 'One-time windfalls (+) and expenses (−) from the "One-time events" block, converted to this year\'s prices.',
+        capital: 'Capital at year end in nominal money (future money).',
+        capitalToday: 'The same capital brought to today\'s purchasing power, adjusted for inflation.',
+        pd: 'Monthly passive income from this capital at the investment rate, in nominal money.',
+        pdToday: 'The same passive income, but in today\'s prices — this is what "Financial independence" compares against.',
+      },
     },
 );
 
@@ -207,6 +254,16 @@ function sliderProgress(field: SliderField): string {
   return `${((value - field.min) / (field.max - field.min)) * 100}%`;
 }
 
+function sliderHint(field: SliderField): string {
+  const map: Partial<Record<SliderField['key'], string>> = {
+    incomeGrowth: t.value.hints.incomeGrowth,
+    rate: t.value.hints.rate,
+    inflation: t.value.hints.inflation,
+    taxRate: t.value.hints.tax,
+  };
+  return map[field.key] ?? '';
+}
+
 function axisLabel(value: number): string {
   if (value >= 1_000_000)
     return `${Math.round(value / 1_000_000)} ${isRu.value ? 'млн' : 'M'}`;
@@ -219,9 +276,18 @@ const capCaption = computed(() => view.value === 'nominal'
   ? `${t.value.capCaption} ${inputs.years} ${t.value.yearsUnit}`
   : `${t.value.capCaption} ${inputs.years} ${t.value.yearsUnit} · ${t.value.capCaptionReal}`);
 
-const primaryFigure = computed(() =>
-  formatMoney(view.value === 'nominal' ? summary.value.finalCapital : summary.value.finalCapitalToday),
-);
+/**
+ * Headline figure split into amount + currency so the ₽ can be down-styled and
+ * the digit groups spaced for legibility. Group separators are normalised to a
+ * plain space (Intl ru-RU emits U+202F, which `word-spacing` does not affect).
+ */
+const primaryParts = computed(() => {
+  const value = view.value === 'nominal' ? summary.value.finalCapital : summary.value.finalCapitalToday;
+  const amount = new Intl.NumberFormat(isRu.value ? 'ru-RU' : 'en-US', {
+    maximumFractionDigits: 0,
+  }).format(Math.round(value)).replace(/\s/g, ' ');
+  return { amount, currency: '₽' };
+});
 
 const otherFigure = computed(() => view.value === 'nominal'
   ? { label: t.value.summaryOther, value: formatMoney(summary.value.finalCapitalToday) }
@@ -306,6 +372,68 @@ function esc(value: string): string {
   ));
 }
 
+// Presentation properties to bake onto the cloned SVG — the live chart colours
+// come from `var(--cap-*)` custom properties that don't exist in the print
+// window, so we resolve them to concrete values via getComputedStyle.
+const SVG_STYLE_PROPS = [
+  'fill',
+  'fill-opacity',
+  'stroke',
+  'stroke-width',
+  'stroke-dasharray',
+  'stroke-linejoin',
+  'stroke-linecap',
+  'stroke-opacity',
+  'opacity',
+  'font-family',
+  'font-size',
+  'font-weight',
+  'letter-spacing',
+  'text-transform',
+] as const;
+
+function inlineSvgStyles(source: Element, clone: Element): void {
+  const sourceEls = [source, ...Array.from(source.querySelectorAll('*'))];
+  const cloneEls = [clone, ...Array.from(clone.querySelectorAll('*'))];
+  sourceEls.forEach((el, i) => {
+    const target = cloneEls[i];
+    if (!target)
+      return;
+    const cs = window.getComputedStyle(el);
+    let style = '';
+    for (const prop of SVG_STYLE_PROPS) {
+      const value = cs.getPropertyValue(prop);
+      if (value)
+        style += `${prop}:${value};`;
+    }
+    target.setAttribute('style', style);
+  });
+}
+
+/** Clone the on-screen chart SVG with resolved styles, scaled to the page width. */
+function chartSvgHtml(): string {
+  const live = document.querySelector('.cap-chart__svg');
+  if (!(live instanceof SVGSVGElement))
+    return '';
+  const clone = live.cloneNode(true) as SVGSVGElement;
+  inlineSvgStyles(live, clone);
+  clone.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+  clone.removeAttribute('width');
+  clone.removeAttribute('height');
+  clone.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+  clone.setAttribute('style', 'width:100%;height:auto;');
+  return clone.outerHTML;
+}
+
+/** Resolve `var(--token)` references against the live instrument theme. */
+function resolveColor(color: string): string {
+  const root = document.querySelector('.instrument');
+  if (!root)
+    return color;
+  const cs = window.getComputedStyle(root);
+  return color.replace(/var\((--[\w-]+)\)/g, (_, name: string) => cs.getPropertyValue(name).trim() || color);
+}
+
 function exportPdf(): void {
   const c = t.value;
   const win = window.open('', '_blank', 'width=1200,height=900');
@@ -339,6 +467,19 @@ function exportPdf(): void {
   const summaryCardsHtml = readouts
     .map(([label, value]) => `<div class="card"><h4>${esc(label)}</h4><div class="value">${esc(value)}</div></div>`)
     .join('');
+
+  const chartSvg = chartSvgHtml();
+  const legendItems: [string, string][] = chartSeries.value.map(s => [resolveColor(s.color), s.name]);
+  if (fire.value.reached)
+    legendItems.push([resolveColor('var(--cap-up)'), `${c.freedom} · ${fire.value.year} ${c.yearsUnit}`]);
+  if (goalResult.value.active && goalResult.value.reachedYear)
+    legendItems.push([resolveColor('var(--cap-ink-2)'), `${c.goalTitle} · ${goalResult.value.reachedYear} ${c.yearsUnit}`]);
+  const legendHtml = legendItems
+    .map(([color, name]) => `<span class="lg"><i style="background:${color}"></i>${esc(name)}</span>`)
+    .join('');
+  const chartHtml = chartSvg
+    ? `<h3>${esc(c.chartTitle)}</h3><div class="chart">${chartSvg}</div><div class="legend">${legendHtml}</div>`
+    : '';
 
   const headerCells = Object.values(c.cols).map(col => `<th>${esc(col)}</th>`).join('');
   const bodyRows = rows.value.map((r) => {
@@ -380,7 +521,12 @@ function exportPdf(): void {
   .card { flex: 1 1 200px; padding: 12px 14px; border-right: 1px solid #e2e2e2; }
   .card:last-child { border-right: none; }
   .card h4 { font-size: 9px; text-transform: uppercase; letter-spacing: 0.08em; color: #7a7a7a; margin-bottom: 6px; font-weight: 600; }
-  .card .value { font-size: 17px; font-weight: 700; color: #fe0000; }
+  .card .value { font-size: 17px; font-weight: 700; color: #7c3aed; }
+  .chart { border: 1px solid #e2e2e2; border-radius: 3px; padding: 12px 14px; break-inside: avoid; }
+  .chart svg { display: block; width: 100%; height: auto; }
+  .legend { display: flex; flex-wrap: wrap; gap: 16px; font-size: 10px; color: #555; margin: 8px 2px 0; }
+  .legend .lg { display: inline-flex; align-items: center; gap: 6px; }
+  .legend i { width: 11px; height: 11px; border-radius: 2px; display: inline-block; flex-shrink: 0; }
   @media print { @page { size: A4 landscape; margin: 10mm; } body { padding: 0; } }
 </style></head><body>
   <h1>${esc(docTitle)}</h1>
@@ -389,6 +535,7 @@ function exportPdf(): void {
   <table class="params">${paramsRows}</table>
   <h3>${esc(c.resultLabel)}</h3>
   <div class="summary">${summaryCardsHtml}</div>
+  ${chartHtml}
   <h3>${esc(c.tableTitle)}</h3>
   <table><thead><tr>${headerCells}</tr></thead><tbody>${bodyRows}</tbody></table>
   <script>window.onload = function () { setTimeout(function () { window.print(); }, 400); };<\/script>
@@ -439,14 +586,17 @@ function exportPdf(): void {
         </div>
 
         <div class="field">
-          <label class="field__label" for="cap-extra">{{ t.extra }}</label>
+          <label class="field__label" for="cap-extra">{{ t.extra }}<InfoHint :text="t.hints.extra" /></label>
           <MoneyInput id="cap-extra" v-model="inputs.extraContribution" :aria-label="t.extra" />
         </div>
 
         <div class="sliders">
           <div v-for="field in sliders" :key="field.key" class="slider">
             <div class="slider__head">
-              <span class="slider__label">{{ field.label }}</span>
+              <span class="slider__label">
+                {{ field.label }}
+                <InfoHint v-if="sliderHint(field)" :text="sliderHint(field)" />
+              </span>
               <span class="slider__value">{{ inputs[field.key] }}<i>{{ field.unit }}</i></span>
             </div>
             <input
@@ -542,9 +692,9 @@ function exportPdf(): void {
           </header>
 
           <div class="readout__primary">
-            <span class="readout__cap">{{ capCaption }}</span>
+            <span class="readout__cap">{{ capCaption }}<InfoHint :text="t.hints.view" /></span>
             <p class="readout__figure">
-              {{ primaryFigure }}
+              <span class="readout__amount">{{ primaryParts.amount }}</span><span class="readout__cur">{{ primaryParts.currency }}</span>
             </p>
             <p class="readout__today">
               {{ otherFigure.label }} — <b>{{ otherFigure.value }}</b>
@@ -563,15 +713,15 @@ function exportPdf(): void {
 
           <dl class="readout__strip">
             <div class="readout__cell">
-              <dt>{{ t.summaryPassive }}</dt>
+              <dt>{{ t.summaryPassive }}<InfoHint :text="t.hints.passive" /></dt>
               <dd>{{ passiveValue }}</dd>
             </div>
             <div class="readout__cell">
-              <dt>{{ t.freedom }}</dt>
+              <dt>{{ t.freedom }}<InfoHint :text="t.hints.freedom" /></dt>
               <dd>{{ freedomCell }}</dd>
             </div>
             <div class="readout__cell">
-              <dt>{{ lastCell.label }}</dt>
+              <dt>{{ lastCell.label }}<InfoHint v-if="goalResult.active" :text="t.hints.goal" /></dt>
               <dd>{{ lastCell.value }}</dd>
             </div>
           </dl>
@@ -593,7 +743,7 @@ function exportPdf(): void {
                 {{ t.goalCapital }}
               </button>
             </div>
-            <label class="goal__label">{{ t.goalTitle }}</label>
+            <label class="goal__label">{{ t.goalTitle }}<InfoHint :text="t.hints.goal" /></label>
             <div class="goal__input">
               <MoneyInput v-model="goal.amount" :aria-label="t.goalTitle" />
             </div>
@@ -634,6 +784,7 @@ function exportPdf(): void {
             :marker-year="fire.reached ? fire.year : null"
             :marker-label="t.fireMarker"
             :goal-value="goalLine"
+            :goal-year="goalResult.active ? goalResult.reachedYear : null"
             :goal-label="t.goalMarker"
           />
         </section>
@@ -660,15 +811,15 @@ function exportPdf(): void {
               <th>{{ t.cols.year }}</th>
               <th>{{ t.cols.income }}</th>
               <th>{{ t.cols.expenses }}</th>
-              <th>{{ t.cols.delta }}</th>
-              <th>{{ t.cols.saved }}</th>
-              <th>{{ t.cols.intPrev }}</th>
-              <th>{{ t.cols.intCur }}</th>
-              <th>{{ t.cols.oneTime }}</th>
-              <th>{{ t.cols.capital }}</th>
-              <th>{{ t.cols.capitalToday }}</th>
-              <th>{{ t.cols.pd }}</th>
-              <th>{{ t.cols.pdToday }}</th>
+              <th>{{ t.cols.delta }}<InfoHint :text="t.colHints.delta" /></th>
+              <th>{{ t.cols.saved }}<InfoHint :text="t.colHints.saved" /></th>
+              <th>{{ t.cols.intPrev }}<InfoHint :text="t.colHints.intPrev" /></th>
+              <th>{{ t.cols.intCur }}<InfoHint :text="t.colHints.intCur" /></th>
+              <th>{{ t.cols.oneTime }}<InfoHint :text="t.colHints.oneTime" /></th>
+              <th>{{ t.cols.capital }}<InfoHint :text="t.colHints.capital" /></th>
+              <th>{{ t.cols.capitalToday }}<InfoHint :text="t.colHints.capitalToday" /></th>
+              <th>{{ t.cols.pd }}<InfoHint :text="t.colHints.pd" /></th>
+              <th>{{ t.cols.pdToday }}<InfoHint :text="t.colHints.pdToday" /></th>
             </tr>
           </thead>
           <tbody>
@@ -679,7 +830,7 @@ function exportPdf(): void {
                 </td>
                 <td>{{ formatMoney(row.income) }}</td>
                 <td>{{ formatMoney(row.expenses) }}</td>
-                <td :class="row.monthlyDelta >= 0 ? '' : 'is-neg'">
+                <td :class="row.monthlyDelta >= 0 ? 'is-pos' : 'is-neg'">
                   {{ formatMoney(row.monthlyDelta) }}
                 </td>
                 <td>{{ formatMoney(row.annualSavings) }}</td>
@@ -717,7 +868,7 @@ function exportPdf(): void {
         </p>
         <div class="slider">
           <div class="slider__head">
-            <span class="slider__label">{{ t.drawRate }}</span>
+            <span class="slider__label">{{ t.drawRate }}<InfoHint :text="t.hints.drawRate" /></span>
             <span class="slider__value">{{ withdrawalRate }}<i>%</i></span>
           </div>
           <input
@@ -1240,10 +1391,23 @@ function exportPdf(): void {
     font-weight: 600;
     font-size: clamp(38px, 6.2vw, 64px);
     line-height: 0.96;
-    letter-spacing: -0.02em;
-    font-feature-settings: 'tnum' 1;
+    letter-spacing: 0;
+    font-feature-settings: 'tnum' 1, 'lnum' 1;
+    font-variant-numeric: lining-nums tabular-nums;
     color: var(--cap-red);
     margin: 0;
+  }
+
+  &__amount {
+    word-spacing: 0.12em;
+  }
+
+  &__cur {
+    margin-left: 0.18em;
+    font-size: 0.46em;
+    font-weight: 500;
+    color: var(--cap-ink-3);
+    vertical-align: baseline;
   }
 
   &__today {
@@ -1297,7 +1461,8 @@ function exportPdf(): void {
       font-family: var(--cap-display);
       font-weight: 600;
       font-size: clamp(17px, 2.3vw, 22px);
-      font-feature-settings: 'tnum' 1;
+      font-feature-settings: 'tnum' 1, 'lnum' 1;
+      font-variant-numeric: lining-nums tabular-nums;
       color: var(--cap-ink);
     }
   }
@@ -1312,7 +1477,7 @@ function exportPdf(): void {
   margin: 0;
 
   b {
-    color: var(--cap-red);
+    color: var(--cap-up);
     font-weight: 600;
   }
 
@@ -1320,7 +1485,7 @@ function exportPdf(): void {
     width: 7px;
     height: 7px;
     border-radius: 50%;
-    background: var(--cap-red);
+    background: var(--cap-up);
     flex-shrink: 0;
   }
 
@@ -1502,11 +1667,11 @@ function exportPdf(): void {
     }
 
     .is-neg {
-      color: var(--cap-red-deep);
+      color: var(--cap-down);
     }
 
     .is-pos {
-      color: var(--cap-ink);
+      color: var(--cap-up);
       font-weight: 600;
     }
 
@@ -1650,11 +1815,11 @@ function exportPdf(): void {
     }
 
     &.is-ok b {
-      color: var(--cap-ink);
+      color: var(--cap-up);
     }
 
     &.is-warn b {
-      color: var(--cap-red);
+      color: var(--cap-down);
     }
   }
 
@@ -1666,8 +1831,12 @@ function exportPdf(): void {
     background: var(--cap-ink);
   }
 
+  .is-ok &__dot {
+    background: var(--cap-up);
+  }
+
   .is-warn &__dot {
-    background: var(--cap-red);
+    background: var(--cap-down);
   }
 }
 
@@ -1706,11 +1875,11 @@ function exportPdf(): void {
     }
 
     &.is-pos {
-      color: var(--cap-ink);
+      color: var(--cap-up);
     }
 
     &.is-neg {
-      color: var(--cap-red-deep);
+      color: var(--cap-down);
     }
   }
 }
