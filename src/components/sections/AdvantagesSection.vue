@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Icon } from '@iconify/vue';
+import { onBeforeUnmount, ref } from 'vue';
 import Aurora from '@/components/ui/Aurora.vue';
 import SectionHeader from '@/components/ui/SectionHeader.vue';
 import { useAdvantagesData } from '@/composables';
@@ -18,6 +19,53 @@ const iconNames = [
 function isWide(index: number): boolean {
   return index === 0 || index === 5;
 }
+
+// MagicBento-style cursor glow: each card's border lights up near the pointer.
+const gridRef = ref<HTMLElement | null>(null);
+const GLOW_RADIUS = 380;
+let rafId = 0;
+let lastX = 0;
+let lastY = 0;
+
+function paint() {
+  rafId = 0;
+  const grid = gridRef.value;
+  if (!grid)
+    return;
+  const cards = grid.querySelectorAll<HTMLElement>('.advantage-card');
+  cards.forEach((card) => {
+    const rect = card.getBoundingClientRect();
+    card.style.setProperty('--glow-x', `${lastX - rect.left}px`);
+    card.style.setProperty('--glow-y', `${lastY - rect.top}px`);
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    const distance = Math.hypot(lastX - cx, lastY - cy);
+    const intensity = Math.max(0, 1 - distance / GLOW_RADIUS);
+    card.style.setProperty('--glow-intensity', intensity.toFixed(3));
+  });
+}
+
+function handlePointerMove(event: PointerEvent) {
+  lastX = event.clientX;
+  lastY = event.clientY;
+  if (!rafId)
+    rafId = requestAnimationFrame(paint);
+}
+
+function handlePointerLeave() {
+  if (rafId) {
+    cancelAnimationFrame(rafId);
+    rafId = 0;
+  }
+  gridRef.value
+    ?.querySelectorAll<HTMLElement>('.advantage-card')
+    .forEach(card => card.style.setProperty('--glow-intensity', '0'));
+}
+
+onBeforeUnmount(() => {
+  if (rafId)
+    cancelAnimationFrame(rafId);
+});
 </script>
 
 <template>
@@ -33,7 +81,12 @@ function isWide(index: number): boolean {
         :description="description"
       />
 
-      <div class="advantages__grid">
+      <div
+        ref="gridRef"
+        class="advantages__grid"
+        @pointermove="handlePointerMove"
+        @pointerleave="handlePointerLeave"
+      >
         <article
           v-for="(item, index) in items"
           :key="item.title"
@@ -41,20 +94,17 @@ function isWide(index: number): boolean {
           :class="{ 'advantage-card--wide': isWide(index) }"
           :style="{ animationDelay: `${index * 90}ms` }"
         >
-          <div class="advantage-card__head">
-            <div class="advantage-card__icon" aria-hidden="true">
-              <Icon :icon="iconNames[index]" />
-            </div>
-            <span v-if="item.highlight" class="advantage-card__stat">
-              {{ item.highlight }}
-            </span>
+          <div class="advantage-card__icon" aria-hidden="true">
+            <Icon :icon="iconNames[index]" />
           </div>
-          <h3 class="advantage-card__title">
-            {{ item.title }}
-          </h3>
-          <p class="advantage-card__description">
-            {{ item.description }}
-          </p>
+          <div class="advantage-card__body">
+            <h3 class="advantage-card__title">
+              {{ item.title }}
+            </h3>
+            <p class="advantage-card__description">
+              {{ item.description }}
+            </p>
+          </div>
         </article>
       </div>
     </div>
@@ -118,10 +168,15 @@ function isWide(index: number): boolean {
 }
 
 .advantage-card {
+  --glow-x: 50%;
+  --glow-y: 50%;
+  --glow-intensity: 0;
+
   position: relative;
   display: flex;
   flex-direction: column;
-  min-height: functions.rem(200);
+  gap: functions.rem(18);
+  min-height: functions.rem(190);
   padding: functions.rem(28);
   border-radius: functions.rem(24);
   background: var(--c-section-card);
@@ -134,30 +189,65 @@ function isWide(index: number): boolean {
   transform: translateY(28px);
   animation: advantagesCardFade 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 
+  // inner spotlight that follows the cursor
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background: radial-gradient(
+      functions.rem(260) circle at var(--glow-x) var(--glow-y),
+      rgba(var(--c-violet-rgb), calc(var(--glow-intensity) * 0.16)),
+      transparent 60%
+    );
+  }
+
+  // glowing border ring (masked to the 1px edge) — the MagicBento signature
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    padding: 1.5px;
+    border-radius: inherit;
+    pointer-events: none;
+    background: radial-gradient(
+      functions.rem(240) circle at var(--glow-x) var(--glow-y),
+      rgba(var(--c-violet-strong-rgb), var(--glow-intensity)) 0%,
+      rgba(var(--c-violet-rgb), calc(var(--glow-intensity) * 0.5)) 35%,
+      transparent 72%
+    );
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask-composite: exclude;
+  }
+
   &:hover {
     transform: translateY(-4px);
-    border-color: rgba(var(--c-violet-strong-rgb), 0.42);
+    border-color: rgba(var(--c-violet-strong-rgb), 0.30);
     box-shadow: 0 28px 90px rgba(var(--c-black-rgb), 0.5);
   }
 
   &--wide {
     grid-column: span 2;
+    flex-direction: row;
+    align-items: center;
+    gap: functions.rem(24);
 
     @include media.sm-down {
       grid-column: span 1;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: functions.rem(18);
     }
-  }
-
-  &__head {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: functions.rem(16);
-    margin-bottom: functions.rem(20);
   }
 
   &__icon {
     position: relative;
+    z-index: 2;
     flex-shrink: 0;
     width: functions.rem(52);
     height: functions.rem(52);
@@ -192,18 +282,11 @@ function isWide(index: number): boolean {
     }
   }
 
-  &__stat {
-    font-family: var(--f-section-title);
-    font-size: functions.rem(40);
-    font-weight: 700;
-    line-height: 1;
-    letter-spacing: -0.03em;
-    color: var(--c-violet-400);
-    text-shadow: 0 0 32px rgba(var(--c-violet-rgb), 0.5);
-
-    @include media.sm-down {
-      font-size: functions.rem(32);
-    }
+  &__body {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
   }
 
   &__title {
@@ -213,7 +296,7 @@ function isWide(index: number): boolean {
     line-height: 1.2;
     letter-spacing: -0.01em;
     color: var(--c-grey-00);
-    margin: 0 0 functions.rem(10);
+    margin: 0 0 functions.rem(8);
   }
 
   &__description {
@@ -225,14 +308,6 @@ function isWide(index: number): boolean {
 
   &--wide &__title {
     font-size: functions.rem(22);
-  }
-
-  &--wide &__stat {
-    font-size: functions.rem(48);
-
-    @include media.sm-down {
-      font-size: functions.rem(36);
-    }
   }
 }
 
