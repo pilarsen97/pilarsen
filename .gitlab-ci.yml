@@ -1,0 +1,128 @@
+# GitLab CI/CD Pipeline for pilarsen (Vue 3 + Vite SPA)
+# Auto-deploy to Beget production on push to main.
+#
+# Runner: self-hosted shell runner (tag: shell) — same one used by atomizeropt.
+# SSH:    runner authenticates to Beget with its own key
+#         (its public key is in <user>@<host>:~/.ssh/authorized_keys)
+#
+# Required CI/CD variables (Settings → CI/CD → Variables):
+#   SSH_USER     — SSH user on Beget        (e.g. pilarsen)
+#   SSH_ADDRESS  — SSH host on Beget        (e.g. pilarsen.beget.tech)
+#   DEPLOY_PATH  — project path on server   (where the repo is cloned, e.g. ~/pilarsen.ru)
+#   DEPLOY_URL   — public site URL          (used only for the GitLab environment link)
+#
+# Server prerequisites (one-time, see deploy/README.md):
+#   - git clone of this repo lives at $DEPLOY_PATH
+#   - bun and node are on the deploy user's PATH
+#   - the domain docroot points to $DEPLOY_PATH/dist
+
+variables:
+  NODE_VERSION: '20'
+
+stages:
+  - validate
+  - deploy
+
+# Cache bun deps between runs, keyed on the lockfile
+cache:
+  key:
+    files:
+      - bun.lock
+  paths:
+    - node_modules/
+    - ~/.bun/install/cache
+
+# -----------------------------------------------------------------------------
+# STAGE 1: Validate — lint, type-check and build (runs on every branch)
+# -----------------------------------------------------------------------------
+
+validate:build:
+  stage: validate
+  tags:
+    - shell
+
+  before_script:
+    - command -v bun >/dev/null 2>&1 || npm install -g bun
+
+  script:
+    - echo "📦 Installing dependencies..."
+    - bun install --frozen-lockfile
+
+    - echo "🔍 Linting..."
+    - bunx eslint .
+
+    - echo "🏗️  Building (vue-tsc + vite)..."
+    - bun run build
+
+    - |
+      if [ ! -d "dist" ]; then
+        echo "❌ Build failed: dist/ directory not created"
+        exit 1
+      fi
+
+    - echo "✅ Build validation successful!"
+
+  only:
+    - branches
+
+  retry:
+    max: 1
+    when:
+      - runner_system_failure
+      - stuck_or_timeout_failure
+
+# -----------------------------------------------------------------------------
+# STAGE 2: Deploy — production deployment (auto on main)
+# -----------------------------------------------------------------------------
+
+deploy:production:
+  stage: deploy
+  tags:
+    - shell
+
+  only:
+    - main
+
+  needs:
+    - validate:build
+
+  script:
+    - echo "🚀 Starting deployment to $SSH_ADDRESS..."
+    - ssh -o StrictHostKeyChecking=accept-new "$SSH_USER@$SSH_ADDRESS" "cd $DEPLOY_PATH && . deploy/gitlab-deploy.sh"
+    - echo "✅ Deployment completed successfully!"
+
+  environment:
+    name: production
+    url: $DEPLOY_URL
+
+  retry:
+    max: 1
+    when:
+      - runner_system_failure
+      - stuck_or_timeout_failure
+
+# -----------------------------------------------------------------------------
+# Optional: manual deployment for non-main branches (from the GitLab UI)
+# -----------------------------------------------------------------------------
+
+deploy:manual:
+  stage: deploy
+  tags:
+    - shell
+
+  when: manual
+
+  except:
+    - main
+
+  needs:
+    - validate:build
+
+  script:
+    - echo "🚀 Manual deployment triggered for branch $CI_COMMIT_REF_NAME..."
+    - ssh -o StrictHostKeyChecking=accept-new "$SSH_USER@$SSH_ADDRESS" "cd $DEPLOY_PATH && . deploy/gitlab-deploy.sh"
+    - echo "✅ Manual deployment completed!"
+
+  environment:
+    name: production
+    url: $DEPLOY_URL
