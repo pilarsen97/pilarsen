@@ -72,6 +72,9 @@ log "Current commit: $CURRENT_COMMIT"
 log "Target commit:  $TARGET_COMMIT"
 
 log "Resetting to origin/main..."
+# Clear a stale lock left by an interrupted run — deploys are sequential,
+# so no real git process competes for it here.
+rm -f "$PROJECT_DIR/.git/index.lock"
 git reset --hard origin/main || error_exit "Git reset failed" 1
 log "✅ Code updated successfully"
 
