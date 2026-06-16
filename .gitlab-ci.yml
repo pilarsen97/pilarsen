@@ -88,7 +88,7 @@ deploy:production:
 
   script:
     - echo "🚀 Starting deployment to $SSH_ADDRESS..."
-    - ssh -o StrictHostKeyChecking=accept-new "$SSH_USER@$SSH_ADDRESS" "cd $DEPLOY_PATH && . deploy/gitlab-deploy.sh"
+    - ssh -o StrictHostKeyChecking=accept-new "$SSH_USER@$SSH_ADDRESS" "cd $DEPLOY_PATH && rm -f .git/index.lock && . deploy/gitlab-deploy.sh"
     - echo "✅ Deployment completed successfully!"
 
   environment:
@@ -120,7 +120,7 @@ deploy:manual:
 
   script:
     - echo "🚀 Manual deployment triggered for branch $CI_COMMIT_REF_NAME..."
-    - ssh -o StrictHostKeyChecking=accept-new "$SSH_USER@$SSH_ADDRESS" "cd $DEPLOY_PATH && . deploy/gitlab-deploy.sh"
+    - ssh -o StrictHostKeyChecking=accept-new "$SSH_USER@$SSH_ADDRESS" "cd $DEPLOY_PATH && rm -f .git/index.lock && . deploy/gitlab-deploy.sh"
     - echo "✅ Manual deployment completed!"
 
   environment:
